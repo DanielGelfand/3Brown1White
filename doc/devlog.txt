@@ -19,6 +19,13 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+danielG -- 2019-05-12 16:50
+--------------------------------------------------------------
+Edited the design doc reflecting comments from two other teams.
+Purpose of "Alpha Vantage API" was put in and the usage of D3 was clarified.
+Sentence in "Idea Summary" was also corrected.
+==============================================================
+
 ahnafH -- 2019-05-12 16:17:19 PM
 --------------------------------------------------------------
 Add basic template with forms. Add basic database utility file.
