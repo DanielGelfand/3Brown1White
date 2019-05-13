@@ -1,0 +1,43 @@
+<<<<<<< HEAD
+<!DOCTYPE>
+
+<html>
+
+  <head>
+    <img src="https://sitejerk.com/images/penny-transparent-background.png" alt="penny" width="50" height="50">
+
+    {% block head %}
+
+    {% endblock %}
+
+    <title>{% block title %} {% endblock %}</title>
+
+  </head>
+
+  <body>
+
+    {% block body %}
+
+    {% endblock %}
+
+
+  </body>
+
+</html>
+
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register to Our Page</title>
+</head>
+<body>
+    <form action="/register" method="POST">
+        Username: <input type="text" name="user"><br>
+        Password: <input type="password" name="pass">
+        <input type="submit" name="Submit">
+    </form>
+</body>
+</html>
+>>>>>>> 7d0f49af2f6439b8c22b812e62f119978f12179c

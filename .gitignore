@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# VSCode Folder
+.vscode
+
+# SQL Databases
+*.db
+
 # C extensions
 *.so
 
