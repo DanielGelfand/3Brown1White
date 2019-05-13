@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register to Our Page</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block body %}
     <form action="/register" method="POST">
         Username: <input type="text" name="user"><br>
         Password: <input type="password" name="pass">
         <input type="submit" name="Submit">
     </form>
-</body>
-</html>
-
+{% endblock %}
