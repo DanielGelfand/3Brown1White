@@ -15,6 +15,7 @@ def auth():
     user = request.form.get("user")
     paswrd = request.form.get('pass')
     db.register(user, paswrd)
+    print(db.search_user_list('pass'))
     return redirect(url_for('home'))
 
 if __name__ == "__main__":
