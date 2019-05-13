@@ -15,7 +15,11 @@ def register(username, password):
     CONNECT = sqlite3.connect('./data/database.db')
     CURSOR = CONNECT.cursor()
     # print(f"SELECT * FROM {LOGINS} WHERE user = {username}")
-    CURSOR.execute(f"SELECT * FROM {LOGINS} WHERE user = {username}")
+    try:
+        CURSOR.execute(f"SELECT * FROM {LOGINS} WHERE user = {username}")        
+    except:
+        # print(e)
+        CURSOR.execute(f"SELECT * FROM {LOGINS}")
     user_list = [x[0] for x in CURSOR.fetchall()]
     print(user_list)
     if username not in user_list:
@@ -28,9 +32,9 @@ def register(username, password):
     CONNECT.close()
     return True
 
-def search_user_list(query):
+def search_user_list(*args):
     CONNECT = sqlite3.connect('./data/database.db')
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {LOGINS}")
     query_list = CURSOR.fetchall()
-    return [x for x in query_list if query in x]
+    return [x for x in query_list for a in args if a in x]
