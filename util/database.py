@@ -6,7 +6,7 @@ print('Database works')
 
 def register(username, password):
     print(username)
-    CONNECT = sqlite3.connect('database.db')
+    CONNECT = sqlite3.connect('./data/database.db')
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOGINS}(user TEXT, pass TEXT, id INTEGER)")
     print(f"SELECT * FROM {LOGINS} WHERE user = {username}")
