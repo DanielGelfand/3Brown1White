@@ -1,12 +1,18 @@
 import sqlite3
 
 LOGINS = "LOGINS"
+FINANCE = "FINANCES"
+LOSE = "SACRIFICES"
+GOALS = "GOALS"
 
 print('Database works')
 
 CONNECT = sqlite3.connect('./data/database.db')
 CURSOR = CONNECT.cursor()
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOGINS}(user TEXT, pass TEXT, id INTEGER)") # table is always there
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {FINANCE}(current_balance REAL, monthly_costs REAL, income INTEGER, id INTEGER)")
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOSE}(suggested0 INTEGER, suggested1 INTEGER, suggested2 INTEGER, custom REAL, id INTEGER)")
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {GOALS}(name TEXT, cost REAL, id INTEGER)")
 CONNECT.commit()
 CONNECT.close()
 
@@ -16,7 +22,7 @@ def register(username, password):
     CURSOR = CONNECT.cursor()
     # print(f"SELECT * FROM {LOGINS} WHERE user = {username}")
     try:
-        CURSOR.execute(f"SELECT * FROM {LOGINS} WHERE user = {username}")        
+        CURSOR.execute(f"SELECT * FROM {LOGINS} WHERE user = {username}")
     except:
         # print(e)
         CURSOR.execute(f"SELECT * FROM {LOGINS}")
