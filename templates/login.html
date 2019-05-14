@@ -12,10 +12,12 @@ Login
 {% endfor %}
 <form action="/auth" method="POST">
   <h2 class ="text-center">Login!</h2>
-  <h4>Username:</h4> <input class = "form-control" type = "text" name = "user" required><br>
-  <h4>Password:</h4> <input class = "form-control" type = "password" name = "pass" required><br>
+  <h4>Username:</h4> <input class = "form-control" type = "text" name = "user" required id="user"><br>
+  <h4>Password:</h4> <input class = "form-control" type = "password" name = "pass" required id="pass"><br>
   <button type ="submit" name="submit" value="Login" class="btn btn-success btn-lg btn-block">Login Now</button>
 </form>
 </div>
 {% endblock %}
-
+{% block script %}
+  <script src="/static/usercheck.js"></script>
+{% endblock %}
