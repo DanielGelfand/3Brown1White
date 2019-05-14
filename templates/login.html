@@ -4,13 +4,12 @@ Login
 {% endblock %}
 
 {% block body %}
-    <div class="form-group">
-        <form action="/auth" method="POST">
-            Username: <input type="text" class="form-control w-50" name="user"><br>
-            Password: <input type="password" class="form-control w-50" name="pass">
-            <br>
-            <input type="submit" name="submit" value="Login">
-        </form>
-    </div>
+<form action="/auth" method="POST">
+  <h2 class ="text-center">Login!</h2>
+  <h4>Username:</h4> <input class = "form-control" type = "text" name = "user" required><br>
+  <h4>Password:</h4> <input class = "form-control" type = "password" name = "pass" required><br>
+  <button type ="submit" name="submit" value="Login" class="btn btn-success btn-lg btn-block">Login Now</button>
+</form>
+</div>
 {% endblock %}
 
