@@ -22,7 +22,12 @@ def auth():
     user = request.form.get("user")
     paswrd = request.form.get('pass')
     if request.form.get("submit")=="Register":
-        db.register(user, paswrd)
+        
+       if  db.register(user, paswrd):
+           flash("Registered successfully")
+       else:
+           flash("Unable to register the user")
+           print("Username has been registered previously!")
     else:
         match=db.search_user_list(user)
         if len(match)>0:
