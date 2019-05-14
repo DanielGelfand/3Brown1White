@@ -5,6 +5,12 @@ Register
 {% endblock %}
 
 {% block body %}
+{% set msgs = get_flashed_messages() %}
+    {% for each in msgs %}
+    <br>
+    <div class="alert alert-danger" role="alert">{{each}} </div>
+
+{% endfor %}
    <div class="signup-form container">
 	<form action="/auth" method="POST">
     <h2 class ="text-center">CREATE AN ACCOUNT!</h2>

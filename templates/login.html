@@ -4,6 +4,12 @@ Login
 {% endblock %}
 
 {% block body %}
+{% set msgs = get_flashed_messages() %}
+    {% for each in msgs %}
+    <br>
+    <div class="alert alert-danger" role="alert">{{each}} </div>
+
+{% endfor %}
 <form action="/auth" method="POST">
   <h2 class ="text-center">Login!</h2>
   <h4>Username:</h4> <input class = "form-control" type = "text" name = "user" required><br>
