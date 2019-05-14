@@ -14,10 +14,39 @@
   </head>
 
   <body>
-
+    <nav  class="navbar navbar-expand-md navbar-light bg-faded">
+        <ul class="navbar-nav mr-auto">
+          <li>
+              <a class="nav-link active" href="/">Home</a>
+          </li>
+          <li>
+              <a class="nav-link active" href="/">Body</a>
+          </li>
+          <li>
+              <a class="nav-link active" href="/">Other</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          {% if not session["username"] %}
+          <li>
+              <a class="nav-link" href="/register" >Register</a>
+          </li>
+          <li>
+            <a class="nav-link" href="/login" >Login</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="nav-link" href="/" >{{session["username"]}}</a>
+          </li>
+          {% endif %}
+        </ul>
+    </nav>
+    <div class="container">
     {% block body %}
+      
 
     {% endblock %}
+    </div>
 
 
   </body>
