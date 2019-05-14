@@ -44,3 +44,24 @@ def search_user_list(*args):
     CURSOR.execute(f"SELECT * FROM {LOGINS}")
     query_list = CURSOR.fetchall()
     return [x for x in query_list for a in args if a in x]
+
+def search_finance_list(*args):
+    CONNECT = sqlite3.connect('./data/database.db')
+    CURSOR = CONNECT.cursor()
+    CURSOR.execute(f"SELECT * FROM {FINANCE}")
+    query_list = CURSOR.fetchall()
+    return [ x for x in query_list for a in args if a in x ]
+
+def search_sacrifice_list(*args):
+    CONNECT = sqlite3.connect('./data/database.db')
+    CURSOR = CONNECT.cursor()
+    CURSOR.execute(f"SELECT * FROM {LOSE}")
+    query_list = CURSOR.fetchall()
+    return [ x for x in query_list for a in args if a in x ]
+
+def search_goal_list(*args):
+    CONNECT = sqlite3.connect('./data/database.db')
+    CURSOR = CONNECT.cursor()
+    CURSOR.execute(f"SELECT * FROM {GOALS}")
+    query_list = CURSOR.fetchall()
+    return [ x for x in query_list for a in args if a in x ]
