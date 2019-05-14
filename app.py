@@ -27,6 +27,7 @@ def auth():
            flash("Registered successfully")
        else:
            flash("Unable to register the user")
+           return redirect(url_for('register'))
            print("Username has been registered previously!")
     else:
         match=db.search_user_list(user)
