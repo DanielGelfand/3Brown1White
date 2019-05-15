@@ -42,6 +42,13 @@ def auth():
             return redirect(url_for('login'))
     return redirect(url_for('home'))
 
+@app.route('/finances')
+def finance():
+    return render_template('findata.html')
+
+@app.route('/fincalc')
+def calc():
+    return redirect(url_for('home'))
 @app.route('/logout')
 def logout():
     if 'username' in session:
