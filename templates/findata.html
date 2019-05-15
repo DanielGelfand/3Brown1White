@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+    <form action="/fincalc">
+        Enter Your Current Balance: $<input type="text" name="Current Balance"><br>
+        Enter Your Monthly Costs: $<input type="text" name="Monthly Costs"><br>
+        Enter Your Income: $<input type="text" name="Income"><br>
+        <button type="submit" name="Submit">Submit</button>
+    </form>
+{% endblock body %}
+
+{% block script %}
+<script src="/static/findata.js"></script>
+{% endblock %}
