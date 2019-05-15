@@ -22,7 +22,7 @@ def auth():
     user = request.form.get("user")
     paswrd = request.form.get('pass')
     if request.form.get("submit")=="Register":
-        
+
        if  db.register(user, paswrd):
            flash("Registered successfully")
        else:
@@ -40,6 +40,12 @@ def auth():
         else:
             flash("User not found")
             return redirect(url_for('login'))
+    return redirect(url_for('home'))
+
+@app.route('/logout')
+def logout():
+    if 'username' in session:
+        session.pop('username')
     return redirect(url_for('home'))
 
 if __name__ == "__main__":
