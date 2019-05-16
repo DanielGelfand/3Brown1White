@@ -23,6 +23,12 @@ danielG -- 2019-05-16 14:25
 --------------------------------------------------------------
 Made data form look better with bootstrap
 ==============================================================
+ahnafH -- 2019-05-15 12:36:44 PM
+--------------------------------------------------------------
+Add automatic log in for registered users. Add a makefile. Fix
+submit button not being disabled when bad characters are put in.
+Add functionality for daily expenditures.
+==============================================================
 
 ahnafH -- 2019-05-15 21:45:39 PM
 --------------------------------------------------------------
