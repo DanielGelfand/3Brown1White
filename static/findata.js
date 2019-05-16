@@ -3,6 +3,8 @@ var monthly = document.getElementsByTagName('input')[1]
 var income = document.getElementsByTagName('input')[2]
 var sub = document.getElementsByTagName('button')[0]
 
+
+var pattern = new RegExp('([+-]?([0-9]*[.])?[0-9]+)')
 /**
  * Checks if the balance is given correctly
  * @param {MouseEvent} e a mouse event
@@ -12,13 +14,17 @@ var is_bal_right = function() {
         remove_err(bal)
         console.log('empty')
     }
-    var pattern = new RegExp('[a-zA-Z]')
-    if (pattern.test(bal.value)) {
+    if (!(pattern.test(bal.value))) {
         add_err(bal, "This value must be a number.", 1)
         console.log('letters detected')
     }else{
         remove_err(bal, 1)
         console.log('everything ok')
+    }
+    if (!errCheck()) {
+      sub.disabled = false
+    }else{
+      sub.disabled = true
     }
 }
 
@@ -27,12 +33,16 @@ var is_monthly_right = function() {
         remove_err(monthly)
         console.log('empty')
     }
-    var pattern = new RegExp('[a-zA-Z]')
-    if (pattern.test(monthly.value)) {
+    if (!(pattern.test(monthly.value))) {
         add_err(monthly, "This value must be a number.", 2)
         console.log('letters detected')
     }else{
         remove_err(monthly, 2)
+	       if (!errCheck()) {
+        	  sub.disabled = false
+    	   }else{
+        	  sub.disabled = true
+    	   }
         console.log('everything ok')
     }
 }
@@ -42,12 +52,16 @@ var is_income_right = function() {
         remove_err(bal)
         console.log('empty')
     }
-    var pattern = new RegExp('[a-zA-Z]')
-    if (pattern.test(income.value)) {
+    if (!(pattern.test(income.value))) {
         add_err(income, "This value must be a number.", 3)
         console.log('letters detected')
     }else{
         remove_err(income, 3)
+	      if (!errCheck()) {
+        	 sub.disabled = false
+    	  }else{
+        	 sub.disabled = true
+    	  }
         console.log('everything ok')
     }
 }
@@ -67,11 +81,13 @@ function add_err(elem, error, id) {
             return error
         }
     }
-    if (errCheck()) {
+    /*if (errCheck()) {
+	console.log("makeing false")
         sub.disabled = false
     }else{
+	console.log('makeing true')
         sub.disabled = true
-    }
+    }*/
     var err = document.createElement('p')
     err.style.color = 'red'
     err.style.paddingLeft = "10px"
@@ -108,10 +124,20 @@ function remove_err(elem, id) {
  * Checks if there are any errors
  */
 function errCheck() {
-    var list = document.getElementsByClassName('ErrorMessage1') +
-                document.getElementsByClassName('ErrorMessage2') +
-                document.getElementsByClassName('ErrorMessage3')
-    return list.length == 0
+    var list = []
+    list.push(document.getElementsByClassName('ErrorMessage1')[0])
+    list.push(document.getElementsByClassName('ErrorMessage2')[0])
+    list.push(document.getElementsByClassName('ErrorMessage3')[0])
+    console.log(list)
+    var errs = false
+    for (i = 0; i < list.length; i++) {
+      console.log(list[i])
+      if (list[i] != undefined) {
+        errs = true
+      }
+    }
+    console.log(errs)
+    return errs
 }
 bal.oninput = is_bal_right
 monthly.oninput = is_monthly_right
