@@ -1,7 +1,7 @@
-var bal = document.getElementsByTagName('input')[0]
-var monthly = document.getElementsByTagName('input')[1]
-var income = document.getElementsByTagName('input')[2]
-var sub = document.getElementsByTagName('button')[0]
+var bal = document.getElementById('balance')
+var monthly = document.getElementById('monthly')
+var income = document.getElementById('income')
+var sub = document.getElementById('daily')
 
 
 var pattern = new RegExp('([+-]?([0-9]*[.])?[0-9]+)')
@@ -64,6 +64,25 @@ var is_income_right = function() {
     	  }
         console.log('everything ok')
     }
+}
+
+var is_daily_right = function() {
+  if (daily.value == "") {
+      remove_err(bal)
+      console.log('empty')
+  }
+  if (!(pattern.test(daily.value))) {
+      add_err(daily, "This value must be a number.", 3)
+      console.log('letters detected')
+  }else{
+      remove_err(daily, 3)
+      if (!errCheck()) {
+         sub.disabled = false
+      }else{
+         sub.disabled = true
+      }
+      console.log('everything ok')
+  }
 }
 
 /**
@@ -142,3 +161,4 @@ function errCheck() {
 bal.oninput = is_bal_right
 monthly.oninput = is_monthly_right
 income.oninput = is_income_right
+daily.oninput = is_daily_right
