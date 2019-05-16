@@ -19,6 +19,12 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ahnafH -- 2019-05-15 21:45:39 PM
+--------------------------------------------------------------
+Add functionality for monthly costs and income. Submit button
+is disabled on any errors.
+==============================================================
+
 jabirC -- 2019-05-14 11:30 PM
 --------------------------------------------------------------
 Added logout feature
@@ -27,7 +33,7 @@ Added logout feature
 ahnafH -- 2019-05-14 11:25 AM
 --------------------------------------------------------------
 Add other tables(finances, sacrifices, goals). Add search functions
-for the tables. 
+for the tables.
 ==============================================================
 
 mohammedJ -- 2019-05-13 22:21 PM
