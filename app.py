@@ -25,6 +25,7 @@ def auth():
 
         if  db.register(user, paswrd):
             flash("Registered successfully")
+            session['username'] = request.form['user']
         else:
             flash("Unable to register the user")
             return redirect(url_for('register'))
