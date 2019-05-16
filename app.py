@@ -23,12 +23,12 @@ def auth():
     paswrd = request.form.get('pass')
     if request.form.get("submit")=="Register":
 
-       if  db.register(user, paswrd):
-           flash("Registered successfully")
-       else:
-           flash("Unable to register the user")
-           return redirect(url_for('register'))
-           print("Username has been registered previously!")
+        if  db.register(user, paswrd):
+            flash("Registered successfully")
+        else:
+            flash("Unable to register the user")
+            return redirect(url_for('register'))
+            print("Username has been registered previously!")
     else:
         match=db.search_user_list(user)
         if len(match)>0:
@@ -44,6 +44,9 @@ def auth():
 
 @app.route('/finances')
 def finance():
+    if 'username' not in session:
+        flash("You must be logged in to access this page")
+        return redirect(url_for('login'))
     return render_template('findata.html')
 
 @app.route('/fincalc')
