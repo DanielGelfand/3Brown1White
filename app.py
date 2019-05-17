@@ -2,9 +2,12 @@ import os
 
 from flask import Flask, flash, json, redirect, render_template, session, url_for, request
 import util.database as db
+template_path=os.path.dirname(__file__)+"/templates"
 
-
-app = Flask("__main__",template_folder=os.path.dirname(__file__)+"/templates")
+if template_path!="/templates":
+    app = Flask("__main__",template_folder=os.path.dirname(__file__)+"/templates")
+else:
+    app = Flask("__main__")
 app.secret_key = os.urandom(32)
 @app.route('/')
 def home():
