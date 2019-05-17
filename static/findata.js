@@ -4,7 +4,7 @@ var income = document.getElementById('income')
 var sub = document.getElementById('daily')
 
 
-var pattern = new RegExp('([+-]?([0-9]*[.])?[0-9]+)')
+var pattern = new RegExp('([^.0-9])+')
 /**
  * Checks if the balance is given correctly
  * @param {MouseEvent} e a mouse event
@@ -14,7 +14,7 @@ var is_bal_right = function() {
         remove_err(bal)
         console.log('empty')
     }
-    if (!(pattern.test(bal.value))) {
+    if ((pattern.test(bal.value.slice(1)))) {
         add_err(bal, "This value must be a number.", 1)
         console.log('letters detected')
     }else{
@@ -33,7 +33,7 @@ var is_monthly_right = function() {
         remove_err(monthly)
         console.log('empty')
     }
-    if (!(pattern.test(monthly.value))) {
+    if ((pattern.test(monthly.value.slice(1)))) {
         add_err(monthly, "This value must be a number.", 2)
         console.log('letters detected')
     }else{
@@ -52,7 +52,7 @@ var is_income_right = function() {
         remove_err(bal)
         console.log('empty')
     }
-    if (!(pattern.test(income.value))) {
+    if ((pattern.test(income.value.slice(1)))) {
         add_err(income, "This value must be a number.", 3)
         console.log('letters detected')
     }else{
@@ -71,7 +71,7 @@ var is_daily_right = function() {
       remove_err(bal)
       console.log('empty')
   }
-  if (!(pattern.test(daily.value))) {
+  if ((pattern.test(daily.value.slice(1)))) {
       add_err(daily, "This value must be a number.", 3)
       console.log('letters detected')
   }else{
@@ -100,13 +100,6 @@ function add_err(elem, error, id) {
             return error
         }
     }
-    /*if (errCheck()) {
-	console.log("makeing false")
-        sub.disabled = false
-    }else{
-	console.log('makeing true')
-        sub.disabled = true
-    }*/
     var err = document.createElement('p')
     err.style.color = 'red'
     err.style.paddingLeft = "10px"
@@ -158,7 +151,20 @@ function errCheck() {
     console.log(errs)
     return errs
 }
+
+var keep_first_char = function(e) {
+    var curr = e['target']
+    /* if (curr.value == '$' && e.keyCode == 8) { not needed
+        e.preventDefault()
+    } */
+    console.log(curr.value)
+    var sanitized = curr.value.replace(/[^0-9.]/g, '')
+    console.log(sanitized)
+    curr.value = '$' + sanitized
+}
+
 bal.oninput = is_bal_right
 monthly.oninput = is_monthly_right
 income.oninput = is_income_right
 daily.oninput = is_daily_right
+bal.addEventListener('keyup', keep_first_char )
