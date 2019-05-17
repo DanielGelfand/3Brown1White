@@ -13,7 +13,7 @@ DIR+="/data/database.db"
 print(DIR)
 CONNECT = sqlite3.connect(DIR)
 CURSOR = CONNECT.cursor()
-CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOGINS}(user TEXT, pass TEXT, id INTEGER)") # table is always there
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOGINS}(user TEXT, pass TEXT, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {FINANCE}(current_balance REAL, monthly_costs REAL, income INTEGER, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOSE}(suggested0 INTEGER, suggested1 INTEGER, suggested2 INTEGER, custom REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {GOALS}(name TEXT, cost REAL, id INTEGER)")
@@ -69,3 +69,9 @@ def search_goal_list(*args):
     CURSOR.execute(f"SELECT * FROM {GOALS}")
     query_list = CURSOR.fetchall()
     return [ x for x in query_list for a in args if a in x ]
+def add_finances(cost, balance,income, id_num):
+    CONNECT = sqlite3.connect(DIR)
+    CURSOR = CONNECT.cursor()
+    CURSOR.execute(f"INSERT INTO {FINANCE} VALUES({cost}, {balance}, {income}, {id_num})")
+    CONNECT.commit()
+    CONNECT.close()
