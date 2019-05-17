@@ -19,6 +19,14 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ahnafH-- 2019-05-16 22:25:10 PM
+--------------------------------------------------------------
+Update makefile to have better handling of Python 2 and below.
+Update formatting of various files to be more uniform. Remove
+extra usercheck.js file in static folder. Robustify inputs to
+work with regex handling the non-digit characters.
+==============================================================
+
 danielG -- 2019-05-16 14:25
 --------------------------------------------------------------
 Made data form look better with bootstrap
