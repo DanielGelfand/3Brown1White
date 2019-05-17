@@ -4,7 +4,7 @@ from flask import Flask, flash, json, redirect, render_template, session, url_fo
 import util.database as db
 
 
-app = Flask("__main__")
+app = Flask("__main__",template_folder=os.path.dirname(__file__)+"/templates")
 app.secret_key = os.urandom(32)
 @app.route('/')
 def home():

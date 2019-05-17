@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 LOGINS = "LOGINS"
 FINANCE = "FINANCES"
@@ -6,8 +7,11 @@ LOSE = "SACRIFICES"
 GOALS = "GOALS"
 
 print('Database works')
-
-CONNECT = sqlite3.connect('./data/database.db')
+DIR=os.path.dirname(__file__)
+DIR=DIR[:len(DIR)-5]
+DIR+="/data/database.db"
+print(DIR)
+CONNECT = sqlite3.connect(DIR)
 CURSOR = CONNECT.cursor()
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOGINS}(user TEXT, pass TEXT, id INTEGER)") # table is always there
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {FINANCE}(current_balance REAL, monthly_costs REAL, income INTEGER, id INTEGER)")
@@ -18,7 +22,7 @@ CONNECT.close()
 
 def register(username, password):
     print(username)
-    CONNECT = sqlite3.connect('./data/database.db')
+    CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
     # print(f"SELECT * FROM {LOGINS} WHERE user = {username}")
     try:
@@ -39,28 +43,28 @@ def register(username, password):
     return True
 
 def search_user_list(*args):
-    CONNECT = sqlite3.connect('./data/database.db')
+    CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {LOGINS}")
     query_list = CURSOR.fetchall()
     return [x for x in query_list for a in args if a in x]
 
 def search_finance_list(*args):
-    CONNECT = sqlite3.connect('./data/database.db')
+    CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {FINANCE}")
     query_list = CURSOR.fetchall()
     return [ x for x in query_list for a in args if a in x ]
 
 def search_sacrifice_list(*args):
-    CONNECT = sqlite3.connect('./data/database.db')
+    CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {LOSE}")
     query_list = CURSOR.fetchall()
     return [ x for x in query_list for a in args if a in x ]
 
 def search_goal_list(*args):
-    CONNECT = sqlite3.connect('./data/database.db')
+    CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {GOALS}")
     query_list = CURSOR.fetchall()
