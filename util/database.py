@@ -69,7 +69,8 @@ def search_goal_list(*args):
     CURSOR.execute(f"SELECT * FROM {GOALS}")
     query_list = CURSOR.fetchall()
     return [ x for x in query_list for a in args if a in x ]
-def add_finances(cost, balance,income, id_num):
+
+def add_finances(cost, balance, income, id_num):
     CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"INSERT INTO {FINANCE} VALUES({cost}, {balance}, {income}, {id_num})")
