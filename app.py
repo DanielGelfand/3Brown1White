@@ -53,6 +53,13 @@ def finance():
         return redirect(url_for('login'))
     return render_template('findata.html')
 
+@app.route('/goals')
+def goal():
+    if 'username' not in session:
+        flash("You must be logged in to access this page")
+        return redirect(url_for('login'))
+    return render_template('goals.html')
+
 @app.route('/fincalc')
 def calc():
     return redirect(url_for('home'))

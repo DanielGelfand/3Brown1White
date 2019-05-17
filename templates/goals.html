@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block body %}
+<!--<form action="/fincalc">
+    Enter Your Current Bank Account Balance: $<input type="text" name="Current Balance"><br>
+    Enter Your Monthly Costs: $<input type="text" name="Monthly Costs"><br>
+    Enter Your Monthly Income: $<input type="text" name="Income"><br>
+    <button type="submit" name="Submit">Submit</button>
+</form>-->
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<div class="container">
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td colspan="1">
+          <form class="well form-horizontal" action="/fincalc">
+            <fieldset>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Goal</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span><input id="goal" name="goal"
+																 class="form-control" required="true" type="text" value="Car"></div>
+                </div>
+              </div>
+	      <div class="form-group">
+                <label class="col-md-4 control-label">Goal Price</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span><input id="goal_price" name="goal_price"
+																 class="form-control" required="true" type="text" value="$"></div>
+                </div>
+              </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-primary" type="submit" name="Submit">Submit</button>
+  </form>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script src="/static/goals.js"></script>
+{% endblock %}
