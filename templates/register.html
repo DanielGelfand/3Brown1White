@@ -11,13 +11,14 @@ Register
     <div class="alert alert-danger" role="alert">{{each}} </div>
 
 {% endfor %}
-   <div class="signup-form container">
-	<form action="/auth" method="POST">
-    <h2 class ="text-center">CREATE AN ACCOUNT!</h2>
-		<h4>Username:</h4> <input class = "form-control" type = "text" name = "user" required><br>
-		<h4>Password:</h4> <input class = "form-control" type = "password" name = "pass" required><br>
-		<button type ="submit" name="submit" value="Register" class="btn btn-success btn-lg btn-block"> Register Now</button>
-	</form>
-</div>
+    <div class="signup-form container">
+        <form action="/auth" method="POST">
+            <h2 class="text-center">CREATE AN ACCOUNT!</h2>
+            <h4>Username:</h4> <input class="form-control" type="text" name="user" required><br>
+            <h4>Password:</h4> <input class="form-control" type="password" name="pass" required><br>
+            <button type="submit" name="submit" value="Register" class="btn btn-success btn-lg btn-block"> Register
+                Now</button>
+        </form>
+    </div>
 
 {% endblock %}
