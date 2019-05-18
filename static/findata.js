@@ -38,18 +38,18 @@ var is_monthly_right = function () {
         console.log('letters detected')
     } else {
         remove_err(monthly, 2)
-        if (!errCheck()) {
-            sub.disabled = false
-        } else {
-            sub.disabled = true
-        }
         console.log('everything ok')
+    }
+    if (!errCheck()) {
+        sub.disabled = false
+    } else {
+        sub.disabled = true
     }
 }
 
 var is_income_right = function () {
     if (income.value == "") {
-        remove_err(bal)
+        remove_err(income)
         console.log('empty')
     }
     if ((pattern.test(income.value.slice(1)))) {
@@ -57,31 +57,31 @@ var is_income_right = function () {
         console.log('letters detected')
     } else {
         remove_err(income, 3)
-        if (!errCheck()) {
-            sub.disabled = false
-        } else {
-            sub.disabled = true
-        }
         console.log('everything ok')
+    }
+    if (!errCheck()) {
+        sub.disabled = false
+    } else {
+        sub.disabled = true
     }
 }
 
 var is_daily_right = function () {
     if (daily.value == "") {
-        remove_err(bal)
+        remove_err(daily)
         console.log('empty')
     }
     if ((pattern.test(daily.value.slice(1)))) {
-        add_err(daily, "This value must be a number.", 3)
+        add_err(daily, "This value must be a number.", 4)
         console.log('letters detected')
     } else {
-        remove_err(daily, 3)
-        if (!errCheck()) {
-            sub.disabled = false
-        } else {
-            sub.disabled = true
-        }
+        remove_err(daily, 4)
         console.log('everything ok')
+    }
+    if (!errCheck()) {
+        sub.disabled = false
+    } else {
+        sub.disabled = true
     }
 }
 
@@ -140,6 +140,7 @@ function errCheck() {
     list.push(document.getElementsByClassName('ErrorMessage1')[0])
     list.push(document.getElementsByClassName('ErrorMessage2')[0])
     list.push(document.getElementsByClassName('ErrorMessage3')[0])
+    list.push(document.getElementsByClassName('ErrorMessage4')[0])
     console.log(list)
     var errs = false
     for (i = 0; i < list.length; i++) {
@@ -168,3 +169,6 @@ monthly.oninput = is_monthly_right
 income.oninput = is_income_right
 daily.oninput = is_daily_right
 bal.addEventListener('keyup', keep_first_char )
+monthly.addEventListener('keyup', keep_first_char )
+income.addEventListener('keyup', keep_first_char )
+daily.addEventListener('keyup', keep_first_char )
