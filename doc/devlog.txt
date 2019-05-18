@@ -19,6 +19,16 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ahnafH -- 2019-05-18 13:27:56 PM
+--------------------------------------------------------------
+Update formatting for database.py and fix
+add_finances(float, float, float, int) definition. Add
+add_goals(string, float, int) definition. Add working routes for
+goals, finances & goals calculations. Fix input fields to keep the
+first character($). Add action and specify method in HTML files.
+Remove extra script tag. Add goals script.
+==============================================================
+
 ahnafH-- 2019-05-16 22:25:10 PM
 --------------------------------------------------------------
 Update makefile to have better handling of Python 2 and below.
