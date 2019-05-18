@@ -70,9 +70,30 @@ def search_goal_list(*args):
     query_list = CURSOR.fetchall()
     return [ x for x in query_list for a in args if a in x ]
 
-def add_finances(cost, balance, income, id_num):
+def add_finances(balance, cost, income, id_num):
     CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
-    CURSOR.execute(f"INSERT INTO {FINANCE} VALUES({cost}, {balance}, {income}, {id_num})")
+    CURSOR.execute(f"SELECT * FROM {FINANCE}")
+    finance_list = CURSOR.fetchall()
+    user_ids = [ x[3] for x in finance_list ]
+    if id_num in user_ids:
+        CURSOR.execute(f"UPDATE {FINANCE} SET current_balance = {balance}, monthly_costs = {cost}, income = {income} WHERE id = {id_num}")
+    else:
+        CURSOR.execute(f"INSERT INTO {FINANCE} VALUES({balance}, {cost}, {income}, {id_num})")
     CONNECT.commit()
     CONNECT.close()
+    return id_num
+
+def add_goals(name, price, id_num):
+    CONNECT = sqlite3.connect(DIR)
+    CURSOR = CONNECT.cursor()
+    CURSOR.execute(f"SELECT * FROM {GOALS}")
+    goal_list = CURSOR.fetchall()
+    user_ids = [ x[2] for x in goal_list ]
+    if id_num in user_ids:
+        CURSOR.execute(f"UPDATE {GOALS} SET name = {name}, cost = {price} WHERE id = {id_num}")
+    else:
+        CURSOR.execute(f"INSERT INTO {GOALS} VALUES({name}, {price}, {id_num})")
+    CONNECT.commit()
+    CONNECT.close()
+    return id_num
