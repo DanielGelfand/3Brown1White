@@ -60,9 +60,33 @@ def goal():
         return redirect(url_for('login'))
     return render_template('goals.html')
 
-@app.route('/fincalc')
+@app.route('/fincalc', methods=['POST'])
 def calc():
+    bal = request.form['balance']
+    monthly = request.form['monthly']
+    income = request.form['income']
+    daily = request.form['daily']
+    user_id = db.search_user_list(session['username'])[0][2]
+    db.add_finances(bal, cost, income, user_id)
+    flash("Finances updated")
     return redirect(url_for('home'))
+
+@app.route('/goals')
+def goals():
+    if 'username' not in session:
+        flash("You must be logged in to access this page")
+        return redirect(url_for('login'))
+    return render_template('goals.html')
+
+@app.route('/gcalc', methods=['POST'])
+def gcalc():
+    goal_name = request.form['goal']
+    goal_price = request.form['goal_price']
+    user_id = db.search_user_list(session['username'])[0][2]
+    db.add_goals(goal_name, goal_price, user_id)
+    flash(f"Goal for {goal_name} at ${goal_price} has been added!")
+    return redirect(url_for('home'))
+
 @app.route('/logout')
 def logout():
     if 'username' in session:
