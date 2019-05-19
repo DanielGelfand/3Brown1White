@@ -85,10 +85,23 @@ def add_finances(balance, cost, income, expenses, id_num):
     CURSOR.execute(f"SELECT * FROM {FINANCE}")
     finance_list = CURSOR.fetchall()
     user_ids = [ x[-1] for x in finance_list ]
+    data = search_finance_list(id_num)
+    file=f'data/finance.csv'
     if id_num in user_ids:
         CURSOR.execute(f"UPDATE {FINANCE} SET current_balance = \"{balance}\", monthly_costs = \"{cost}\", income = \"{income}\", expenses = {expenses} WHERE id = \"{id_num}\"")
+        with open(file, "r") as f:
+            lines = f.readlines()
+        with open(file, "w") as f:
+            for line in lines:
+                if line.strip("\n").split(",")[-1] != str(id_num):
+                    f.write(line)
+            f.write(f"{balance},{cost},{income},{expenses},{id_num}\n")
+            f.close()
     else:
         CURSOR.execute(f"INSERT INTO {FINANCE} VALUES(\"{balance}\", \"{cost}\", \"{income}\", \"{expenses}\", \"{id_num}\")")
+        with open(file, 'a') as f:
+            f.write(f"{balance},{cost},{income},{expenses},{id_num}\n")
+            f.close()
     CONNECT.commit()
     CONNECT.close()
     return id_num
@@ -124,13 +137,3 @@ def add_images(goal, goal_alt, id_num):
     CONNECT.commit()
     CONNECT.close()
     return id_num
-
-def convert_csv(id_num):
-    data = search_finance_list(id_num)
-    file=f'data/{id_num}.csv'
-    with open(file, 'w') as filetowrite:
-        text = ''
-        for val in data[0][:-1]:
-            text += str(val) + ","
-        filetowrite.write(text.strip(","))
-        filetowrite.close()
