@@ -1,6 +1,7 @@
 import os
+import urllib
 
-from flask import Flask, flash, json, redirect, render_template, session, url_for, request
+from flask import Flask, flash, json, redirect, render_template, session, url_for, request, jsonify
 import util.database as db
 template_path=os.path.dirname(__file__)+"/templates"
 
@@ -9,6 +10,10 @@ if template_path!="/templates":
 else:
     app = Flask("__main__")
 app.secret_key = os.urandom(32)
+
+# has a 5000 calls/day limit
+PIXABAY_KEY = "12533116-ad8b6ee07086cf514ba671ef4"
+PIXABAY_STUB = "https://pixabay.com/api/?key=" + PIXABAY_KEY + "&q=" #separate words with "+"
 @app.route('/')
 def home():
     if "username" in session:
@@ -54,23 +59,22 @@ def finance():
     if 'username' not in session:
         flash("You must be logged in to access this page")
         return redirect(url_for('login'))
+    user_id = db.search_user_list(session['username'])[0][2]
+    items = db.search_finance_list(user_id)
+    if items != []:
+        bal,monthly,income,daily,i = items[0]
+        diction = {"Balance":bal, "Monthly Costs": monthly, "Income":income, "Daily Expenditures":daily}
+        return render_template('findata.html', diction=diction)
     return render_template('findata.html')
-
-@app.route('/goals')
-def goal():
-    if 'username' not in session:
-        flash("You must be logged in to access this page")
-        return redirect(url_for('login'))
-    return render_template('goals.html')
 
 @app.route('/fincalc', methods=['POST'])
 def calc():
-    bal = request.form['balance']
-    monthly = request.form['monthly']
-    income = request.form['income']
-    daily = request.form['daily']
+    bal = request.form['balance'][1:]
+    monthly = request.form['monthly'][1:]
+    income = request.form['income'][1:]
+    daily = request.form['daily'][1:]
     user_id = db.search_user_list(session['username'])[0][2]
-    db.add_finances(bal, monthly, income, user_id)
+    db.add_finances(bal, monthly, income, daily, user_id)
     flash("Finances updated")
     return redirect(url_for('home'))
 
@@ -79,14 +83,43 @@ def goals():
     if 'username' not in session:
         flash("You must be logged in to access this page")
         return redirect(url_for('login'))
-    return render_template('goals.html')
+    user_id = db.search_user_list(session['username'])[0][2]
+    g = db.search_goal_list(user_id)
+    price = g
+    if g != []:
+        g = g[0][0]
+    if price != []:
+        price = price[0][1]
+    img = db.search_image_list(user_id)
+    if img != []:
+        img = img[0][0]
+    print(g)
+    print(price)
+    print(img)
+    if g or price:
+        return render_template('goals.html', goal=g, goal_price=price, image=img)
+    else:
+        return render_template('goals.html')
 
 @app.route('/gcalc', methods=['POST'])
 def gcalc():
     goal_name = request.form['goal']
-    goal_price = request.form['goal_price']
+    goal_price = request.form['goal_price'][1:]
+    print("gcalc")
+    print(goal_name)
+    print(goal_price)
     user_id = db.search_user_list(session['username'])[0][2]
     db.add_goals(goal_name, goal_price, user_id)
+    a = db.search_image_list(user_id)
+    print(a)
+    # optimization to save on api calls
+    if a == [] or a[0][2] != goal_name:
+        l = urllib.request.urlopen(PIXABAY_STUB + goal_name.replace(' ', '+') + "&image_type=photo")
+        p = json.loads(l.read())
+        img = p['hits'][0]['webformatURL']
+    else:
+        img = a[0][1]
+    db.add_images(img, goal_name, user_id)
     flash(f"Goal for {goal_name} at ${goal_price} has been added!")
     return redirect(url_for('home'))
 
