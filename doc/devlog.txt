@@ -19,6 +19,17 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+hasanAh -- 2019-05-19 15:28:05 PM
+--------------------------------------------------------------
+Add Pixabay API. Key is stored in main Python file, will be moved
+soon. Add Bootstrap cards to finances and goals page. Change
+add_finances(float, float, float, int) to
+add_finances(float, float, float, float, int). Add
+search_image_list(string, string, int) definition and
+add_images(string, string, int) definition. Fix financial data
+script. Fix some of the database commands.
+==============================================================
+
 mohammedJ -- 2019-05-19 12:26:56 PM
 --------------------------------------------------------------
 Fixed finance adding
