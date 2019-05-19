@@ -9,12 +9,24 @@
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
+{% if goal %}
+<div class="card text-center">
+    <div class="card-header">
+      Let's Get This Goal!
+    </div>
+    <div class="card-body">
+      <img class="card-img-top" src="{{image}}" alt="{{goal}}">
+      <h2 class="card-title"><b>{{goal}}</b></h2>
+      <p class="card-text">Amount needed: ${{goal_price}}</p>
+    </div>
+  </div>
+{% endif %}
 <div class="container">
   <table class="table table-striped">
     <tbody>
       <tr>
         <td colspan="1">
-          <form class="well form-horizontal" action="/gcalc">
+          <form class="well form-horizontal" action="/gcalc" method="POST">
             <fieldset>
               <div class="form-group">
                 <label class="col-md-4 control-label">Goal</label>
