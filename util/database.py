@@ -124,3 +124,13 @@ def add_images(goal, goal_alt, id_num):
     CONNECT.commit()
     CONNECT.close()
     return id_num
+
+def convert_csv(id_num):
+    data = search_finance_list(id_num)
+    file=f'data/{id_num}.csv'
+    with open(file, 'w') as filetowrite:
+        text = ''
+        for val in data[0][:-1]:
+            text += str(val) + ","
+        filetowrite.write(text.strip(","))
+        filetowrite.close()
