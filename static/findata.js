@@ -1,7 +1,7 @@
 var bal = document.getElementById('balance')
 var monthly = document.getElementById('monthly')
 var income = document.getElementById('income')
-var sub = document.getElementById('daily')
+var daily = document.getElementById('daily')
 
 
 var pattern = new RegExp('([^.0-9])+')
@@ -21,11 +21,6 @@ var is_bal_right = function () {
         remove_err(bal, 1)
         console.log('everything ok')
     }
-    if (!errCheck()) {
-        sub.disabled = false
-    } else {
-        sub.disabled = true
-    }
 }
 
 var is_monthly_right = function () {
@@ -39,11 +34,6 @@ var is_monthly_right = function () {
     } else {
         remove_err(monthly, 2)
         console.log('everything ok')
-    }
-    if (!errCheck()) {
-        sub.disabled = false
-    } else {
-        sub.disabled = true
     }
 }
 
@@ -59,11 +49,6 @@ var is_income_right = function () {
         remove_err(income, 3)
         console.log('everything ok')
     }
-    if (!errCheck()) {
-        sub.disabled = false
-    } else {
-        sub.disabled = true
-    }
 }
 
 var is_daily_right = function () {
@@ -72,16 +57,11 @@ var is_daily_right = function () {
         console.log('empty')
     }
     if ((pattern.test(daily.value.slice(1)))) {
-        add_err(daily, "This value must be a number.", 4)
+        add_err(daily, "This value must be a number.", 3)
         console.log('letters detected')
     } else {
-        remove_err(daily, 4)
+        remove_err(daily, 3)
         console.log('everything ok')
-    }
-    if (!errCheck()) {
-        sub.disabled = false
-    } else {
-        sub.disabled = true
     }
 }
 
@@ -117,11 +97,6 @@ function add_err(elem, error, id) {
  */
 function remove_err(elem, id) {
     var children = elem.parentElement.childNodes
-    if (errCheck()) {
-        sub.disabled = false
-    }else{
-        sub.disabled = true
-    }
     // console.log(children)
     for (i = 0; i < children.length; i++) {
         if (children[i].className == `ErrorMessage${id}`) {
@@ -155,9 +130,6 @@ function errCheck() {
 
 var keep_first_char = function(e) {
     var curr = e['target']
-    /* if (curr.value == '$' && e.keyCode == 8) { not needed
-        e.preventDefault()
-    } */
     console.log(curr.value)
     var sanitized = curr.value.replace(/[^0-9.]/g, '')
     console.log(sanitized)
