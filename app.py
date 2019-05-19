@@ -11,7 +11,10 @@ else:
 app.secret_key = os.urandom(32)
 @app.route('/')
 def home():
-    print(db.search_user_list('hello'))
+    if "username" in session:
+        id_num=db.search_user_list(session["username"])[0][2]
+        finavail=db.search_finance_list(id_num)
+        return render_template('home.html',fin=finavail)
     return render_template('home.html')
 
 @app.route('/register')
@@ -67,7 +70,7 @@ def calc():
     income = request.form['income']
     daily = request.form['daily']
     user_id = db.search_user_list(session['username'])[0][2]
-    db.add_finances(bal, cost, income, user_id)
+    db.add_finances(bal, monthly, income, user_id)
     flash("Finances updated")
     return redirect(url_for('home'))
 

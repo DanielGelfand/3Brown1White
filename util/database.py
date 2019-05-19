@@ -79,7 +79,7 @@ def add_finances(balance, cost, income, id_num):
     if id_num in user_ids:
         CURSOR.execute(f"UPDATE {FINANCE} SET current_balance = {balance}, monthly_costs = {cost}, income = {income} WHERE id = {id_num}")
     else:
-        CURSOR.execute(f"INSERT INTO {FINANCE} VALUES({balance}, {cost}, {income}, {id_num})")
+        CURSOR.execute(f"INSERT INTO {FINANCE} VALUES(\"{balance}\", \"{cost}\", \"{income}\", \"{id_num}\")")
     CONNECT.commit()
     CONNECT.close()
     return id_num
