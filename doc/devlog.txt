@@ -19,6 +19,13 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+jabirC-- 2019-05-19 17:02:15 PM
+--------------------------------------------------------------
+Added a csv file functionality to add_finances in the database.py
+in util. The function appends the data into finances.csv if it is
+a new user. If its is an old user, the function updates the previous data.
+==============================================================
+
 hasanAh -- 2019-05-19 15:28:05 PM
 --------------------------------------------------------------
 Add Pixabay API. Key is stored in main Python file, will be moved
@@ -44,6 +51,11 @@ add_goals(string, float, int) definition. Add working routes for
 goals, finances & goals calculations. Fix input fields to keep the
 first character($). Add action and specify method in HTML files.
 Remove extra script tag. Add goals script.
+==============================================================
+
+jabirC-- 2019-05-17 12:10:15 PM
+--------------------------------------------------------------
+Added function to add finances to the sql database
 ==============================================================
 
 ahnafH-- 2019-05-16 22:25:10 PM
