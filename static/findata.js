@@ -14,8 +14,10 @@ var is_bal_right = function () {
         remove_err(bal)
         console.log('empty')
     }
-    if ((pattern.test(bal.value.slice(1)))) {
-        add_err(bal, "This value must be a number.", 1)
+    var excess = bal.value.substring(bal.value.indexOf('.') + 1, bal.value.length).indexOf('.')
+    console.log(excess)
+    if ((pattern.test(bal.value.slice(1))) || excess != -1) {
+        add_err(bal, "This value must be a valid number.", 1)
         console.log('letters detected')
     } else {
         remove_err(bal, 1)
@@ -28,8 +30,9 @@ var is_monthly_right = function () {
         remove_err(monthly)
         console.log('empty')
     }
-    if ((pattern.test(monthly.value.slice(1)))) {
-        add_err(monthly, "This value must be a number.", 2)
+    var excess = monthly.value.substring(monthly.value.indexOf('.') + 1, monthly.value.length).indexOf('.')
+    if ((pattern.test(monthly.value.slice(1))) || monthly != -1) {
+        add_err(monthly, "This value must be a valid number.", 2)
         console.log('letters detected')
     } else {
         remove_err(monthly, 2)
@@ -42,8 +45,9 @@ var is_income_right = function () {
         remove_err(income)
         console.log('empty')
     }
-    if ((pattern.test(income.value.slice(1)))) {
-        add_err(income, "This value must be a number.", 3)
+    var excess = income.value.substring(income.value.indexOf('.') + 1, income.value.length).indexOf('.')
+    if ((pattern.test(income.value.slice(1))) || excess != -1) {
+        add_err(income, "This value must be a valid number.", 3)
         console.log('letters detected')
     } else {
         remove_err(income, 3)
@@ -56,11 +60,12 @@ var is_daily_right = function () {
         remove_err(daily)
         console.log('empty')
     }
-    if ((pattern.test(daily.value.slice(1)))) {
-        add_err(daily, "This value must be a number.", 3)
+    var excess = daily.value.substring(daily.value.indexOf('.') + 1, daily.value.length).indexOf('.')
+    if ((pattern.test(daily.value.slice(1))) || excess != -1) {
+        add_err(daily, "This value must be a valid number.", 4)
         console.log('letters detected')
     } else {
-        remove_err(daily, 3)
+        remove_err(daily, 4)
         console.log('everything ok')
     }
 }
