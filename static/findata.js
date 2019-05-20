@@ -31,7 +31,7 @@ var is_monthly_right = function () {
         console.log('empty')
     }
     var excess = monthly.value.substring(monthly.value.indexOf('.') + 1, monthly.value.length).indexOf('.')
-    if ((pattern.test(monthly.value.slice(1))) || monthly != -1) {
+    if ((pattern.test(monthly.value.slice(1))) || excess != -1) {
         add_err(monthly, "This value must be a valid number.", 2)
         console.log('letters detected')
     } else {
