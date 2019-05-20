@@ -1,13 +1,12 @@
 # should be run in python 3
 PYV=$(shell python -c "import sys;t='{v[0]}'.format(v=list(sys.version_info[:4]));sys.stdout.write(t)");
+TEST=OFF
 run: app.py
-ifeq ($(PYV), '3;') # doesn't work when flipped even though it should be flipped
-		$(error Must be run in Python 3 or greater)
-else
-		@echo "Python 3 or greater is installed, running app"
-endif
-	@python app.py
+	@if [ "$(PYV)" = "3;" ]; then echo "" && echo "Python 3 is installed, running app" && python app.py; else echo "" && echo "This app requires Python 3 or greater to be installed. Please install Python 3.6.7 or greater at https://www.python.org/downloads/" && echo ""; fi
 
 clean:
 	rm */database.db
 	rm -rf */__pycache__/
+
+test:
+	@if [ "$(TEST)" = "ON" ]; then echo "PASSED"; else echo "FAILED"; fi
