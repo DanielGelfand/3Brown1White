@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block body %}
+<!--<form action="/fincalc">
+    Enter Your Current Bank Account Balance: $<input type="text" name="Current Balance"><br>
+    Enter Your Monthly Costs: $<input type="text" name="Monthly Costs"><br>
+    Enter Your Monthly Income: $<input type="text" name="Income"><br>
+    <button type="submit" name="Submit">Submit</button>
+</form>-->
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+{% if diction %}
+<div class="card text-center">
+    <div class="card-header">
+      Your Finances
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"><b>This is the data we got from you:</b></h5>
+      {% for item in diction %}
+      <p class="card-text">{{item}}...............${{diction[item]}}</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+<div class="container">
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td colspan="1">
+          <form class="well form-horizontal" action="/fincalc" method="POST">
+            <fieldset>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Current Bank Account Balance</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-user"></i></span><input id="balance" name="balance"
+                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Balance']}}{% endif %}"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Monthly Costs</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-stats"></i></span><input id="monthly" name="monthly"
+                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Monthly Costs']}}{% endif %}"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Monthly Income</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-stats"></i></span><input id="income" name="income"
+                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Income']}}{% endif %}"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Daily Expenditures</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-stats"></i></span><input id="daily" name="daily"
+                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Daily Expenditures']}}{% endif %}"></div>
+                </div>
+              </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-primary" type="submit" name="Submit">Submit</button>
+  </form>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script src="/static/findata.js"></script>
+{% endblock %}
