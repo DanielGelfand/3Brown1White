@@ -123,6 +123,9 @@ def gcalc():
     flash(f"Goal for {goal_name} at ${goal_price} has been added!")
     return redirect(url_for('home'))
 
+@app.route('/sankey')
+def sankey():
+   return render_template('sankey.html')
 @app.route('/logout')
 def logout():
     if 'username' in session:

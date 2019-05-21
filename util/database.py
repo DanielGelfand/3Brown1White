@@ -86,7 +86,7 @@ def add_finances(balance, cost, income, expenses, id_num):
     finance_list = CURSOR.fetchall()
     user_ids = [ x[-1] for x in finance_list ]
     data = search_finance_list(id_num)
-    file=f'data/finance.csv'
+    file=f'static/finance.csv'
     if id_num in user_ids:
         CURSOR.execute(f"UPDATE {FINANCE} SET current_balance = \"{balance}\", monthly_costs = \"{cost}\", income = \"{income}\", expenses = {expenses} WHERE id = \"{id_num}\"")
         with open(file, "r") as f:
