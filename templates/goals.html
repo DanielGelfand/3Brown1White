@@ -15,11 +15,19 @@
       Let's Get This Goal!
     </div>
     <div class="card-body">
-      <img class="card-img-top" src="{{image}}" alt="{{goal}}">
+      <img class="card-img-top" src="{{image}}" alt="{{goal}}" height="300">
       <h2 class="card-title"><b>{{goal}}</b></h2>
       <p class="card-text">Amount needed: ${{goal_price}}</p>
     </div>
-  </div>
+
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped active" role="progressbar"
+         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{goal_price}}%">
+         40%
+      </div>
+    </div> 
+   
+ </div>
 {% endif %}
 <div class="container">
   <table class="table table-striped">
