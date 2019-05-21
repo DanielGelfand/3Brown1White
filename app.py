@@ -1,8 +1,11 @@
 import os
 import urllib
 
-from flask import Flask, flash, json, redirect, render_template, session, url_for, request, jsonify
+from flask import (Flask, flash, json, jsonify, redirect, render_template,
+                    request, session, url_for)
+
 import util.database as db
+
 template_path=os.path.dirname(__file__)+"/templates"
 
 if template_path!="/templates":
@@ -11,8 +14,12 @@ else:
     app = Flask("__main__")
 app.secret_key = os.urandom(32)
 
+file = open('data/keys.json')
+content = file.read()
+keys = json.loads(content)
+
 # has a 5000 calls/day limit
-PIXABAY_KEY = "12533116-ad8b6ee07086cf514ba671ef4"
+PIXABAY_KEY = keys['Pixabay']
 PIXABAY_STUB = "https://pixabay.com/api/?key=" + PIXABAY_KEY + "&q=" #separate words with "+"
 @app.route('/')
 def home():
@@ -114,9 +121,12 @@ def gcalc():
     print(a)
     # optimization to save on api calls
     if a == [] or a[0][2] != goal_name:
-        l = urllib.request.urlopen(PIXABAY_STUB + goal_name.replace(' ', '+') + "&image_type=photo")
-        p = json.loads(l.read())
-        img = p['hits'][0]['webformatURL']
+        try:
+            l = urllib.request.urlopen(PIXABAY_STUB + goal_name.replace(' ', '+') + "&image_type=photo")
+            p = json.loads(l.read())
+            img = p['hits'][0]['webformatURL']
+        except:
+            return render_template('error.html', err="Cannot connect to API", fix="Try refreshing or contacting the site owner")
     else:
         img = a[0][1]
     db.add_images(img, goal_name, user_id)
@@ -125,7 +135,7 @@ def gcalc():
 
 @app.route('/sankey')
 def sankey():
-   return render_template('sankey.html')
+    return render_template('sankey.html')
 @app.route('/logout')
 def logout():
     if 'username' in session:
