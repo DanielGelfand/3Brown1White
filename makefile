@@ -7,6 +7,3 @@ run: app.py
 clean:
 	rm */database.db
 	rm -rf */__pycache__/
-
-test:
-	@if [ "$(TEST)" = "ON" ]; then echo "PASSED"; else echo "FAILED"; fi
