@@ -118,7 +118,7 @@ def goals():
         if b:
             return render_template('goals.html', bal=b)
         else:
-            return render_template('')
+            return render_template('goals.html')
 
 @app.route('/gcalc', methods=['POST'])
 def gcalc():
