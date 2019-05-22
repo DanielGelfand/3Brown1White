@@ -125,7 +125,8 @@ def gcalc():
 
 @app.route('/sankey')
 def sankey():
-   return render_template('sankey.html')
+   user_id = db.search_user_list(session['username'])[0][2]
+   return render_template('sankey.html',idnum=user_id)
 @app.route('/logout')
 def logout():
     if 'username' in session:
