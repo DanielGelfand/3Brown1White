@@ -115,10 +115,10 @@ def goals():
             print("Used the second")
             return render_template('goals.html', goal=g, goal_price=price, image=img)
     else:
-	if b:
-        return render("goals.html", bal=b)
-	else:
-        return render_template('goals.html')
+        if b:
+            return render_template('goals.html', bal=b)
+        else:
+            return render_template('')
 
 @app.route('/gcalc', methods=['POST'])
 def gcalc():
