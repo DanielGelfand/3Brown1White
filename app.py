@@ -92,6 +92,7 @@ def goals():
         return redirect(url_for('login'))
     user_id = db.search_user_list(session['username'])[0][2]
     g = db.search_goal_list(user_id)
+    b = db.search_finance_list(user_id)
     price = g
     if g != []:
         g = g[0][0]
@@ -100,11 +101,19 @@ def goals():
     img = db.search_image_list(user_id)
     if img != []:
         img = img[0][0]
+    if b != []:
+        b = b[0][0]
+    print(b)
     print(g)
     print(price)
     print(img)
     if g or price:
-        return render_template('goals.html', goal=g, goal_price=price, image=img)
+        if b:
+            print("Used the first one")
+            return render_template('goals.html', goal=g, goal_price=price, image=img, bal=b)
+        else:
+            print("Used the second")
+            return render_template('goals.html', goal=g, goal_price=price, image=img)
     else:
         return render_template('goals.html')
 
