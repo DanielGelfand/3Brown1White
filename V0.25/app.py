@@ -1,11 +1,8 @@
 import os
 import urllib
 
-from flask import (Flask, flash, json, jsonify, redirect, render_template,
-                    request, session, url_for)
-
+from flask import Flask, flash, json, redirect, render_template, session, url_for, request, jsonify
 import util.database as db
-
 template_path=os.path.dirname(__file__)+"/templates"
 
 if template_path!="/templates":
@@ -14,12 +11,8 @@ else:
     app = Flask("__main__")
 app.secret_key = os.urandom(32)
 
-file = open('data/keys.json')
-content = file.read()
-keys = json.loads(content)
-
 # has a 5000 calls/day limit
-PIXABAY_KEY = keys['Pixabay']
+PIXABAY_KEY = "12533116-ad8b6ee07086cf514ba671ef4"
 PIXABAY_STUB = "https://pixabay.com/api/?key=" + PIXABAY_KEY + "&q=" #separate words with "+"
 @app.route('/')
 def home():
@@ -92,7 +85,6 @@ def goals():
         return redirect(url_for('login'))
     user_id = db.search_user_list(session['username'])[0][2]
     g = db.search_goal_list(user_id)
-    b = db.search_finance_list(user_id)
     price = g
     if g != []:
         g = g[0][0]
@@ -101,24 +93,13 @@ def goals():
     img = db.search_image_list(user_id)
     if img != []:
         img = img[0][0]
-    if b != []:
-        b = b[0][0]
-    print(b)
     print(g)
     print(price)
     print(img)
     if g or price:
-        if b:
-            print("Used the first one")
-            return render_template('goals.html', goal=g, goal_price=price, image=img, bal=b)
-        else:
-            print("Used the second")
-            return render_template('goals.html', goal=g, goal_price=price, image=img)
+        return render_template('goals.html', goal=g, goal_price=price, image=img)
     else:
-        if b:
-            return render_template('goals.html', bal=b)
-        else:
-            return render_template('goals.html')
+        return render_template('goals.html')
 
 @app.route('/gcalc', methods=['POST'])
 def gcalc():
@@ -133,12 +114,9 @@ def gcalc():
     print(a)
     # optimization to save on api calls
     if a == [] or a[0][2] != goal_name:
-        try:
-            l = urllib.request.urlopen(PIXABAY_STUB + goal_name.replace(' ', '+') + "&image_type=photo")
-            p = json.loads(l.read())
-            img = p['hits'][0]['webformatURL']
-        except:
-            return render_template('error.html', err="Cannot connect to API", fix="Try refreshing or contacting the site owner")
+        l = urllib.request.urlopen(PIXABAY_STUB + goal_name.replace(' ', '+') + "&image_type=photo")
+        p = json.loads(l.read())
+        img = p['hits'][0]['webformatURL']
     else:
         img = a[0][1]
     db.add_images(img, goal_name, user_id)
@@ -147,8 +125,7 @@ def gcalc():
 
 @app.route('/sankey')
 def sankey():
-   user_id = db.search_user_list(session['username'])[0][2]
-   return render_template('sankey.html',idnum=user_id)
+   return render_template('sankey.html')
 @app.route('/logout')
 def logout():
     if 'username' in session:

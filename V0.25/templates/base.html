@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    {% block head %}
+
+    {% endblock %}
+
+    <title> {% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  </head>
+
+  <body>
+    <nav  class="navbar navbar-expand-md navbar-light bg-faded">
+        <ul class="navbar-nav mr-auto">
+          <li>
+              <a class="nav-link active" href="/">Dashboard</a>
+          </li>
+          <li>
+              <a class="nav-link active" href="/finances">Finances</a>
+          </li>
+          <li>
+              <a class="nav-link active" href="/goals">Goals</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          {% if not session["username"] %}
+          <li>
+              <a class="nav-link" href="/register" >Register</a>
+          </li>
+          <li>
+            <a class="nav-link" href="/login" >Login</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="nav-link" href="/" >{{session["username"]}}</a>
+          </li>
+          <li>
+            <a class="nav-link" href="/logout" >Logout</a>
+          </li>
+          {% endif %}
+        </ul>
+    </nav>
+    <div class="container">
+    {% block body %}
+
+
+    {% endblock %}
+    </div>
+    {% block script %}
+
+    {% endblock %}
+
+  </body>
+
+</html>
