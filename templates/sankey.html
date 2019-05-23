@@ -31,6 +31,7 @@ Sankey diagram
 {% endblock head %}
 {% block body %}
 <script src="https://d3js.org/d3.v5.min.js"></script>
+<p hidden id="id">{{idnum}}</p>
 <script src={{ url_for('static', filename='sankey.js') }}></script>
 <script src={{ url_for('static', filename='flow.js') }}></script>
 

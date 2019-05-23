@@ -13,18 +13,21 @@
 
   </head>
 
-  <body>
-    <nav  class="navbar navbar-expand-md navbar-light bg-faded">
+  <body >
+    <nav  class="navbar navbar-expand-md navbar-light bg-faded" >
+        
         <ul class="navbar-nav mr-auto">
           <li>
-              <a class="nav-link active" href="/">Dashboard</a>
+              <a class="nav-link active" href="/">Home</a>
           </li>
+          {% if session["username"] %}
           <li>
               <a class="nav-link active" href="/finances">Finances</a>
           </li>
           <li>
               <a class="nav-link active" href="/goals">Goals</a>
           </li>
+          {% endif %}
         </ul>
         <ul class="navbar-nav">
           {% if not session["username"] %}
@@ -44,7 +47,7 @@
           {% endif %}
         </ul>
     </nav>
-    <div class="container">
+    <div id="container" class="container">
     {% block body %}
 
 

@@ -1,17 +1,17 @@
-var units = "Widgets";
-
+var units = "Dollars";
+var idnum=document.getElementById("id")
+console.log(idnum)
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
-    width = 700 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
-console.log("test")
+    width = 800 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 // format variables
 var formatNumber = d3.format(",.0f"),    // zero decimal places
     format = function(d) { return formatNumber(d) + " " + units; },
     color = d3.scaleOrdinal(d3.schemeCategory10);
 
 // append the svg object to the body of the page
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#container").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -27,31 +27,93 @@ var sankey = d3.sankey()
 var path = sankey.link();
 // load the data
 d3.csv("static/finance.csv").then(function(data) {
- 
+  var income=data[0]["income"]
+  var balance=data[0]["balance"]
   //set up graph in same style as original example but empty
   graph = {"nodes" : [], "links" : []};
-    console.log(data[0])
-    for (const key in data[0]) {
-        if (data[0].hasOwnProperty(key)) {
-            if(key!="id"){
-            graph.nodes.push({ "name": key});
+  var checklinks=function(node){
+    var notin=false
+    graph["links"].forEach(element => {
+      if(node==element["source"] || node==element["target"]){
+        notin=true
+      }
+    });
+    return notin;
+  }
+  for (const key in data[0]) {
+      if (data[0].hasOwnProperty(key)) {
+          if(key!="id"){
+          graph.nodes.push({ "name": key});
+          }
+      }
+  }
+  graph.nodes.push({"name":"Unable to Pay/ Loan"})
+  for (const key in data[0]) {
+    if (data[0].hasOwnProperty(key)) {
+        if(key!="id" && key!="income" && key!="balance"){
+          if(income>0){
+            if(income-data[0][key]<0){
+              var left=data[0][key]-income
+              graph.links.push({ "source": "income",
+              "target":key,
+              "value":+income
+              })
+              income=0
+              graph.links.push({ "source": "balance",
+              "target":key,
+              "value":+left
+              })
+              balance-=left
             }
-        }
+            else{
+              graph.links.push({ "source": "income",
+              "target":key,
+              "value":+data[0][key]
+              })
+              income-=data[0][key]
+            }
+          }
+          else if(balance>0){
+            if(balance-data[0][key]<0){
+                var left=data[0][key]-balance
+                graph.links.push({ "source": "balance",
+                "target":key,
+                "value":+balance
+                })
+                balance=0
+                graph.links.push({ "source": "Unable to Pay/ Loan",
+                "target":key,
+                "value":+left
+                })
+            }
+            else{
+              graph.links.push({ "source": "balance",
+              "target":key,
+              "value":+data[0][key]
+              })
+              balance-=data[0][key]
+            }
+          }
+          else{
+            graph.links.push({ "source": "Unable to Pay/ Loan",
+            "target":key,
+            "value":+data[0][key]
+            })
+          }
+      }
     }
-   graph.links.push({ "source": "income",
-   "target": "monthly",
-   "value": +(data[0]["income"]/data[0]["monthly"]) });
-   graph.links.push({ "source": "balance",
-   "target": "monthly",
-   "value": +(data[0]["balance"]/data[0]["monthly"]) });
-   graph.links.push({ "source": "income",
-   "target": "daily",
-   "value": +(data[0]["income"]/data[0]["daily"]) });
-   graph.links.push({ "source": "balance",
-   "target": "daily",
-   "value": +(data[0]["balance"]/data[0]["daily"]) });
-   console.log(graph)
-  // return only the distinct / unique nodes
+  }
+  var toremove=[]
+  for (let i = 0; i < graph["nodes"].length; i++) {
+    if(!(checklinks(graph["nodes"][i]["name"]))){
+      toremove.push(i)
+    }
+  }
+  toremove.forEach(index => {
+    graph["nodes"].splice(index,1)
+  });
+  console.log(graph["links"])
+  //return only the distinct / unique nodes
   graph.nodes = d3.keys(d3.nest()
     .key(function (d) { return d.name; })
     .object(graph.nodes));
@@ -61,7 +123,6 @@ d3.csv("static/finance.csv").then(function(data) {
     graph.links[i].source = graph.nodes.indexOf(graph.links[i].source);
     graph.links[i].target = graph.nodes.indexOf(graph.links[i].target);
   });
-
   // now loop through each nodes to make nodes an array of objects
   // rather than an array of strings
   graph.nodes.forEach(function (d, i) {
