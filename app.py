@@ -40,7 +40,12 @@ def auth():
     user = request.form.get("user")
     paswrd = request.form.get('pass')
     if request.form.get("submit")=="Register":
-
+        paswrd2 = request.form.get("pass2")
+        print(paswrd)
+        print(paswrd2)
+        if paswrd != paswrd2:
+            flash("Passwords Do Not Match")
+            return redirect(url_for('register'))
         if  db.register(user, paswrd):
             flash("Registered successfully")
             session['username'] = request.form['user']
