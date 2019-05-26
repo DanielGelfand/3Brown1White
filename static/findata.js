@@ -2,6 +2,8 @@ var bal = document.getElementById('balance')
 var monthly = document.getElementById('monthly')
 var income = document.getElementById('income')
 var daily = document.getElementById('daily')
+var btn = document.getElementById('adder')
+var count = 1
 
 
 var pattern = new RegExp('([^.0-9])+')
@@ -55,21 +57,80 @@ var is_income_right = function () {
     }
 }
 
-var is_daily_right = function () {
-    if (daily.value == "") {
-        remove_err(daily)
+/**
+ * Checks if input is correct
+ * @param {HTMLElement} input_elem The input element
+ */
+var is_daily_right = function (input_elem) {
+    console.log(input_elem)
+    console.log(input_elem.parentElement)
+    if (input_elem.value == "") {
+        remove_err(input_elem)
         console.log('empty')
     }
-    var excess = daily.value.substring(daily.value.indexOf('.') + 1, daily.value.length).indexOf('.')
-    if ((pattern.test(daily.value.slice(1))) || excess != -1) {
-        add_err(daily, "This value must be a valid number.", 4)
+    var excess = input_elem.value.substring(input_elem.value.indexOf('.') + 1, input_elem.value.length).indexOf('.')
+    if ((pattern.test(input_elem.value.slice(1))) || excess != -1) {
+        console.log(`This is input: ${input_elem}`)
+        add_err(input_elem, "The value(s) must be a valid number.", 4)
         console.log('letters detected')
     } else {
-        remove_err(daily, 4)
+        remove_err(input_elem, 4)
         console.log('everything ok')
     }
 }
 
+
+var addExpense = function() {
+    var input = document.createElement('input')
+    var nm = document.createElement('input')
+    nm.className = 'form-control'
+    nm.required = true
+    nm.type = "text"
+    nm.name = "expense-name"
+    nm.placeholder = "Coffee, bus, etc."
+
+    count += 1
+    input.className = "form-control"
+    input.required = true
+    input.type = "text"
+    input.name = `Expenditure ${count}`
+    input.placeholder = input.name
+    input.value = "$"
+    input.addEventListener('keyup', keep_first_char )
+    input.addEventListener('keyup', add_all )
+    btn.insertAdjacentElement('beforebegin', document.createElement('br'))
+    btn.insertAdjacentElement('beforebegin', nm)
+    btn.insertAdjacentElement('beforebegin', input)
+    input = document.getElementsByName(input.name)[0]
+    // input.oninput = is_daily_right(input)
+}
+
+var removeExpense = function() {
+    if (count <= 1) { return }
+    count -= 1
+    var b = document.getElementById('exp')
+    var children = b.children
+    var w = children[1]
+    var br = children[1]
+    var t = children[1]
+    for (var i = 0; i < children.length; i++) {
+        console.log(children[i])
+        console.log(children[i].tagName)
+        if (children[i].tagName.toLowerCase() == "input" && children[i].name != "expense-name") {
+            // console.log(children[i])
+            w = children[i]
+        }
+        if (children[i].tagName.toLowerCase() == "br") {
+            br = children[i]
+        }
+        if (children[i].name == 'expense-name') {
+            t = children[i]
+        }
+    }
+    w.remove()
+    br.remove()
+    t.remove()
+}
 /**
  * Adds an error to the given HTML element if there aren't
  * any
@@ -101,6 +162,8 @@ function add_err(elem, error, id) {
  * @returns true if error was present removed, false otherwise
  */
 function remove_err(elem, id) {
+    console.log(elem)
+    console.log(elem.parentElement)
     var children = elem.parentElement.childNodes
     // console.log(children)
     for (i = 0; i < children.length; i++) {
@@ -137,15 +200,53 @@ var keep_first_char = function(e) {
     var curr = e['target']
     console.log(curr.value)
     var sanitized = curr.value.replace(/[^0-9.]/g, '')
+    var excess = sanitized.lastIndexOf('.')
+    var counts = (sanitized.match(/[.]/g) || []).length
+    console.log(`counts: ${counts}`)
+    if (counts > 1) {
+        console.log(excess)
+        sanitized = sanitized.substring(0, excess) + sanitized.substring(excess + 1, sanitized.length)
+
+    }
     console.log(sanitized)
     curr.value = '$' + sanitized
 }
 
+var add_to_dict = function() {
+    var total = {}
+    var s = daily.parentElement.children
+    for (i = 0; i < s.length; i++) {
+        if (s[i].name == "expense-name") {
+            total[i] = [s[i].value, s[i + 1].value.slice(1)]
+        }
+    }
+    var send = document.createElement('input')
+    send.value = JSON.stringify(total)
+    send.hidden = true
+    send.name = 'all-inputs'
+    daily.parentElement.appendChild(send)
+}
+
+var add_all = function() {
+    var s = daily.parentElement.children
+    var sum = 0
+    for (i = 0; i < s.length; i++) {
+        if (s[i].name == "expense-name") {
+            console.log(`Starting on ${i}`)
+            console.log(s[i + 1].value)
+            sum += Number(s[i + 1].value.slice(1).replace(/[^0-9]/g, ''))
+        }
+    }
+    daily.value = `$${sum}`
+}
 bal.oninput = is_bal_right
 monthly.oninput = is_monthly_right
 income.oninput = is_income_right
-daily.oninput = is_daily_right
+// daily.oninput = is_daily_right
+
 bal.addEventListener('keyup', keep_first_char )
 monthly.addEventListener('keyup', keep_first_char )
 income.addEventListener('keyup', keep_first_char )
-daily.addEventListener('keyup', keep_first_char )
+// daily.addEventListener('keyup', keep_first_char )
+daily.addEventListener('keyup', add_all )
+document.getElementsByName('Submit')[0].addEventListener('click', add_to_dict )
