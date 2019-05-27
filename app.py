@@ -1,5 +1,6 @@
 import os
 import urllib
+from ast import literal_eval as le
 
 from flask import (Flask, flash, json, jsonify, redirect, render_template,
                     request, session, url_for)
@@ -73,10 +74,15 @@ def finance():
         return redirect(url_for('login'))
     user_id = db.search_user_list(session['username'])[0][2]
     items = db.search_finance_list(user_id)
+    daily = db.search_expense_list(user_id, is_id=True)
+    w = dict([ (x[0], x[1]) for x in daily ])
+    total = 0
+    for x in w.values():
+        total += float(x)
     if items != []:
-        bal,monthly,income,daily,i = items[0]
-        diction = {"Balance":bal, "Monthly Costs": monthly, "Income":income, "Daily Expenditures":daily}
-        return render_template('findata.html', diction=diction)
+        bal,monthly,income,i = items[0]
+        diction = {"Balance":bal, "Monthly Costs": monthly, "Income":income}
+        return render_template('findata.html', diction=diction, daily=w, total=total)
     return render_template('findata.html')
 
 @app.route('/fincalc', methods=['POST'])
@@ -84,9 +90,12 @@ def calc():
     bal = request.form['balance'][1:]
     monthly = request.form['monthly'][1:]
     income = request.form['income'][1:]
-    daily = request.form['daily'][1:]
+    print(request.form)
+    daily = request.form['all-inputs']
+    daily = le(daily) # dictionary
+    w = dict([x for x in daily.values()]) # {expense1: $$$, expense2: $$$, ...}
     user_id = db.search_user_list(session['username'])[0][2]
-    db.add_finances(bal, monthly, income, daily, user_id)
+    db.add_finances(bal, monthly, income, w, user_id)
     flash("Finances updated")
     return redirect(url_for('home'))
 
