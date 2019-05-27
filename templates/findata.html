@@ -20,6 +20,13 @@ id="bootstrap-css">
       {% for item in diction %}
       <p class="card-text">{{item}}...............${{diction[item]}}</p>
       {% endfor %}
+      {% if daily %}
+      <p class="card-text"><b>Your Expenditures</b></p>
+      {% else %}
+      {% endif %}
+      {% for a in daily %}
+      <p class="card-text">{{a}}............${{daily[a]}}</p>
+      {% endfor %}
     </div>
   </div>
 {% endif %}
@@ -60,7 +67,7 @@ id="bootstrap-css">
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group" id="exp"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-stats"></i></span><input id="daily" name="daily"
-                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Daily Expenditures']}}{% endif %}" disabled>
+                      class="form-control" required="true" type="text" value="${% if total %}{{total}}{% endif %}" disabled>
                     <button class="btn btn-secondary" onclick="addExpense()" id="adder" type="button">Add Expenditure</button>
                   <button class="btn btn-secondary" onclick="removeExpense()" id="subtractor"
 type="button">Remove Expenditure</button></div>

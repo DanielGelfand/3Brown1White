@@ -6,6 +6,7 @@ FINANCE = "FINANCES"
 LOSE = "SACRIFICES"
 GOALS = "GOALS"
 IMAGES = "IMAGES"
+EXPENSES = "EXPENDITURES"
 
 print('Database works')
 DIR=os.path.dirname(__file__)
@@ -15,7 +16,8 @@ print(DIR)
 CONNECT = sqlite3.connect(DIR)
 CURSOR = CONNECT.cursor()
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOGINS}(user TEXT, pass TEXT, id INTEGER)")
-CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {FINANCE}(current_balance REAL, monthly_costs REAL, income REAL, expenses REAL, id INTEGER)")
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {FINANCE}(current_balance REAL, monthly_costs REAL, income REAL, id INTEGER)")
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {EXPENSES}(expense TEXT, cost REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOSE}(suggested0 INTEGER, suggested1 INTEGER, suggested2 INTEGER, custom REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {GOALS}(name TEXT, cost REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {IMAGES}(goal TEXT, goal_alt TEXT, id INTEGER)") # can be expanded later on
@@ -58,6 +60,15 @@ def search_finance_list(*args):
     query_list = CURSOR.fetchall()
     return [ x for x in query_list for a in args if a in x ]
 
+def search_expense_list(*args, is_id):
+    CONNECT = sqlite3.connect(DIR)
+    CURSOR = CONNECT.cursor()
+    CURSOR.execute(f"SELECT * FROM {EXPENSES}")
+    query_list = CURSOR.fetchall()
+    if is_id:
+        return [ x for x in query_list for a in args if a == x[2] ] # the given input was an id
+    return [ x for x in query_list for a in args if a in x ]
+
 def search_sacrifice_list(*args):
     CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
@@ -88,7 +99,7 @@ def add_finances(balance, cost, income, expenses, id_num):
     data = search_finance_list(id_num)
     file=f'static/finance.csv'
     if id_num in user_ids:
-        CURSOR.execute(f"UPDATE {FINANCE} SET current_balance = \"{balance}\", monthly_costs = \"{cost}\", income = \"{income}\", expenses = {expenses} WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"UPDATE {FINANCE} SET current_balance = \"{balance}\", monthly_costs = \"{cost}\", income = \"{income}\" WHERE id = \"{id_num}\"")
         with open(file, "r") as f:
             lines = f.readlines()
         with open(file, "w") as f:
@@ -98,10 +109,22 @@ def add_finances(balance, cost, income, expenses, id_num):
             f.write(f"{balance},{cost},{income},{expenses},{id_num}\n")
             f.close()
     else:
-        CURSOR.execute(f"INSERT INTO {FINANCE} VALUES(\"{balance}\", \"{cost}\", \"{income}\", \"{expenses}\", \"{id_num}\")")
+        CURSOR.execute(f"INSERT INTO {FINANCE} VALUES(\"{balance}\", \"{cost}\", \"{income}\", \"{id_num}\")")
         with open(file, 'a') as f:
             f.write(f"{balance},{cost},{income},{expenses},{id_num}\n")
             f.close()
+    CURSOR.execute(f"SELECT * FROM {EXPENSES}")
+    expense_list = CURSOR.fetchall()
+    print(expense_list)
+    print(finance_list)
+    print(expenses)
+    a = [ x for x in expense_list for w in expenses if w in x and x[2] == id_num ]
+    s = [x[0] for x in a]
+    for name in expenses:
+        if name not in s:
+            CURSOR.execute(f"INSERT INTO {EXPENSES} VALUES(\"{name}\", \"{expenses[name]}\", \"{id_num}\")")
+        else:
+            CURSOR.execute(f"UPDATE {EXPENSES} SET cost = \"{expenses[name]}\" WHERE expense = \"{name}\" AND id = \"{id_num}\"")
     CONNECT.commit()
     CONNECT.close()
     return id_num
