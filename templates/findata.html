@@ -67,7 +67,7 @@ id="bootstrap-css">
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group" id="exp"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-stats"></i></span><input id="daily" name="daily"
-                      class="form-control" required="true" type="text" value="${% if total %}{{total}}{% endif %}" placeholder="Your total expenses will show up here..." disabled>
+                      class="form-control" required="true" type="text" value="{% if total %}${{total}}{% endif %}" placeholder="Your total expenses will show up here..." disabled>
                       {% if daily %}
                         {% for item in daily %}
                           <br />
