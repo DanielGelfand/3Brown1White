@@ -67,7 +67,14 @@ id="bootstrap-css">
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group" id="exp"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-stats"></i></span><input id="daily" name="daily"
-                      class="form-control" required="true" type="text" value="${% if total %}{{total}}{% endif %}" disabled>
+                      class="form-control" required="true" type="text" value="${% if total %}{{total}}{% endif %}" placeholder="Your total expenses will show up here..." disabled>
+                      {% if daily %}
+                        {% for item in daily %}
+                          <br />
+                          <input name="expense-name" class="form-control" required="true" type="text" placeholder="Coffee, Bus, etc." value="{{item}}"/>
+                          <input type="text" class="form-control" required="true" placeholder="Expenditure" value="${{daily[item]}}" onkeyup="keep_first_char();add_all();"/>
+                        {% endfor %}
+                      {% endif %}
                     <button class="btn btn-secondary" onclick="addExpense()" id="adder" type="button">Add Expenditure</button>
                   <button class="btn btn-secondary" onclick="removeExpense()" id="subtractor"
 type="button">Remove Expenditure</button></div>
