@@ -3,7 +3,7 @@ var monthly = document.getElementById('monthly')
 var income = document.getElementById('income')
 var daily = document.getElementById('daily')
 var btn = document.getElementById('adder')
-var count = 1
+var count = document.getElementsByName('expense-name').length + 1
 
 
 var pattern = new RegExp('([^.0-9])+')
