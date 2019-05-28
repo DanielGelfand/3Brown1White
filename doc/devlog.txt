@@ -19,6 +19,14 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ahnafH -- 2019-05-28 11:44
+--------------------------------------------------------------
+Add a way for users to choose the number of daily expenditures.
+Fix Error 400: KeyError that showed up because of the previous
+change. Fix database keeping old values. Have each expenditures
+show up on load. Robustify the counting of expenses.
+==============================================================
+
 jabirC -- 2019-05-21 00:29
 --------------------------------------------------------------
 Saved working version in V0.25 and added dummy progress bar
