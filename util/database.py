@@ -121,11 +121,22 @@ def add_finances(balance, cost, income, expenses, id_num):
     a = [ x for x in expense_list for w in expenses if w in x and x[2] == id_num ]
     s = [x[0] for x in a]
     CURSOR.execute(f"DELETE FROM {EXPENSES} WHERE id = \"{id_num}\"")
+    file=f'static/expense.csv'
+    str = f'id,{id_num}'
     for name in expenses:
         # if name not in s:
         CURSOR.execute(f"INSERT INTO {EXPENSES} VALUES(\"{name}\", \"{expenses[name]}\", \"{id_num}\")")
+        str += f',{name},{expenses[name]}'
         # else:
         #     CURSOR.execute(f"UPDATE {EXPENSES} SET cost = \"{expenses[name]}\" WHERE expense = \"{name}\" AND id = \"{id_num}\"")
+    with open(file, "r") as f:
+            lines = f.readlines()
+    with open(file, "w") as f:
+         for line in lines:
+            if line.strip("\n").split(",")[1] != str(id_num):
+                 f.write(line)
+         f.write(str+'\n')
+         f.close()
     CONNECT.commit()
     CONNECT.close()
     return id_num
