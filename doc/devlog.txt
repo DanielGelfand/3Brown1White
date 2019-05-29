@@ -19,12 +19,22 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+mohammedJ -- 2019-05-29 02:46
+--------------------------------------------------------------
+Added pie chart based on sample data
+==============================================================
+
 ahnafH -- 2019-05-28 11:44
 --------------------------------------------------------------
 Add a way for users to choose the number of daily expenditures.
 Fix Error 400: KeyError that showed up because of the previous
 change. Fix database keeping old values. Have each expenditures
 show up on load. Robustify the counting of expenses.
+==============================================================
+
+mohammedJ -- 2019-05-21 01:14
+--------------------------------------------------------------
+Sankey diagram allocation adjusts according to balance and income
 ==============================================================
 
 jabirC -- 2019-05-21 00:29
