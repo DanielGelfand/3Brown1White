@@ -19,6 +19,13 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ahnafH -- 2019-05-29 19:27:09 PM
+--------------------------------------------------------------
+Got monthly expenses to work correctly. Merge conflict resolved.
+Need to work on keeping the first character after someone has
+already submitted their financial data.
+==============================================================
+
 mohammedJ -- 2019-05-29 02:46
 --------------------------------------------------------------
 Added pie chart based on sample data
