@@ -3,7 +3,7 @@ var idnum=document.getElementById("id")
 console.log(idnum)
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
-    width = 800 - margin.left - margin.right,
+    width = 1000 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 // format variables
 var formatNumber = d3.format(",.0f"),    // zero decimal places
