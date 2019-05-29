@@ -7,7 +7,8 @@
     <button type="submit" name="Submit">Submit</button>
 </form>-->
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"
+id="bootstrap-css">
 
 {% if diction %}
 <div class="card text-center">
@@ -18,6 +19,13 @@
       <h5 class="card-title"><b>This is the data we got from you:</b></h5>
       {% for item in diction %}
       <p class="card-text">{{item}}...............${{diction[item]}}</p>
+      {% endfor %}
+      {% if daily %}
+      <p class="card-text"><b>Your Expenditures</b></p>
+      {% else %}
+      {% endif %}
+      {% for a in daily %}
+      <p class="card-text">{{a}}............${{daily[a]}}</p>
       {% endfor %}
     </div>
   </div>
@@ -57,9 +65,19 @@
               <div class="form-group">
                 <label class="col-md-4 control-label">Daily Expenditures</label>
                 <div class="col-md-8 inputGroupContainer">
-                  <div class="input-group"><span class="input-group-addon"><i
+                  <div class="input-group" id="exp"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-stats"></i></span><input id="daily" name="daily"
-                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Daily Expenditures']}}{% endif %}"></div>
+                      class="form-control" required="true" type="text" value="{% if total %}${{total}}{% endif %}" placeholder="Your total expenses will show up here..." disabled>
+                      {% if daily %}
+                        {% for item in daily %}
+                          <br />
+                          <input name="expense-name" class="form-control" required="true" type="text" placeholder="Coffee, Bus, etc." value="{{item}}"/>
+                          <input type="text" class="form-control" required="true" placeholder="Expenditure" value="${{daily[item]}}" onkeyup="keep_first_char();add_all();"/>
+                        {% endfor %}
+                      {% endif %}
+                    <button class="btn btn-secondary" onclick="addExpense()" id="adder" type="button">Add Expenditure</button>
+                  <button class="btn btn-secondary" onclick="removeExpense()" id="subtractor"
+type="button">Remove Expenditure</button></div>
                 </div>
               </div>
         </td>
