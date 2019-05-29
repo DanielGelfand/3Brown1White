@@ -1,6 +1,5 @@
 import os
 import urllib
-from ast import literal_eval as le
 
 from flask import (Flask, flash, json, jsonify, redirect, render_template,
                     request, session, url_for)
@@ -75,27 +74,46 @@ def finance():
     user_id = db.search_user_list(session['username'])[0][2]
     items = db.search_finance_list(user_id)
     daily = db.search_expense_list(user_id, is_id=True)
+    monthly = db.search_monthly_list(user_id, is_id=True)
+    print(f"Unlike month, this is daily: {daily}\n")
     w = dict([ (x[0], x[1]) for x in daily ])
+    s = dict([ (x[0], x[1]) for x in monthly ])
+    print(f"THIS is monthly: {monthly}")
+    print(f"THIS is s: {s}")
     total = 0
+    m_total = 0
     for x in w.values():
         total += float(x)
+    for x in s.values():
+        m_total += float(x)
     if items != []:
-        bal,monthly,income,i = items[0]
-        diction = {"Balance":bal, "Monthly Costs": monthly, "Income":income}
-        return render_template('findata.html', diction=diction, daily=w, total=total)
+        bal,income,i = items[0]
+        diction = {"Balance":bal, "Income":income}
+        return render_template('findata.html',
+                                diction=diction,
+                                daily=w,
+                                months = s,
+                                total=total,
+                                mtotal = m_total)
     return render_template('findata.html')
 
 @app.route('/fincalc', methods=['POST'])
 def calc():
+    print(request.form)
     bal = request.form['balance'][1:]
-    monthly = request.form['monthly'][1:]
+    monthly = request.form['monthly-inputs']
     income = request.form['income'][1:]
     print(request.form)
     daily = request.form['all-inputs']
-    daily = le(daily) # dictionary
+    print(f"This is daily: {monthly}")
+    daily = json.loads(daily) # dictionary
+    monthly = json.loads(monthly)
+    print(f"This is daily now {monthly}")
     w = dict([x for x in daily.values()]) # {expense1: $$$, expense2: $$$, ...}
+    m = dict([x for x in monthly.values()])
+    print(f"\nThis is calculated m:{m}\n")
     user_id = db.search_user_list(session['username'])[0][2]
-    db.add_finances(bal, monthly, income, w, user_id)
+    db.add_finances(bal, m, income, w, user_id)
     flash("Finances updated")
     return redirect(url_for('home'))
 

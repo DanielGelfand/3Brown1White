@@ -20,9 +20,14 @@ id="bootstrap-css">
       {% for item in diction %}
       <p class="card-text">{{item}}...............${{diction[item]}}</p>
       {% endfor %}
+      {% if months %}
+      <p class="card-text"><b>Your Monthly Expenditures</b></p>
+      {% endif %}
+      {% for a in months %}
+      <p class="card-text">{{a}}............${{months[a]}}</p>
+      {% endfor %}
       {% if daily %}
       <p class="card-text"><b>Your Expenditures</b></p>
-      {% else %}
       {% endif %}
       {% for a in daily %}
       <p class="card-text">{{a}}............${{daily[a]}}</p>
@@ -49,9 +54,19 @@ id="bootstrap-css">
               <div class="form-group">
                 <label class="col-md-4 control-label">Monthly Costs</label>
                 <div class="col-md-8 inputGroupContainer">
-                  <div class="input-group"><span class="input-group-addon"><i
+                  <div class="input-group" id="mon"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-stats"></i></span><input id="monthly" name="monthly"
-                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Monthly Costs']}}{% endif %}"></div>
+                      class="form-control" required="true" type="text" value="{% if mtotal %}${{mtotal}}{% endif %}" placeholder="Your total monthly costs will show up here..." disabled>
+                      {% if months %}
+                        {% for item in months %}
+                          <br>
+                          <input name="monthly-name" class="form-control" required="true" type="text" placeholder="Rent, Bills, etc." value="{{item}}">
+                          <input type="text" class="form-control" required="true" placeholder="Monthly Expenditure" value="${{months[item]}}" onkeyup="keep_first_char();m_add_all();">
+                        {% endfor %}
+                      {% endif %}
+                      <button class="btn btn-secondary" onclick="addMonthlyExpense()" id="month_adder" type="button">Add Monthly Expenditure</button>
+                    <button class="btn btn-secondary" onclick="removeMonthlyExpense()" id="month_subtractor"
+  type="button">Remove Monthly Expenditure</button></div>
                 </div>
               </div>
               <div class="form-group">
@@ -59,7 +74,8 @@ id="bootstrap-css">
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-stats"></i></span><input id="income" name="income"
-                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Income']}}{% endif %}"></div>
+                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Income']}}{% endif %}">
+                      </div>
                 </div>
               </div>
               <div class="form-group">

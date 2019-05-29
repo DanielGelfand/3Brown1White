@@ -19,7 +19,7 @@ var percentage = function() {
   }
   var v = end_goal.value.slice(1) ? end_goal.value.slice(1) : 0
   console.log(v)
-  var percent = v / curr_bal.innerHTML
+  var percent = curr_bal.innerHTML / v
   console.log(percent)
   var children = end_goal.parentElement.children
   for (i = 0; i < children.length; i++) {

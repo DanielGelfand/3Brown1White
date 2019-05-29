@@ -3,7 +3,9 @@ var monthly = document.getElementById('monthly')
 var income = document.getElementById('income')
 var daily = document.getElementById('daily')
 var btn = document.getElementById('adder')
+var m_btn = document.getElementById('month_adder')
 var count = document.getElementsByName('expense-name').length + 1
+var m_count = document.getElementsByName('monthly-name').length + 1
 
 
 var pattern = new RegExp('([^.0-9])+')
@@ -79,6 +81,29 @@ var is_daily_right = function (input_elem) {
     }
 }
 
+var addMonthlyExpense = function() {
+  var input = document.createElement('input')
+  var nm = document.createElement('input')
+  nm.className = 'form-control'
+  nm.required = true
+  nm.type = "text"
+  nm.name = "monthly-name"
+  nm.placeholder = "Rent, Bills, etc."
+
+  m_count += 1
+  input.className = "form-control"
+  input.required = true
+  input.type = "text"
+  input.name = `Monthly Expenditure ${m_count}`
+  input.placeholder = input.name
+  input.value = "$"
+  input.addEventListener('keyup', keep_first_char )
+  input.addEventListener('keyup', m_add_all )
+  m_btn.insertAdjacentElement('beforebegin', document.createElement('br'))
+  m_btn.insertAdjacentElement('beforebegin', nm )
+  m_btn.insertAdjacentElement('beforebegin', input )
+  input = document.getElementsByName(input.name)[0]
+}
 
 var addExpense = function() {
     var input = document.createElement('input')
@@ -89,7 +114,7 @@ var addExpense = function() {
     nm.name = "expense-name"
     nm.placeholder = "Coffee, bus, etc."
 
-    count += 1
+    m_count += 1
     input.className = "form-control"
     input.required = true
     input.type = "text"
@@ -105,6 +130,32 @@ var addExpense = function() {
     // input.oninput = is_daily_right(input)
 }
 
+var removeMonthlyExpense = function() {
+    if (m_count <= 1) { return }
+    m_count -= 1
+    var b = document.getElementById('mon')
+    var children = b.children
+    var w = children[1]
+    var br = children[1]
+    var t = children[1]
+    for (var i = 0; i < children.length; i++) {
+        console.log(children[i])
+        console.log(children[i].tagName)
+        if (children[i].tagName.toLowerCase() == "input" && children[i].name != "monthly-name") {
+            // console.log(children[i])
+            w = children[i]
+        }
+        if (children[i].tagName.toLowerCase() == "br") {
+            br = children[i]
+        }
+        if (children[i].name == 'monthly-name') {
+            t = children[i]
+        }
+    }
+    w.remove()
+    br.remove()
+    t.remove()
+}
 var removeExpense = function() {
     if (count <= 1) { return }
     count -= 1
@@ -225,6 +276,34 @@ var add_to_dict = function() {
     send.hidden = true
     send.name = 'all-inputs'
     daily.parentElement.appendChild(send)
+
+
+    var m_total = {}
+    var w = monthly.parentElement.children
+    for (i = 0; i < w.length; i++) {
+        if (w[i].name == "monthly-name") {
+            console.log(w[i])
+            m_total[i] = [w[i].value, w[i + 1].value.slice(1)]
+        }
+    }
+    var m_send = document.createElement('input')
+    m_send.value = JSON.stringify(m_total)
+    m_send.hidden = true
+    m_send.name = 'monthly-inputs'
+    monthly.parentElement.appendChild(m_send)
+}
+
+var m_add_all = function() {
+  var s = monthly.parentElement.children
+  var sum = 0
+  for (i = 0; i < s.length; i++) {
+    if (s[i].name == "monthly-name") {
+      console.log(`Startig on ${i}`)
+      console.log(s[i + 1].value)
+      sum += Number(s[i + 1].value.slice(1).replace(/[^0-9]/g, ''))
+    }
+  }
+  monthly.value = `$${sum}`
 }
 
 var add_all = function() {
