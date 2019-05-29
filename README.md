@@ -27,7 +27,7 @@ Our project is a money manager application to get your finances on track. Use ou
 ### Install and run on Apache2
 
 1. SSH into your droplet with `ssh <user>@<ip address>`
-2. Move to the www directory: `cd ../../var/www`
+2. Move to the www directory: `cd var/www`
 3. Create a directory named after your app and then cd into it
     * `mkdir <appname>`
     * `cd <appname>`
@@ -37,10 +37,11 @@ Our project is a money manager application to get your finances on track. Use ou
     * `cd appname`
     * `mv app.py __init__.py`
     * `pip3 install -r requirements.txt`
-7. Move to sites-enabled directory and make a config file with path /etc/apache2/sites-enabled/<appname>.conf
-8. Run `a2ensite <appname>`
-9. Restart the server with `sudo service apache2 restart`
-10. Go to your droplet's ip address on your browser
+7. Move to sites-enabled directory with `cd ~/../../etc/apache2/sites-enabled/` 
+8. Make a config file with path /etc/apache2/sites-enabled/<appname>.conf
+9. Run `a2ensite <appname>`
+10. Restart the server with `sudo service apache2 restart`
+11. Go to your droplet's ip address on your browser
 
  ## How To Procure API Keys?
 
