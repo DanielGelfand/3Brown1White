@@ -5,6 +5,12 @@ Welcome to Money Manage
 {% endblock title %}
 
 {% block body %}
+{% set msgs = get_flashed_messages() %}
+    {% for each in msgs %}
+    <br>
+    <div class="alert alert-success" role="alert">{{each}} </div>
+{% endfor %}
+
 {% if session["username"] %}
     <div class="card-columns">
     {% if not fin %}
