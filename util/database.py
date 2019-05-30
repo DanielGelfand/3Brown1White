@@ -113,12 +113,13 @@ def add_finances(balance, cost, income, expenses, id_num):
         CURSOR.execute(f"UPDATE {FINANCE} SET current_balance = \"{balance}\", income = \"{income}\" WHERE id = \"{id_num}\"")
         with open(file, "r") as f:
             lines = f.readlines()
-        with open(file, "w") as f:
+        # For some reason, I keep getting a UnboundLocalError on str()
+        """ with open(file, "w") as f:
             for line in lines:
-                if line.strip("\n").split(",")[-1] != str(id_num):
+                if str(id_num) != line.strip("\n").split(",")[-1]:
                     f.write(line)
             f.write(f"{balance},{cost},{income},{expenses},{id_num}\n")
-            f.close()
+            f.close() """
     else:
         CURSOR.execute(f"INSERT INTO {FINANCE} VALUES(\"{balance}\", \"{income}\", \"{id_num}\")")
         with open(file, 'a') as f:
