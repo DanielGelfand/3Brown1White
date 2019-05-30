@@ -61,7 +61,7 @@ id="bootstrap-css">
                         {% for item in months %}
                           <br>
                           <input name="monthly-name" class="form-control" required="true" type="text" placeholder="Rent, Bills, etc." value="{{item}}">
-                          <input type="text" class="form-control" required="true" placeholder="Monthly Expenditure" value="${{months[item]}}" onkeyup="keep_first_char();m_add_all();">
+                          <input type="text" class="form-control" required="true" placeholder="Monthly Expenditure" value="${{months[item]}}">
                         {% endfor %}
                       {% endif %}
                       <button class="btn btn-secondary" onclick="addMonthlyExpense()" id="month_adder" type="button">Add Monthly Expenditure</button>
@@ -88,7 +88,7 @@ id="bootstrap-css">
                         {% for item in daily %}
                           <br />
                           <input name="expense-name" class="form-control" required="true" type="text" placeholder="Coffee, Bus, etc." value="{{item}}"/>
-                          <input type="text" class="form-control" required="true" placeholder="Expenditure" value="${{daily[item]}}" onkeyup="keep_first_char();add_all();"/>
+                          <input type="text" class="form-control" required="true" placeholder="Expenditure" value="${{daily[item]}}"/>
                         {% endfor %}
                       {% endif %}
                     <button class="btn btn-secondary" onclick="addExpense()" id="adder" type="button">Add Expenditure</button>
