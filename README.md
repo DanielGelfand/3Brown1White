@@ -1,10 +1,12 @@
 # 3Brown1White
 
-## Roster: Daniel Gelfand, Ahnaf Hasan, Mohammad Jamil and Jabir Chowdhury
+## Roster: Daniel Gelfand (PM), Ahnaf Hasan (Dealing with User Input), Mohammad Jamil (D3) and Jabir Chowdhury (Databases)
 
 ## Overview 
 
 Our project is a money manager application to get your finances on track. Use our tools to input your goals such as a dream car or vacation. Using your financial information such as income, balance, and daily expenditures, we suggest what can be cut out to get you to your goal faster than ever!
+
+## Watch Our Video Demo Here
 
 ## Launch Instructions
 
