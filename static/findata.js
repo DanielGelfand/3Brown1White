@@ -329,7 +329,13 @@ var m_add_all = function() {
     if (s[i].name == "monthly-name") {
       console.log(`Starting on ${i}`)
       console.log(s[i + 1].value)
-      sum += Number(s[i + 1].value.slice(1).replace(/[^0-9]/g, ''))
+      var excess = s[i + 1].value.substring(s[i + 1].value.indexOf('.') + 1, s[i + 1].value.length).indexOf('.')
+      if (excess != -1) {
+        var w = s[i + 1].value
+        w = w.substring(0, w.lastIndexOf('.')) + w.substring(w.lastIndexOf('.') + 1, w.length)
+        s[i + 1].value = w
+      }
+      sum += Number(s[i + 1].value.slice(1).replace(/([^.0-9])+/g, ''))
     }
   }
   monthly.value = `$${sum}`
@@ -342,7 +348,13 @@ var add_all = function() {
         if (s[i].name == "expense-name") {
             console.log(`Starting on ${i}`)
             console.log(s[i + 1].value)
-            sum += Number(s[i + 1].value.slice(1).replace(/[^0-9]/g, ''))
+            var excess = s[i + 1].value.substring(s[i + 1].value.indexOf('.') + 1, s[i + 1].value.length).indexOf('.')
+            if (excess != -1) {
+                var w = s[i + 1].value
+                w = w.substring(0, w.lastIndexOf('.')) + w.substring(w.lastIndexOf('.') + 1, w.length)
+                s[i + 1].value = w
+            }
+            sum += Number(s[i + 1].value.slice(1).replace(/([^.0-9])+/g, ''))
         }
     }
     daily.value = `$${sum}`
