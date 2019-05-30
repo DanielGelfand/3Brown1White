@@ -26,7 +26,7 @@ var percentage = function() {
   var children = end_goal.parentElement.children
   for (i = 0; i < children.length; i++) {
     if (children[i].className == "percentage") {
-      children[i].innerHTML = `${percent.toFixed(1)}% of current balance<br>Current Balance: $${curr_bal.innerHTML}`
+      children[i].innerHTML = `${percent.toFixed(1)}% of current balance<br>Current Balance: $${Number(curr_bal.innerHTML).toFixed(2)}`
       if (percent > 100) {
         children[i].style.color = "red"
       }else{
@@ -39,7 +39,7 @@ var percentage = function() {
   if (percent > 100) {
     thing.style.color = "red"
   }
-  thing.innerHTML = `${percent.toFixed(1)}% of current balance<br>Current Balance: $${curr_bal.innerHTML}`
+  thing.innerHTML = `${percent.toFixed(1)}% of current balance<br>Current Balance: $${Number(curr_bal.innerHTML).toFixed(2)}`
   thing.className = "percentage"
   end_goal.insertAdjacentElement('afterend', thing)
   return

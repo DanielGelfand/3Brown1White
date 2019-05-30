@@ -18,19 +18,19 @@ id="bootstrap-css">
     <div class="card-body">
       <h5 class="card-title"><b>This is the data we got from you:</b></h5>
       {% for item in diction %}
-      <p class="card-text">{{item}}...............${{diction[item]}}</p>
+      <p class="card-text">{{item}}...............${{"%.2f" % (diction[item])}}</p>
       {% endfor %}
       {% if months %}
       <p class="card-text"><b>Your Monthly Expenditures</b></p>
       {% endif %}
       {% for a in months %}
-      <p class="card-text">{{a}}............${{months[a]}}</p>
+      <p class="card-text">{{a}}............${{"%.2f" % (months[a])}}</p>
       {% endfor %}
       {% if daily %}
       <p class="card-text"><b>Your Expenditures</b></p>
       {% endif %}
       {% for a in daily %}
-      <p class="card-text">{{a}}............${{daily[a]}}</p>
+      <p class="card-text">{{a}}............${{"%.2f" % (daily[a])}}</p>
       {% endfor %}
     </div>
   </div>
@@ -48,7 +48,7 @@ id="bootstrap-css">
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-user"></i></span><input id="balance" name="balance"
-                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Balance']}}{% endif %}"></div>
+                      class="form-control" required="true" type="text" value="${% if diction %}{{'%.2f' % (diction['Balance'])}}{% endif %}"></div>
                 </div>
               </div>
               <div class="form-group">
@@ -56,12 +56,12 @@ id="bootstrap-css">
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group" id="mon"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-stats"></i></span><input id="monthly" name="monthly"
-                      class="form-control" required="true" type="text" value="{% if mtotal %}${{mtotal}}{% endif %}" placeholder="Your total monthly costs will show up here..." disabled>
+                      class="form-control" required="true" type="text" value="{% if mtotal %}${{'%.2f' % (mtotal)}}{% endif %}" placeholder="Your total monthly costs will show up here..." disabled>
                       {% if months %}
                         {% for item in months %}
                           <br>
                           <input name="monthly-name" class="form-control" required="true" type="text" placeholder="Rent, Bills, etc." value="{{item}}">
-                          <input type="text" class="form-control" required="true" placeholder="Monthly Expenditure" value="${{months[item]}}">
+                          <input type="text" class="form-control" required="true" placeholder="Monthly Expenditure" value="${{'%.2f' % (months[item])}}">
                         {% endfor %}
                       {% endif %}
                       <button class="btn btn-secondary" onclick="addMonthlyExpense()" id="month_adder" type="button">Add Monthly Expenditure</button>
@@ -74,7 +74,7 @@ id="bootstrap-css">
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-stats"></i></span><input id="income" name="income"
-                      class="form-control" required="true" type="text" value="${% if diction %}{{diction['Income']}}{% endif %}">
+                      class="form-control" required="true" type="text" value="${% if diction %}{{'%.2f' % (diction['Income'])}}{% endif %}">
                       </div>
                 </div>
               </div>
@@ -83,12 +83,12 @@ id="bootstrap-css">
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group" id="exp"><span class="input-group-addon"><i
                         class="glyphicon glyphicon-stats"></i></span><input id="daily" name="daily"
-                      class="form-control" required="true" type="text" value="{% if total %}${{total}}{% endif %}" placeholder="Your total expenses will show up here..." disabled>
+                      class="form-control" required="true" type="text" value="{% if total %}${{'%.2f' % (total)}}{% endif %}" placeholder="Your total expenses will show up here..." disabled>
                       {% if daily %}
                         {% for item in daily %}
                           <br />
                           <input name="expense-name" class="form-control" required="true" type="text" placeholder="Coffee, Bus, etc." value="{{item}}"/>
-                          <input type="text" class="form-control" required="true" placeholder="Expenditure" value="${{daily[item]}}"/>
+                          <input type="text" class="form-control" required="true" placeholder="Expenditure" value="${{'%.2f' % (daily[item])}}"/>
                         {% endfor %}
                       {% endif %}
                     <button class="btn btn-secondary" onclick="addExpense()" id="adder" type="button">Add Expenditure</button>

@@ -17,7 +17,7 @@
     <div class="card-body">
       <img class="card-img-top" src="{{image}}" alt="{{goal}}" height="300">
       <h2 class="card-title"><b>{{goal}}</b></h2>
-      <p class="card-text">Amount needed: ${{goal_price}}</p>
+      <p class="card-text">Amount needed: ${{"%.2f" % (goal_price)}}</p>
     </div>
 
     <div class="progress">
