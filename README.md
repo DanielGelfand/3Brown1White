@@ -31,7 +31,7 @@ Our project is a money manager application to get your finances on track. Use ou
 3. Create a directory named after your app and then cd into it
     * `mkdir <appname>`
     * `cd <appname>`
-4. Change the server name in the <appname>.wsgi file and move it outside of the repo folder to `/var/www/<appname>/`
+4. Change the server name in the <appname>.wsgi file to the ip adress of your droplet and move it outside of the repo folder to `/var/www/<appname>/`
 5. Clone the repo `git clone https://github.com/DanielGelfand/3Brown1White.git <appname>`
 6. Move into the project repo, rename app.py to __init__.py and install the requirement from requirements.txt
     * `cd appname`
