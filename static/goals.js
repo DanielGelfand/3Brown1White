@@ -3,6 +3,8 @@ var goal = document.getElementById('goal') // text
 /**@type {HTMLInputElement} */
 var end_goal = document.getElementById('goal_price') // floating number
 var curr_bal = document.getElementById('bal')
+var slider = document.getElementById('time') // the slider
+var output = document.getElementById('value')
 
 
 var keep_first_char = function(e) {
@@ -19,12 +21,12 @@ var percentage = function() {
   }
   var v = end_goal.value.slice(1) ? end_goal.value.slice(1) : 0
   console.log(v)
-  var percent = curr_bal.innerHTML / v
+  var percent = (v / curr_bal.innerHTML) * 100
   console.log(percent)
   var children = end_goal.parentElement.children
   for (i = 0; i < children.length; i++) {
     if (children[i].className == "percentage") {
-      children[i].innerHTML = `${percent.toFixed(1)}% of current balance`
+      children[i].innerHTML = `${percent.toFixed(1)}% of current balance<br>Current Balance: $${curr_bal.innerHTML}`
       if (percent > 100) {
         children[i].style.color = "red"
       }else{
@@ -37,10 +39,14 @@ var percentage = function() {
   if (percent > 100) {
     thing.style.color = "red"
   }
-  thing.innerHTML = `${percent.toFixed(1)}% of current balance`
+  thing.innerHTML = `${percent.toFixed(1)}% of current balance<br>Current Balance: $${curr_bal.innerHTML}`
   thing.className = "percentage"
   end_goal.insertAdjacentElement('afterend', thing)
   return
 }
+output.innerHTML = `${slider.value}%`
+slider.addEventListener('input', function() {
+  output.innerHTML = `${slider.value}%`
+})
 end_goal.addEventListener('keyup', keep_first_char )
 end_goal.addEventListener('keyup', percentage )
