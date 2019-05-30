@@ -1,4 +1,4 @@
-# 3Brown1White
+# 3Brown1White 🖐🏾🖐🏾🖐🏾🖐🏻
 
 ## Roster: Daniel Gelfand, Ahnaf Hasan, Mohammad Jamil and Jabir Chowdhury
 
