@@ -114,7 +114,7 @@ var addExpense = function() {
     nm.name = "expense-name"
     nm.placeholder = "Coffee, bus, etc."
 
-    m_count += 1
+    count += 1
     input.className = "form-control"
     input.required = true
     input.type = "text"
@@ -141,7 +141,7 @@ var removeMonthlyExpense = function() {
     for (var i = 0; i < children.length; i++) {
         console.log(children[i])
         console.log(children[i].tagName)
-        if (children[i].tagName.toLowerCase() == "input" && children[i].name != "monthly-name") {
+        if (children[i].tagName.toLowerCase() == "input" && children[i].name.startsWith('Monthly Exp')) {
             // console.log(children[i])
             w = children[i]
         }
@@ -164,11 +164,13 @@ var removeExpense = function() {
     var w = children[1]
     var br = children[1]
     var t = children[1]
-    for (var i = 0; i < children.length; i++) {
+    for (i = 0; i < children.length; i++) {
         console.log(children[i])
         console.log(children[i].tagName)
-        if (children[i].tagName.toLowerCase() == "input" && children[i].name != "expense-name") {
+        if (children[i].tagName.toLowerCase() == "input" && children[i].name.startsWith('Expenditure')) {
             // console.log(children[i])
+            console.log(`This is the input:`)
+            console.log(children[i])
             w = children[i]
         }
         if (children[i].tagName.toLowerCase() == "br") {
@@ -263,6 +265,24 @@ var keep_first_char = function(e) {
     curr.value = '$' + sanitized
 }
 
+var keep_char = function() {
+    var w = document.getElementsByName('monthly-name')
+    var s = document.getElementsByName('expense-name')
+    var larger = w.length > s.length ? w.length : s.length
+    for (i = 0; i < larger; i++) {
+        console.log(`Currently: ${i}`)
+        if (i < w.length) {
+            console.log(w[i])
+            w[i].nextElementSibling.addEventListener('keyup', keep_first_char)
+            w[i].nextElementSibling.addEventListener('keyup', keep_first_char)
+        }
+        if (i < s.length) {
+            console.log(s[i])
+            s[i].nextElementSibling.addEventListener('keyup', keep_first_char)
+        }
+    }
+}
+
 var add_to_dict = function() {
     var total = {}
     var s = daily.parentElement.children
@@ -271,11 +291,15 @@ var add_to_dict = function() {
             total[i] = [s[i].value, s[i + 1].value.slice(1)]
         }
     }
-    var send = document.createElement('input')
-    send.value = JSON.stringify(total)
-    send.hidden = true
-    send.name = 'all-inputs'
-    daily.parentElement.appendChild(send)
+    if (document.getElementsByName('all-inputs').length > 0) {
+        document.getElementsByName('all-inputs')[0].value = JSON.stringify(total)
+    }else{
+        var send = document.createElement('input')
+        send.value = JSON.stringify(total)
+        send.hidden = true
+        send.name = 'all-inputs'
+        daily.parentElement.appendChild(send)
+    }
 
 
     var m_total = {}
@@ -286,11 +310,16 @@ var add_to_dict = function() {
             m_total[i] = [w[i].value, w[i + 1].value.slice(1)]
         }
     }
-    var m_send = document.createElement('input')
-    m_send.value = JSON.stringify(m_total)
-    m_send.hidden = true
-    m_send.name = 'monthly-inputs'
-    monthly.parentElement.appendChild(m_send)
+    console.log(document.getElementsByName('monthly-inputs'))
+    if (document.getElementsByName('monthly-inputs').length > 0) {
+        document.getElementsByName('monthly-inputs')[0].value = JSON.stringify(m_total)
+    }else{
+        var m_send = document.createElement('input')
+        m_send.value = JSON.stringify(m_total)
+        m_send.hidden = true
+        m_send.name = 'monthly-inputs'
+        monthly.parentElement.appendChild(m_send)
+    }
 }
 
 var m_add_all = function() {
@@ -298,7 +327,7 @@ var m_add_all = function() {
   var sum = 0
   for (i = 0; i < s.length; i++) {
     if (s[i].name == "monthly-name") {
-      console.log(`Startig on ${i}`)
+      console.log(`Starting on ${i}`)
       console.log(s[i + 1].value)
       sum += Number(s[i + 1].value.slice(1).replace(/[^0-9]/g, ''))
     }
@@ -318,10 +347,60 @@ var add_all = function() {
     }
     daily.value = `$${sum}`
 }
+
+var check = function(e) {
+    var err = document.createElement('p')
+    err.style.color = "red"
+    err.className = "error"
+    err.innerHTML = "There was an error in the form. Please check it over"
+    var sub = document.getElementsByName('Submit')[0]
+    var is_err = false
+
+    if (bal.value == "$") {
+        e.preventDefault()
+        err.innerHTML += "<br><b>Error with balance</b>"
+        is_err = true
+    }
+    if (income.value == "$") {
+        e.preventDefault()
+        err.innerHTML += "<br><b>Error with income</b>"
+        is_err = true
+    }
+    var t = document.getElementsByName('expense-name')
+    for (i = 0; i < count - 1; i++) {
+        if (t[i].nextElementSibling.value == "$") {
+            e.preventDefault()
+            err.innerHTML += "<br><b>Error with daily expenditures</b>"
+            is_err = true
+            break
+        }
+    }
+    t = document.getElementsByName('monthly-name')
+    for (i = 0; i < m_count - 1; i++) {
+        if (t[i].nextElementSibling.value == "$") {
+            e.preventDefault()
+            err.innerHTML += "<br><b>Error with monthly costs</b>"
+            is_err = true
+            break
+        }
+    }
+    if (is_err) {
+        var s = sub.nextElementSibling
+        console.log(s)
+        if (s) {
+            if (s.className == "error") {
+                s.innerHTML = err.innerHTML
+            }
+        }else{
+            sub.insertAdjacentElement('afterend', err)
+        }
+    }
+}
 bal.oninput = is_bal_right
 monthly.oninput = is_monthly_right
 income.oninput = is_income_right
 // daily.oninput = is_daily_right
+keep_char()
 
 bal.addEventListener('keyup', keep_first_char )
 monthly.addEventListener('keyup', keep_first_char )
@@ -329,3 +408,4 @@ income.addEventListener('keyup', keep_first_char )
 // daily.addEventListener('keyup', keep_first_char )
 daily.addEventListener('keyup', add_all )
 document.getElementsByName('Submit')[0].addEventListener('click', add_to_dict )
+document.getElementsByName('Submit')[0].addEventListener('click', check )
