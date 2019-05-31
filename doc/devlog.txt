@@ -19,6 +19,12 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ahnafH -- 2019-05-30 20:04:16 PM
+--------------------------------------------------------------
+Add padding to numbers relating to money. Add success flashes
+to home screen. Add titles to finances and goals pages.
+==============================================================
+
 ahnafH -- 2019-05-29 22:25:15 PM
 --------------------------------------------------------------
 Fixed regex to handle floating point numbers
