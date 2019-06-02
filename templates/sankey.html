@@ -32,6 +32,11 @@ Sankey diagram
 {% block body %}
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <p hidden id="id">{{idnum}}</p>
+<h1>Flow of Your Money</h1>
+<p>
+  Hover your cursor over the nodes to view the amount of money in each category 
+  and hover over the links to view the amount that flows from one node to the other.
+</p>
 <script src={{ url_for('static', filename='sankey.js') }}></script>
 <script src={{ url_for('static', filename='flow.js') }}></script>
 

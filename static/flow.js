@@ -1,6 +1,10 @@
 var units = "Dollars";
 var idnum=document.getElementById("id")
-console.log(idnum)
+var monthly=[]
+var daily=[]
+d3.csv("static/finance.csv").then(function(data) {
+
+}) 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
     width = 1000 - margin.left - margin.right,
@@ -27,10 +31,100 @@ var sankey = d3.sankey()
 var path = sankey.link();
 // load the data
 d3.csv("static/finance.csv").then(function(data) {
-  var income=data[0]["income"]
-  var balance=data[0]["balance"]
+  var income=0
+  var balance=0
+  for (let i = 0; i< data.length; i++) {
+    console.log(data[i]["id"])
+    if (parseInt(data[i]["id"])==parseInt(idnum.innerHTML)){
+        income=data[i]["income"]
+        balance=data[i]["balance"]
+        var dailies=data[i]["daily"].substring(1,data[i]["daily"].length-1).split(" ")
+        var dailysum=0
+        for (let j = 0; j< dailies.length; j+=2) {
+          // I split each of the daily costs for a certain person and that splitting causes space issues so I need to take substrings to parse the data
+          var val=parseInt(dailies[j+1].substring(1,dailies[j+1].length))
+          daily.push({"name":dailies[j].substring(1,dailies[j].length-2),"value":val*30})
+          dailysum+=val*30
+        }
+        daily.push({"name":"daily","value":dailysum})
+        var monthlysum=0
+        var monthlies=data[i]["monthly"].substring(1,data[i]["monthly"].length-1).split(" ")
+        for (let j = 0; j< monthlies.length; j+=2) {
+          // I split each of the daily costs for a certain person and that splitting causes space issues so I need to take substrings to parse the data
+          var val=parseInt(monthlies[j+1].substring(1,monthlies[j+1].length))
+          monthly.push({"name":monthlies[j].substring(1,monthlies[j].length-2),"value":val})
+          monthlysum+=val
+        }
+        monthly.push({"name":"monthly","value":monthlysum})
+    }
+  }
   //set up graph in same style as original example but empty
   graph = {"nodes" : [], "links" : []};
+
+  for (const key in data[0]) {
+      if (data[0].hasOwnProperty(key)) {
+          if(key!="id"){
+            console.log(key)
+            graph.nodes.push({ "name": key});
+          }
+      }
+  }
+  daily.forEach(el => {
+    if(el.name!="daily"){
+      graph.nodes.push({ "name": el.name});
+      graph.links.push({"source":"daily","target":el.name,"value":+el.value})
+    }
+  });
+  monthly.forEach(el => {
+    if(el.name!="monthly"){
+      graph.nodes.push({ "name": el.name});
+      graph.links.push({"source":"monthly","target":el.name,"value":+el.value})
+    }
+  });
+  graph.nodes.push({"name":"Unable to Pay/ Loan"})
+  
+  console.log(monthly[monthly.length-1].value)
+  if(income>=monthly[monthly.length-1].value){
+    var inleft=0
+    graph.links.push({"source":"income","target":"monthly","value":+monthly[monthly.length-1].value})
+    inleft=income-monthly[monthly.length-1].value
+    if(inleft>=daily[daily.length-1].value){
+      graph.links.push({"source":"income","target":"daily","value":+daily[daily.length-1].value})
+    }
+    else if(balance>=daily[daily.length-1].value-inleft){
+      var remaining=0
+      graph.links.push({"source":"income","target":"daily","value":+inleft})
+      remaining=daily[daily.length-1].value-inleft
+      graph.links.push({"source":"balance","target":"daily","value":+remaining})
+    }
+    else{
+      var remaining=0
+      graph.links.push({"source":"income","target":"daily","value":+inleft})
+      graph.links.push({"source":"balance","target":"daily","value":+balance})
+      remaining=daily[daily.length-1].value-inleft-balance
+      graph.links.push({"source":"Unable to Pay/ Loan","target":"daily","value":+remaining})
+    }
+  }
+  else if(balance>=monthly[monthly.length-1].value-income){
+    var baleft=0
+    graph.links.push({"source":"income","target":"monthly","value":+income})
+    baleft=monthly[monthly.length-1].value-income
+    graph.links.push({"source":"balance","target":"monthly","value":+baleft})
+    if(balance>=daily[daily.length-1].value){
+      graph.links.push({"source":"balance","target":"daily","value":+baleft})
+    }
+    else{
+      var remaining=0
+      graph.links.push({"source":"balance","target":"daily","value":+baleft})
+      remaining=daily[daily.length-1].value-baleft
+      graph.links.push({"source":"Unable to Pay/ Loan","target":"daily","value":+remaining})
+    }
+  }
+  else{
+    graph.links.push({"source":"Unable to Pay/ Loan","target":"monthly","value":+monthly[monthly.length-1].value})
+    graph.links.push({"source":"Unable to Pay/ Loan","target":"daily","value":+daily[daily.length-1].value})
+  }
+  console.log(graph.nodes)
   var checklinks=function(node){
     var notin=false
     graph["links"].forEach(element => {
@@ -40,79 +134,17 @@ d3.csv("static/finance.csv").then(function(data) {
     });
     return notin;
   }
-  for (const key in data[0]) {
-      if (data[0].hasOwnProperty(key)) {
-          if(key!="id"){
-          graph.nodes.push({ "name": key});
-          }
-      }
-  }
-  graph.nodes.push({"name":"Unable to Pay/ Loan"})
-  for (const key in data[0]) {
-    if (data[0].hasOwnProperty(key)) {
-        if(key!="id" && key!="income" && key!="balance"){
-          if(income>0){
-            if(income-data[0][key]<0){
-              var left=data[0][key]-income
-              graph.links.push({ "source": "income",
-              "target":key,
-              "value":+income
-              })
-              income=0
-              graph.links.push({ "source": "balance",
-              "target":key,
-              "value":+left
-              })
-              balance-=left
-            }
-            else{
-              graph.links.push({ "source": "income",
-              "target":key,
-              "value":+data[0][key]
-              })
-              income-=data[0][key]
-            }
-          }
-          else if(balance>0){
-            if(balance-data[0][key]<0){
-                var left=data[0][key]-balance
-                graph.links.push({ "source": "balance",
-                "target":key,
-                "value":+balance
-                })
-                balance=0
-                graph.links.push({ "source": "Unable to Pay/ Loan",
-                "target":key,
-                "value":+left
-                })
-            }
-            else{
-              graph.links.push({ "source": "balance",
-              "target":key,
-              "value":+data[0][key]
-              })
-              balance-=data[0][key]
-            }
-          }
-          else{
-            graph.links.push({ "source": "Unable to Pay/ Loan",
-            "target":key,
-            "value":+data[0][key]
-            })
-          }
-      }
-    }
-  }
   var toremove=[]
   for (let i = 0; i < graph["nodes"].length; i++) {
     if(!(checklinks(graph["nodes"][i]["name"]))){
-      toremove.push(i)
+      console.log(graph["nodes"][i]["name"])
+      toremove.push(graph["nodes"][i]["name"])
     }
   }
-  toremove.forEach(index => {
-    graph["nodes"].splice(index,1)
+  toremove.forEach(el => {
+    graph.nodes=graph["nodes"].filter(function(value, index, arr){return value.name != el;});
   });
-  console.log(graph["links"])
+  console.log(graph)
   //return only the distinct / unique nodes
   graph.nodes = d3.keys(d3.nest()
     .key(function (d) { return d.name; })

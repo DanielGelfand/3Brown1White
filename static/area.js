@@ -54,25 +54,27 @@ data.forEach(function (d) {
     d.date = d.date;
     d.goal = +d.goal;
 });
-
+console.log(function(d) { return x(d.date); })
 // scale the range of the data
 x.domain(d3.extent(data, function (d) {
     return d.date;
 }));
-console.log(x)
 y.domain([0, d3.max(data, function (d) {
     return d.goal;
 })]);
+console.log(d3.max(data, function (d) {
+    return d.goal;
+}))
 
 // add the area
 svg.append("path")
-    .data([data])
+    .data(data)
     .attr("class", "area")
     .attr("d", area);
 
 // add the valueline path.
 svg.append("path")
-    .data([data])
+    .data(data)
     .attr("class", "line")
     .attr("d", valueline);
 

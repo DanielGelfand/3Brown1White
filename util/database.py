@@ -109,6 +109,9 @@ def add_finances(balance, cost, income, expenses, id_num):
     user_ids = [ x[-1] for x in finance_list ]
     data = search_finance_list(id_num)
     file=f'static/finance.csv'
+    mcost="".join(str(cost).split(","))
+    print("stuff",mcost)
+    dexpense="".join(str(expenses).split(","))
     if id_num in user_ids:
         CURSOR.execute(f"UPDATE {FINANCE} SET current_balance = \"{balance}\", income = \"{income}\" WHERE id = \"{id_num}\"")
         with open(file, "r") as f:
@@ -118,12 +121,12 @@ def add_finances(balance, cost, income, expenses, id_num):
             for line in lines:
                 if str(id_num) != line.strip("\n").split(",")[-1]:
                     f.write(line)
-            f.write(f"{balance},{cost},{income},{expenses},{id_num}\n")
+            f.write(f"{balance},{mcost},{income},{dexpense},{id_num}\n")
             f.close() 
     else:
         CURSOR.execute(f"INSERT INTO {FINANCE} VALUES(\"{balance}\", \"{income}\", \"{id_num}\")")
         with open(file, 'a') as f:
-            f.write(f"{balance},{cost},{income},{expenses},{id_num}\n")
+            f.write(f"{balance},{mcost},{income},{dexpense},{id_num}\n")
             f.close()
     CURSOR.execute(f"SELECT * FROM {EXPENSES}")
     expense_list = CURSOR.fetchall()
@@ -133,11 +136,8 @@ def add_finances(balance, cost, income, expenses, id_num):
     a = [ x for x in expense_list for w in expenses if w in x and x[2] == id_num ]
     s = [x[0] for x in a]
     CURSOR.execute(f"DELETE FROM {EXPENSES} WHERE id = \"{id_num}\"")
-    file=f'static/expense.csv'
-    st = f'id,{id_num}'
     for name in expenses:
         CURSOR.execute(f"INSERT INTO {EXPENSES} VALUES(\"{name}\", \"{expenses[name]}\", \"{id_num}\")")
-        st += f',{name},daily,{expenses[name]}'
     CURSOR.execute(f"SELECT * FROM {MONTHLY}")
     monthly_list = CURSOR.fetchall()
     print(monthly_list)
@@ -145,18 +145,7 @@ def add_finances(balance, cost, income, expenses, id_num):
     s = [ x[0] for x in a ]
     CURSOR.execute(F"DELETE FROM {MONTHLY} WHERE id = \"{id_num}\"")
     for name in cost:
-        st += f',{name},monthly,{cost[name]}'
         CURSOR.execute(f"INSERT INTO {MONTHLY} VALUES(\"{name}\", \"{cost[name]}\", \"{id_num}\")")
-    st += "\n"
-    print("st: ",st)
-    with open(file, "r") as f:
-         lines = f.readlines()
-    with open(file, "w") as f:
-         for line in lines:
-            if str(id_num) != line.strip("\n").split(",")[1]:
-               f.write(line)
-         f.write(st)
-         f.close()
     CONNECT.commit()
     CONNECT.close()
     return id_num
