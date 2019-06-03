@@ -103,9 +103,8 @@ d3.csv("static/finance.csv").then(function (dat) {
     // Compute the position of each group on the pie:
     var pie = d3.pie()
       .value(function(d) {return d.percentage; })
-      .sort(function(a, b) { console.log(a) ; return d3.ascending(a.name, b.name);} ) // This make sure that group order remains the same in the pie chart
+      .sort(function(a, b) { return d3.ascending(a.name, b.name);} ) // This make sure that group order remains the same in the pie chart
     var data_ready = pie(data)
-    console.log(data_ready)
     function arcTween(a) {
       const i = d3.interpolate(this._current, a);
       this._current = i(1);
@@ -158,7 +157,18 @@ d3.csv("static/finance.csv").then(function (dat) {
     var data_ready = pie(data)
     var label=d3.selectAll(".labels")
     label.remove()
-    svg.append("text")
+    data_ready.forEach(el => {
+      console.log(el)
+      svg.append("text")
+      .text(el.data.name)
+      .attr("transform", "translate(" + arc.centroid(el) + ")")
+      .style("text-anchor", "middle")
+      .style("font-size", 17)
+      .attr("class","labels")
+
+      
+    });
+    
     
 
   }
