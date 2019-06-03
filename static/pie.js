@@ -3,8 +3,8 @@ var idnum = document.getElementById("id")
 var monthly = []
 var daily = []
 var inputs=document.getElementsByTagName("input")
-var width = 450
-    height = 450
+var width = 600
+    height = 600
     margin = 40
 
 // The radius of the pieplot is half the width or half the height (smallest one). I substract a bit of margin.
@@ -17,11 +17,6 @@ var svg = d3.select("#my_dataviz")
     .attr("height", height)
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-// create 2 data_set
-var data1 = {a: 9, b: 20, c:30, d:8, e:12}
-var data2 = {a: 6, b: 16, c:20, d:14, e:19, f:12}
-
 // set the color scale
 var color = d3.scaleOrdinal()
   .domain(["a", "b", "c", "d", "e", "f"])
@@ -29,6 +24,7 @@ var color = d3.scaleOrdinal()
 d3.csv("static/finance.csv").then(function (dat) {
   var monthlysum = 0
   var dailysum = 0
+  var total=dailysum
   for (let i = 0; i < dat.length; i++) {
     if (parseInt(dat[i]["id"]) == parseInt(idnum.innerHTML)) {
       income = dat[i]["income"]
@@ -71,6 +67,7 @@ d3.csv("static/finance.csv").then(function (dat) {
     if (el.name != "daily") {
       ddata.push({
         "name": el.name,
+        "amount":el.value,
         "percentage": (el.value / daily[daily.length - 1].value) * 100,
         "color": color(el.name)
       })
@@ -81,6 +78,7 @@ d3.csv("static/finance.csv").then(function (dat) {
     if (el.name != "monthly") {
       mdata.push({
         "name": el.name,
+        "amount":el.value,
         "percentage": (el.value / monthly[monthly.length - 1].value) * 100,
         "color": color(el.name)
       })
@@ -89,9 +87,11 @@ d3.csv("static/finance.csv").then(function (dat) {
   var checked=function(){
     if (inputs["0"].checked){
       data=ddata
+      total=dailysum
     }
     else{
       data=mdata
+      total=monthlysum
     }
   };
   checked()
@@ -134,12 +134,14 @@ d3.csv("static/finance.csv").then(function (dat) {
       .each(function(d) { this._current = d; });
      u
       .enter().append('text')
-      .text(function name(d) {return d.data.name})
+      .text(function name(d) {return d.data.name + ": $" + d.data.amount})
       .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")";  })
       .style("text-anchor", "middle")
       .style("font-size", 17)
       .attr("class","labels")
-
+    d3.select("body").append("h4")
+      .text("Total: $" + total)
+      .attr("class","labels")
 
 
   
@@ -157,18 +159,21 @@ d3.csv("static/finance.csv").then(function (dat) {
     var data_ready = pie(data)
     var label=d3.selectAll(".labels")
     label.remove()
+    var tot=0
     data_ready.forEach(el => {
       console.log(el)
       svg.append("text")
-      .text(el.data.name)
+      .text(el.data.name + ": $" + el.data.amount)
       .attr("transform", "translate(" + arc.centroid(el) + ")")
       .style("text-anchor", "middle")
       .style("font-size", 17)
       .attr("class","labels")
-
+      tot+=parseFloat(el.amount)
       
     });
-    
+    d3.select("body").append("h4")
+      .text("Total: $" + total)
+      .attr("class","labels")
     
 
   }
