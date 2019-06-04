@@ -58,7 +58,7 @@ id="bootstrap-css">
                 <label class="col-md-4 control-label">Monthly Costs</label>
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group" id="mon"><span class="input-group-addon"><i
-                        class="glyphicon glyphicon-stats"></i></span><input id="monthly" name="monthly"
+                        class="glyphicon glyphicon-th-list"></i></span><input id="monthly" name="monthly"
                       class="form-control" required="true" type="text" value="{% if mtotal %}${{'%.2f' % (mtotal)}}{% endif %}" placeholder="Your total monthly costs will show up here..." disabled>
                       {% if months %}
                         {% for item in months %}
@@ -76,7 +76,7 @@ id="bootstrap-css">
                 <label class="col-md-4 control-label">Monthly Income</label>
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group"><span class="input-group-addon"><i
-                        class="glyphicon glyphicon-stats"></i></span><input id="income" name="income"
+                        class="glyphicon glyphicon-usd"></i></span><input id="income" name="income"
                       class="form-control" required="true" type="text" value="${% if diction %}{{'%.2f' % (diction['Income'])}}{% endif %}">
                       </div>
                 </div>
@@ -85,7 +85,7 @@ id="bootstrap-css">
                 <label class="col-md-4 control-label">Daily Expenditures</label>
                 <div class="col-md-8 inputGroupContainer">
                   <div class="input-group" id="exp"><span class="input-group-addon"><i
-                        class="glyphicon glyphicon-stats"></i></span><input id="daily" name="daily"
+                        class="glyphicon glyphicon-th-list"></i></span><input id="daily" name="daily"
                       class="form-control" required="true" type="text" value="{% if total %}${{'%.2f' % (total)}}{% endif %}" placeholder="Your total expenses will show up here..." disabled>
                       {% if daily %}
                         {% for item in daily %}
