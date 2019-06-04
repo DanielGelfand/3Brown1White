@@ -33,6 +33,7 @@ Add or Update a Goal
  </div>
 {% endif %}
 <p id="bal" hidden>{% if bal %}{{bal}}{% endif %}</p>
+<p id="inc" hidden>{% if income %}{{income}}{% endif %}</p>
 <div class="container">
   <table class="table table-striped">
     <tbody>
@@ -43,19 +44,19 @@ Add or Update a Goal
               <div class="form-group">
                 <label class="col-md-4 control-label">Goal</label>
                 <div class="col-md-8 inputGroupContainer">
-                  <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span><input id="goal" name="goal"
-																 class="form-control" required="true" type="text" value="Car"></div>
+                  <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span><input id="goal" name="goal"
+																 class="form-control" required="true" type="text" placeholder="Car, Party, etc."></div>
                 </div>
               </div>
 	      <div class="form-group">
                 <label class="col-md-4 control-label">Goal Price</label>
                 <div class="col-md-8 inputGroupContainer">
-                  <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span><input id="goal_price" name="goal_price"
+                  <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span><input id="goal_price" name="goal_price"
 																 class="form-control" required="true" type="text" value="$"></div>
                 </div>
               </div>
         <div class="form-group">
-          <label class="col-md-4 control-label">Percentage of Balance per Month</label>
+          <label class="col-md-4 control-label">Percentage of Income per Month</label>
           <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
               <!-- <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span> -->
