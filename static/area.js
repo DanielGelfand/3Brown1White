@@ -6,7 +6,7 @@ var totalexp=5000
 var goal=100000
 var percent=0.1
 var data=[]
-
+console.log()
 while(goal>0){
     data.push({"date":formatTime(now),"goal":goal})
     balance+=income-totalexp
@@ -25,7 +25,7 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50},
     height = 500 - margin.top - margin.bottom;
 
 // parse the date / time
-
+var parseTime = d3.timeParse("%d-%b-%y");
 // set the ranges
 var x = d3.scaleTime().range([0, width]);
 var y = d3.scaleLinear().range([height, 0]);
@@ -50,15 +50,19 @@ var svg = d3.select("body").append("svg")
     .append("g")
     .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
-data.forEach(function (d) {
-    d.date = d.date;
-    d.goal = +d.goal;
-});
-console.log(function(d) { return x(d.date); })
+
+        data.forEach(function(d) {
+            d.date = parseTime(d.date);
+            d.close = +d.close;
+        });
+      
 // scale the range of the data
 x.domain(d3.extent(data, function (d) {
     return d.date;
 }));
+console.log(d3.extent(data, function (d) {
+    return d.date;
+}))
 y.domain([0, d3.max(data, function (d) {
     return d.goal;
 })]);
@@ -68,13 +72,13 @@ console.log(d3.max(data, function (d) {
 
 // add the area
 svg.append("path")
-    .data(data)
+    .datum(data)
     .attr("class", "area")
     .attr("d", area);
 
 // add the valueline path.
 svg.append("path")
-    .data(data)
+    .datum(data)
     .attr("class", "line")
     .attr("d", valueline);
 
