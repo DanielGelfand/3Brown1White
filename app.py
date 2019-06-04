@@ -185,6 +185,14 @@ def gcalc():
 def sankey():
    user_id = db.search_user_list(session['username'])[0][2]
    return render_template('sankey.html',idnum=user_id)
+@app.route('/pie')
+def pie():
+   user_id = db.search_user_list(session['username'])[0][2]
+   return render_template('pie.html',idnum=user_id)
+@app.route('/area')
+def area():
+   user_id = db.search_user_list(session['username'])[0][2]
+   return render_template('area.html',idnum=user_id)
 @app.route('/logout')
 def logout():
     if 'username' in session:

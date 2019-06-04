@@ -25,6 +25,26 @@ Add documentation to the database file. Add functioning datetime
 library. Add a way to work with percentage slider. Add data
 checking and slider functionality to goals page. Change some of
 the glyphs.
+===============================================================
+
+mohammedJ -- 2019-06-03 22:47
+--------------------------------------------------------------
+Area chart working with sample data
+==============================================================
+
+mohammedJ -- 2019-06-03 17:27
+--------------------------------------------------------------
+Pie chart working with labels
+==============================================================
+
+mohammedJ -- 2019-06-03 14:17
+--------------------------------------------------------------
+Pie chart working, but missing labels
+==============================================================
+
+mohammedJ -- 2019-06-01 21:00
+--------------------------------------------------------------
+Created functional sankey diagram
 ==============================================================
 
 ahnafH -- 2019-05-30 20:04:16 PM

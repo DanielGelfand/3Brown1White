@@ -42,7 +42,7 @@ d3.csv("static/finance.csv").then(function(data) {
         var dailysum=0
         for (let j = 0; j< dailies.length; j+=2) {
           // I split each of the daily costs for a certain person and that splitting causes space issues so I need to take substrings to parse the data
-          var val=parseInt(dailies[j+1].substring(1,dailies[j+1].length))
+          var val=parseFloat(dailies[j+1].substring(1,dailies[j+1].length))
           daily.push({"name":dailies[j].substring(1,dailies[j].length-2),"value":val*30})
           dailysum+=val*30
         }
@@ -51,7 +51,7 @@ d3.csv("static/finance.csv").then(function(data) {
         var monthlies=data[i]["monthly"].substring(1,data[i]["monthly"].length-1).split(" ")
         for (let j = 0; j< monthlies.length; j+=2) {
           // I split each of the daily costs for a certain person and that splitting causes space issues so I need to take substrings to parse the data
-          var val=parseInt(monthlies[j+1].substring(1,monthlies[j+1].length))
+          var val=parseFloat(monthlies[j+1].substring(1,monthlies[j+1].length))
           monthly.push({"name":monthlies[j].substring(1,monthlies[j].length-2),"value":val})
           monthlysum+=val
         }
@@ -60,7 +60,7 @@ d3.csv("static/finance.csv").then(function(data) {
   }
   //set up graph in same style as original example but empty
   graph = {"nodes" : [], "links" : []};
-
+  console.log(daily)
   for (const key in data[0]) {
       if (data[0].hasOwnProperty(key)) {
           if(key!="id"){
@@ -111,7 +111,7 @@ d3.csv("static/finance.csv").then(function(data) {
     baleft=monthly[monthly.length-1].value-income
     graph.links.push({"source":"balance","target":"monthly","value":+baleft})
     if(balance>=daily[daily.length-1].value){
-      graph.links.push({"source":"balance","target":"daily","value":+baleft})
+      graph.links.push({"source":"balance","target":"daily","value":+daily[daily.length-1].value})
     }
     else{
       var remaining=0
