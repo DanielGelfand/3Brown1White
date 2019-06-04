@@ -81,31 +81,55 @@ var is_daily_right = function (input_elem) {
     }
 }
 
-var addMonthlyExpense = function() {
-  var input = document.createElement('input')
-  var nm = document.createElement('input')
-  nm.className = 'form-control'
-  nm.required = true
-  nm.type = "text"
-  nm.name = "monthly-name"
-  nm.placeholder = "Rent, Bills, etc."
+var addMonthlyExpense = function () {
+    var rate = document.createElement('select')
+    for (i = 0; i < 10; i++) {
+        var child = document.createElement('option')
+        child.value = i + 1
+        child.innerHTML = i + 1
+        rate.appendChild(child)
+    }
+    var description = document.createElement('p')
+    description.innerHTML = "Select your importance: "
 
-  m_count += 1
-  input.className = "form-control"
-  input.required = true
-  input.type = "text"
-  input.name = `Monthly Expenditure ${m_count}`
-  input.placeholder = input.name
-  input.value = "$"
-  input.addEventListener('keyup', keep_first_char )
-  input.addEventListener('keyup', m_add_all )
-  m_btn.insertAdjacentElement('beforebegin', document.createElement('br'))
-  m_btn.insertAdjacentElement('beforebegin', nm )
-  m_btn.insertAdjacentElement('beforebegin', input )
-  input = document.getElementsByName(input.name)[0]
+
+    var input = document.createElement('input')
+    var nm = document.createElement('input')
+    nm.className = 'form-control'
+    nm.required = true
+    nm.type = "text"
+    nm.name = "monthly-name"
+    nm.placeholder = "Rent, Bills, etc."
+
+    m_count += 1
+    input.className = "form-control"
+    input.required = true
+    input.type = "text"
+    input.name = `Monthly Expenditure ${m_count}`
+    input.placeholder = input.name
+    input.value = "$"
+    input.addEventListener('keyup', keep_first_char)
+    input.addEventListener('keyup', m_add_all)
+    m_btn.insertAdjacentElement('beforebegin', document.createElement('br'))
+    m_btn.insertAdjacentElement('beforebegin', nm )
+    m_btn.insertAdjacentElement('beforebegin', input )
+    m_btn.insertAdjacentElement('beforebegin', rate )
+    rate.insertAdjacentElement('beforebegin', description )
+    m_btn.insertAdjacentElement('beforebegin', document.createElement('br'))
+    input = document.getElementsByName(input.name)[0]
 }
 
 var addExpense = function() {
+    var rate = document.createElement('select')
+    for (i = 0; i < 10; i++) {
+        var child = document.createElement('option')
+        child.value = i + 1
+        child.innerHTML = i + 1
+        rate.appendChild(child)
+    }
+    var description = document.createElement('p')
+    description.innerHTML = "Select your importance: "
+
     var input = document.createElement('input')
     var nm = document.createElement('input')
     nm.className = 'form-control'
@@ -126,6 +150,9 @@ var addExpense = function() {
     btn.insertAdjacentElement('beforebegin', document.createElement('br'))
     btn.insertAdjacentElement('beforebegin', nm)
     btn.insertAdjacentElement('beforebegin', input)
+    btn.insertAdjacentElement('beforebegin', rate )
+    rate.insertAdjacentElement('beforebegin', description )
+    btn.insertAdjacentElement('beforebegin', document.createElement('br'))
     input = document.getElementsByName(input.name)[0]
     // input.oninput = is_daily_right(input)
 }
@@ -138,6 +165,8 @@ var removeMonthlyExpense = function() {
     var w = children[1]
     var br = children[1]
     var t = children[1]
+    var p = children[1]
+    var r = children[1]
     for (var i = 0; i < children.length; i++) {
         console.log(children[i])
         console.log(children[i].tagName)
@@ -151,10 +180,18 @@ var removeMonthlyExpense = function() {
         if (children[i].name == 'monthly-name') {
             t = children[i]
         }
+        if (children[i].tagName.toLowerCase() == "select") {
+            r = children[i]
+        }
+        if (children[i].tagName.toLowerCase() == "p") {
+            p = children[i]
+        }
     }
     w.remove()
     br.remove()
     t.remove()
+    p.remove()
+    r.remove()
 }
 var removeExpense = function() {
     if (count <= 1) { return }
@@ -164,6 +201,8 @@ var removeExpense = function() {
     var w = children[1]
     var br = children[1]
     var t = children[1]
+    var p = children[1]
+    var r = children[1]
     for (i = 0; i < children.length; i++) {
         console.log(children[i])
         console.log(children[i].tagName)
@@ -179,10 +218,18 @@ var removeExpense = function() {
         if (children[i].name == 'expense-name') {
             t = children[i]
         }
+        if (children[i].tagName.toLowerCase() == "select") {
+            r = children[i]
+        }
+        if (children[i].tagName.toLowerCase() == "p") {
+            p = children[i]
+        }
     }
     w.remove()
     br.remove()
     t.remove()
+    p.remove()
+    r.remove()
 }
 /**
  * Adds an error to the given HTML element if there aren't
