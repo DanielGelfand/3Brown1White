@@ -19,6 +19,14 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ahnafH -- 2019-06-04 02:20:13 AM
+--------------------------------------------------------------
+Add documentation to the database file. Add functioning datetime
+library. Add a way to work with percentage slider. Add data
+checking and slider functionality to goals page. Change some of
+the glyphs.
+==============================================================
+
 ahnafH -- 2019-05-30 20:04:16 PM
 --------------------------------------------------------------
 Add padding to numbers relating to money. Add success flashes
