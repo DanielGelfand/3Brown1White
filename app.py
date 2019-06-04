@@ -134,7 +134,8 @@ def goals():
     if img != []:
         img = img[0][0]
     if b != []:
-        b = b[0][0]
+        bal = b[0][0]
+        inc = b[0][1]
     print(b)
     print(g)
     print(price)
@@ -142,13 +143,13 @@ def goals():
     if g or price:
         if b:
             print("Used the first one")
-            return render_template('goals.html', goal=g, goal_price=price, image=img, bal=b)
+            return render_template('goals.html', goal=g, goal_price=price, image=img, bal=bal, income=inc)
         else:
             print("Used the second")
             return render_template('goals.html', goal=g, goal_price=price, image=img)
     else:
         if b:
-            return render_template('goals.html', bal=b)
+            return render_template('goals.html', bal=bal, income=inc)
         else:
             return render_template('goals.html')
 
@@ -156,6 +157,9 @@ def goals():
 def gcalc():
     goal_name = request.form['goal']
     goal_price = request.form['goal_price'][1:]
+    percentage = request.form['slide']
+    print("This is percentage:")
+    print(percentage)
     print("gcalc")
     print(goal_name)
     print(goal_price)
