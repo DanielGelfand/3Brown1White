@@ -163,6 +163,14 @@ def add_finances(balance, cost, income, expenses, id_num):
     user_ids = [ x[-1] for x in finance_list ]
     data = search_finance_list(id_num)
     file=f'static/finance.csv'
+    try:
+        with open(file) as f:
+            lines = f.readlines()
+            f.close()
+    except:
+        with open(file, 'a') as f: # creates the file
+            f.write(f"balance,mcost,income,dexpense,id_num\n")
+            f.close()
     mcost="".join(str(cost).split(","))
     print("stuff",mcost)
     dexpense="".join(str(expenses).split(","))
@@ -217,6 +225,17 @@ def add_goals(name, price, id_num):
     print(user_ids)
     print(id_num)
     file=f'static/goals.csv'
+    try:
+        with open(file) as f: # if readable, file already exists
+            print("File found, not creating...")
+            lines = f.readlines()
+            f.close()
+    except Exception as e:
+        print(e)
+        with open(file, 'a+') as f: # creates the file
+            print("File not found, creating...")
+            f.write(f"id,name,price,date\n")
+            f.close()
     if id_num in user_ids:
         print("ID is in user_id")
         CURSOR.execute(f"UPDATE {GOALS} SET name = \"{name}\", cost = \"{price}\" WHERE id = \"{id_num}\"")
@@ -232,7 +251,7 @@ def add_goals(name, price, id_num):
     else:
         CURSOR.execute(f"INSERT INTO {GOALS} VALUES(\"{name}\", \"{price}\", \"{id_num}\")")
         CURSOR.execute(f"INSERT INTO {STAMPS} VALUES(\"{datetime.date.today()}\", \"{id_num}\")")
-        with open(file, "w") as f:
+        with open(file, "a") as f:
             f.write(f"{id_num},{name},{price},{datetime.date.today()}\n")
             f.close()
     CONNECT.commit()
