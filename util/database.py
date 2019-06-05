@@ -216,13 +216,25 @@ def add_goals(name, price, id_num):
     user_ids = [ x[-1] for x in goal_list ]
     print(user_ids)
     print(id_num)
+    file=f'static/goals.csv'
     if id_num in user_ids:
         print("ID is in user_id")
         CURSOR.execute(f"UPDATE {GOALS} SET name = \"{name}\", cost = \"{price}\" WHERE id = \"{id_num}\"")
         CURSOR.execute(f"UPDATE {STAMPS} SET date = \"{datetime.date.today()}\" WHERE id = \"{id_num}\" ")
+        with open(file, "r") as f:
+            lines = f.readlines()
+        with open(file, "w") as f:
+            for line in lines:
+                if str(id_num) != line.strip("\n").split(",")[0]:
+                    f.write(line)
+            f.write(f"{id_num},{name},{price},{datetime.date.today()}\n")
+            f.close()
     else:
         CURSOR.execute(f"INSERT INTO {GOALS} VALUES(\"{name}\", \"{price}\", \"{id_num}\")")
         CURSOR.execute(f"INSERT INTO {STAMPS} VALUES(\"{datetime.date.today()}\", \"{id_num}\")")
+        with open(file, "w") as f:
+            f.write(f"{id_num},{name},{price},{datetime.date.today()}\n")
+            f.close()
     CONNECT.commit()
     CONNECT.close()
     return id_num
