@@ -12,7 +12,7 @@ var margin = {
   width = 1000 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 // format variables
-var formatNumber = d3.format(",.0f"), // zero decimal places
+var formatNumber = d3.format(",.2f"), // zero decimal places
   format = function (d) {
     return formatNumber(d) + " " + units;
   },
@@ -49,9 +49,9 @@ d3.csv("static/finance.csv").then(function (data) {
         var val = parseFloat(dailies[j + 1].substring(1, dailies[j + 1].length))
         daily.push({
           "name": dailies[j].substring(1, dailies[j].length - 2),
-          "value": val * 30
+          "value": val * 30.0
         })
-        dailysum += val * 30
+        dailysum += val * 30.0
       }
       daily.push({
         "name": "daily",
