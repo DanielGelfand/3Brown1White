@@ -19,6 +19,15 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+danielG -- 2019-06-05 22:28
+--------------------------------------------------------------
+LilELmo tried to deploy our app to their DO server.
+Sadly, they were not successful. They were greeted by an Internal
+Server Error when typing in their server ip into their browser.
+I believe this is due to them not adhering to the structure required by apache. 
+==============================================================
+
+
 ahnafH -- 2019-06-04 02:20:13 AM
 --------------------------------------------------------------
 Add documentation to the database file. Add functioning datetime
