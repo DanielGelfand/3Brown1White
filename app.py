@@ -26,7 +26,8 @@ def home():
     if "username" in session:
         id_num=db.search_user_list(session["username"])[0][2]
         finavail=db.search_finance_list(id_num)
-        return render_template('home.html',fin=finavail)
+        goalavail=db.search_finance_list(id_num)
+        return render_template('home.html',fin=finavail,goal=goalavail)
     return render_template('home.html')
 
 @app.route('/register')
