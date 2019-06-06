@@ -19,6 +19,13 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ahnafH -- 2019-06-06 11:59:15 AM
+--------------------------------------------------------------
+Add an accounts page. Add JS file for said accounts page. Add
+the necessary defintions for account operations. Add the routes
+and code for account page, update page, and account deletion
+==============================================================
+
 danielG -- 2019-06-06 19:20
 --------------------------------------------------------------
 Edited README to incorporate corrections to launch instructions
