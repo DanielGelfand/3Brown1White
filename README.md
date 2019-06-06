@@ -29,7 +29,7 @@ Our project is a money manager application to get your finances on track. Use ou
 ### Install and run on Apache2
 
 1. SSH into your droplet with `ssh <user>@<ip address>`
-2. Move to the www directory: `cd var/www`
+2. Move to the www directory: `cd /var/www`
 3. Create a directory named after your app and then cd into it
     * `mkdir <appname>`
     * `cd <appname>`
