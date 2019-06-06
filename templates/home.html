@@ -12,16 +12,45 @@ Welcome to Money Manage
 {% endfor %}
 
 {% if session["username"] %}
-    <div class="card-columns">
-    {% if not fin %}
+    <h2 class="font-weight-light">Data Inputs</h2>
+    <hr>
+    <div class="row">
+      <div class="col-sm-4">
+          <div class="card  ">
+              <img class="card-img-top" src="https://bitcoinist.com/wp-content/uploads/2016/04/Finance-stock-photo.jpg" alt="" syle="width:300px">
+              <div class="card-body">
+                {% if not fin %}
+                <a href="/finances"><h4 class="card-title">Input Your Finances</h4></a>
+                <p class="card-text">Please click the link above or on the navbar to add your financial data so we can visualize it and use it
+                  to help in getting to your goal faster.
+                </p>
+                {% else %}
+                <a href="/finances"><h4 class="card-title">Update Your Finances</h4></a>
+                {% endif %}
+                <p class="card-text">You may update your finances by clicking on the link or the one on the navbar</p>
+                
+              </div>
+            </div>
+      </div>
+      <div class="col-sm-4">
         <div class="card">
-          <img class="card-img-top" src="https://bitcoinist.com/wp-content/uploads/2016/04/Finance-stock-photo.jpg" alt="">
-          <div class="card-body">
-            <a href="/finances"><h4 class="card-title">Input Your Finances</h4></a>
-            <p class="card-text">Please click the link above or on the navbar to add your financial data so we can visualize it</p>
-          </div>
+            <img class="card-img-top" src="https://images.vexels.com/media/users/3/144771/raw/63f54312ee7e1f5cd8b9d6938ac984d7-piggy-bank-savings-icon.jpg" alt="">
+            <div class="card-body">
+                <a href="/goals">
+                <h4 class="card-title">Add a Savings Goal</h4>
+                </a>
+                <p class="card-text">
+                    Add a goal you want to save towards. You can click the link above or use the button on the navbar.
+                </p>
+            </div>
         </div>
-    {% else %}
+        </div>
+    </div>
+    <br>
+    <h2 class="font-weight-light">Visualizations</h2>
+    <hr>
+    <div class="card-deck">
+    {% if fin %}
     <div class="card">
       <img class="card-img-top" src="http://cwr.design/img/graphIcons/img__graphIcons--sankey.jpg" alt="">
       <div class="card-body">
@@ -36,33 +65,30 @@ Welcome to Money Manage
     <div class="card">
       <img class="card-img-top" src="https://visualpharm.com/assets/948/Pie%20Chart-595b40b85ba036ed117da809.svg" alt="">
       <div class="card-body">
-        <h4 class="card-title">Visualize your Expenditures with a Pie Chart</h4>
+        <h4 class="card-title"><a href="/pie">Visualize your Expenditures with a Pie Chart</a></h4>
         <p class="card-text">We'll show you what fraction of your expenditures go to what</p>
       </div>
     </div>
     {% endif %}
-    <div class="card">
-        <img class="card-img-top" src="https://images.vexels.com/media/users/3/144771/raw/63f54312ee7e1f5cd8b9d6938ac984d7-piggy-bank-savings-icon.jpg" alt="">
-        <div class="card-body">
-            <a href="/goals">
-            <h4 class="card-title">Add a Savings Goal</h4>
-            </a>
-            <p class="card-text">
-                Add a goal you want to save towards. You can click the link above or use the button on the navbar.
-            </p>
-        </div>
-    </div>
+    {% if goal %}
     <div class="card">
         <img class="card-img-top" src="https://cdn0.iconfinder.com/data/icons/scrum-team-symbols/220/data_scientist-512.png" alt="">
         <div class="card-body">
-            <h4 class="card-title">Getting to your Goal Faster</h4>
+            <h4 class="card-title"><a href="/area"> Getting to your Goal Faster</a></h4>
             <p class="card-text">
-                We'll use a trend line to show you how cutting out certain expenditures will get to your goal faster.
+                We'll use an area chart to show you how cutting out certain expenditures will get to your goal faster.
                 We will also suggest some expenditures you can cut out.
             </p>
         </div>
     </div>
-    <div class="card">
+    {% endif %}
+  </div>
+  <br>
+  <h2 class="font-weight-light">Extra</h2>
+  <hr>
+  <div class="row">
+      <div class="col-sm-4">
+    <div class="card" width="200px">
       <img class="card-img-top" src="https://moneyandmarkets.com/wp-content/uploads/2018/10/Stock-Market-Update7.jpg" alt="">
       <div class="card-body">
         <h4 class="card-title">Investments(Stretch feature)</h4>
@@ -70,7 +96,7 @@ Welcome to Money Manage
       </div>
     </div>
     </div>
-
+  </div>
     {% else %}
     <div align="center"> <img src="/static/bags.png" class="animated infinite bounce" alt="bags"></div> <br>
     <h1 style="text-align:center"> About GreenBags </h1>
