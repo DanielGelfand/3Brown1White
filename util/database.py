@@ -21,7 +21,7 @@ CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOGINS}(user TEXT, pass TEXT, id IN
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {FINANCE}(current_balance REAL, income REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {EXPENSES}(expense TEXT, cost REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOSE}(suggested0 INTEGER, suggested1 INTEGER, suggested2 INTEGER, custom REAL, id INTEGER)")
-CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {GOALS}(name TEXT, cost REAL, id INTEGER)")
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {GOALS}(name TEXT, cost REAL, id INTEGER, perc REAL)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {IMAGES}(goal TEXT, goal_alt TEXT, id INTEGER)") # can be expanded later on
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {MONTHLY}(monthly_expense TEXT, cost REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {STAMPS}(date TEXT, id INTEGER)")
@@ -264,7 +264,7 @@ def add_finances(balance, cost, income, expenses, id_num):
     CONNECT.close()
     return id_num
 
-def add_goals(name, price, id_num):
+def add_goals(name, price, percent, id_num):
     """
     Adds the name and price to the database under the given ID number.
     Returns the ID number of the user.
@@ -290,7 +290,7 @@ def add_goals(name, price, id_num):
             f.close()
     if id_num in user_ids:
         print("ID is in user_id")
-        CURSOR.execute(f"UPDATE {GOALS} SET name = \"{name}\", cost = \"{price}\" WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"UPDATE {GOALS} SET name = \"{name}\", cost = \"{price}\", perc = \"{percent}\" WHERE id = \"{id_num}\"")
         CURSOR.execute(f"UPDATE {STAMPS} SET date = \"{datetime.date.today()}\" WHERE id = \"{id_num}\" ")
         with open(file, "r") as f:
             lines = f.readlines()
@@ -298,13 +298,13 @@ def add_goals(name, price, id_num):
             for line in lines:
                 if str(id_num) != line.strip("\n").split(",")[0]:
                     f.write(line)
-            f.write(f"{id_num},{name},{price},{datetime.date.today()}\n")
+            f.write(f"{id_num},{name},{price},{datetime.date.today()},{percent}\n")
             f.close()
     else:
-        CURSOR.execute(f"INSERT INTO {GOALS} VALUES(\"{name}\", \"{price}\", \"{id_num}\")")
+        CURSOR.execute(f"INSERT INTO {GOALS} VALUES(\"{name}\", \"{price}\", \"{percent}\", \"{id_num}\")")
         CURSOR.execute(f"INSERT INTO {STAMPS} VALUES(\"{datetime.date.today()}\", \"{id_num}\")")
         with open(file, "a") as f:
-            f.write(f"{id_num},{name},{price},{datetime.date.today()}\n")
+            f.write(f"{id_num},{name},{price},{datetime.date.today()},{percent}\n")
             f.close()
     CONNECT.commit()
     CONNECT.close()

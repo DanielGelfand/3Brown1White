@@ -175,7 +175,7 @@ def gcalc():
     print(goal_name)
     print(goal_price)
     user_id = db.search_user_list(session['username'])[0][2]
-    db.add_goals(goal_name, goal_price, user_id)
+    db.add_goals(goal_name, goal_price, percentage, user_id)
     a = db.search_image_list(user_id)
     print(a)
     # optimization to save on api calls
