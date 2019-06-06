@@ -21,7 +21,7 @@ CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOGINS}(user TEXT, pass TEXT, id IN
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {FINANCE}(current_balance REAL, income REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {EXPENSES}(expense TEXT, cost REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOSE}(suggested0 INTEGER, suggested1 INTEGER, suggested2 INTEGER, custom REAL, id INTEGER)")
-CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {GOALS}(name TEXT, cost REAL, id INTEGER, perc REAL)")
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {GOALS}(name TEXT, cost REAL, perc REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {IMAGES}(goal TEXT, goal_alt TEXT, id INTEGER)") # can be expanded later on
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {MONTHLY}(monthly_expense TEXT, cost REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {STAMPS}(date TEXT, id INTEGER)")
@@ -286,7 +286,7 @@ def add_goals(name, price, percent, id_num):
         print(e)
         with open(file, 'a+') as f: # creates the file
             print("File not found, creating...")
-            f.write(f"id,name,price,date\n")
+            f.write(f"id,name,price,date,percentage\n")
             f.close()
     if id_num in user_ids:
         print("ID is in user_id")
