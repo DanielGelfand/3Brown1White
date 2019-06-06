@@ -24,10 +24,17 @@ Add or Update a Goal
     </div>
 
     <div class="progress">
+      {% if month %}
       <div class="progress-bar progress-bar-striped active" role="progressbar"
          aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{goal_price}}%">
          40%
       </div>
+      {% else %}
+      <div class="progress-bar progress-bar-striped active" role="progressbar"
+         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+         0%
+      </div>
+      {% endif %}
     </div>
 
  </div>

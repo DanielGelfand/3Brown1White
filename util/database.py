@@ -160,6 +160,7 @@ def search_goal_list(*args, ret_all=False):
     if ret_all:
         return [ x for x in query_list ]
     return [ x for x in query_list for a in args if a in x ]
+    
 
 def search_image_list(*args, ret_all=False):
     """

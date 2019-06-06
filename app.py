@@ -1,4 +1,5 @@
-import os
+import os, datetime
+from dateutil import relativedelta
 import urllib
 
 from flask import (Flask, flash, json, jsonify, redirect, render_template,
@@ -136,11 +137,21 @@ def goals():
     user_id = db.search_user_list(session['username'])[0][2]
     g = db.search_goal_list(user_id)
     b = db.search_finance_list(user_id)
+    t = db.search_time_list(user_id)
+    date_now = datetime.date.today()
     price = g
+    perc = g
+    r = 0
     if g != []:
         g = g[0][0]
     if price != []:
         price = price[0][1]
+    if perc != []:
+        perc = perc[0][2]
+    if t != []:
+        t = t[0][0]
+        r = relativedelta.relativedelta(datetime.datetime.strptime(t,'%Y-%m-%d'), datetime.datetime.strptime(str(date_now),'%Y-%m-%d'))
+        r = abs(r.months)
     img = db.search_image_list(user_id)
     if img != []:
         img = img[0][0]
@@ -150,14 +161,17 @@ def goals():
     print(b)
     print(g)
     print(price)
+    print(perc)
     print(img)
     if g or price:
         if b:
             print("Used the first one")
-            return render_template('goals.html', goal=g, goal_price=price, image=img, bal=bal, income=inc)
+            perc_complete = (r * (perc / 100.0) * inc)/price
+            print(perc_complete)
+            return render_template('goals.html', goal=g, goal_price=price,perc_inc = perc, image=img, bal=bal, income=inc, months= r)
         else:
             print("Used the second")
-            return render_template('goals.html', goal=g, goal_price=price, image=img)
+            return render_template('goals.html', goal=g, goal_price=price,perc_inc = perc, image=img)
     else:
         if b:
             return render_template('goals.html', bal=bal, income=inc)
