@@ -1,5 +1,5 @@
 import sqlite3
-import os, datetime
+import os, datetime, random
 
 LOGINS = "LOGINS"
 FINANCE = "FINANCES"
@@ -24,7 +24,7 @@ CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {LOSE}(suggested0 INTEGER, suggested
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {GOALS}(name TEXT, cost REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {IMAGES}(goal TEXT, goal_alt TEXT, id INTEGER)") # can be expanded later on
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {MONTHLY}(monthly_expense TEXT, cost REAL, id INTEGER)")
-CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {STAMPS}(date TEXT, id NUMBER)")
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {STAMPS}(date TEXT, id INTEGER)")
 CONNECT.commit()
 CONNECT.close()
 
@@ -36,17 +36,17 @@ def register(username, password):
     print(username)
     CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
-    # print(f"SELECT * FROM {LOGINS} WHERE user = {username}")
-    try:
-        CURSOR.execute(f"SELECT * FROM {LOGINS} WHERE user = {username}")
-    except:
-        # print(e)
-        CURSOR.execute(f"SELECT * FROM {LOGINS}")
-    user_list = [x[0] for x in CURSOR.fetchall()]
+    CURSOR.execute(f"SELECT * FROM {LOGINS}")
+    wait = CURSOR.fetchall()
+    user_list = [x[0] for x in wait]
+    id_nums = [x[-1] for x in wait]
     print(user_list)
     if username not in user_list:
         print('Username not in table')
-        CURSOR.execute(f"INSERT INTO {LOGINS} VALUES(\"{username}\", \"{password}\", \"{len(user_list) + 1}\")")
+        num = int(random.random() * 10000)
+        while num in id_nums:
+            num = int(random.random() * 10000)
+        CURSOR.execute(f"INSERT INTO {LOGINS} VALUES(\"{username}\", \"{password}\", \"{num}\")")
     else:
         print('Username in table')
         return False
@@ -54,7 +54,7 @@ def register(username, password):
     CONNECT.close()
     return True
 
-def search_user_list(*args):
+def search_user_list(*args, ret_all=False):
     """
     Searches the user logins table for the given arguments.
     Returns a list of tuples that contain the arguments.
@@ -63,8 +63,33 @@ def search_user_list(*args):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {LOGINS}")
     query_list = CURSOR.fetchall()
+    if ret_all:
+        return [ x for x in query_list ]
     return [x for x in query_list for a in args if a in x]
 
+def update_user_list(user, pwd, id_num, rem=False):
+    if rem: # remove from table
+        CONNECT = sqlite3.connect(DIR)
+        CURSOR = CONNECT.cursor()
+        # complete erase
+        CURSOR.execute(f"DELETE FROM {LOGINS} WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"DELETE FROM {FINANCE} WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"DELETE FROM {LOSE} WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"DELETE FROM {GOALS} WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"DELETE FROM {IMAGES} WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"DELETE FROM {EXPENSES} WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"DELETE FROM {MONTHLY} WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"DELETE FROM {STAMPS} WHERE id = \"{id_num}\"")
+        CONNECT.commit()
+        CONNECT.close()
+        return id_num
+    else:
+        CONNECT = sqlite3.connect(DIR)
+        CURSOR = CONNECT.cursor()
+        CURSOR.execute(f"UPDATE {LOGINS} SET user = \"{user}\", pass = \"{pwd}\" WHERE id = \"{id_num}\"")
+        CONNECT.commit()
+        CONNECT.close()
+        return id_num
 def search_finance_list(*args):
     """
     Searches the finances table for the given arguments.
@@ -76,7 +101,7 @@ def search_finance_list(*args):
     query_list = CURSOR.fetchall()
     return [ x for x in query_list for a in args if a in x ]
 
-def search_expense_list(*args, is_id=False):
+def search_expense_list(*args, ret_all=False, is_id=False):
     """
     Searches the expenses table for the given arguments.
     If is_id is specified, treats the given arguments as ID numbers.
@@ -87,11 +112,13 @@ def search_expense_list(*args, is_id=False):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {EXPENSES}")
     query_list = CURSOR.fetchall()
+    if ret_all:
+        return [ x for x in query_list ]
     if is_id:
         return [ x for x in query_list for a in args if a == x[2] ] # the given input was an id
     return [ x for x in query_list for a in args if a in x ]
 
-def search_monthly_list(*args, is_id=False):
+def search_monthly_list(*args, ret_all=False, is_id=False):
     """
     Searches the monthly expenditures table for the given arguments.
     If is_id is specified, treats the given arguments as ID numbers.
@@ -102,11 +129,13 @@ def search_monthly_list(*args, is_id=False):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {MONTHLY}")
     query_list = CURSOR.fetchall()
+    if ret_all:
+        return [ x for x in query_list ]
     if is_id:
         return [ x for x in query_list for a in args if a == x[2] ]
     return [ x for x in query_list for a in args if a in x ]
 
-def search_sacrifice_list(*args):
+def search_sacrifice_list(*args, ret_all=False):
     """
     Searches the sacrifices table for the given arguments.
     Returns a list of tuples that contain the arguments.
@@ -115,9 +144,11 @@ def search_sacrifice_list(*args):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {LOSE}")
     query_list = CURSOR.fetchall()
+    if ret_all:
+        return [ x for x in query_list ]
     return [ x for x in query_list for a in args if a in x ]
 
-def search_goal_list(*args):
+def search_goal_list(*args, ret_all=False):
     """
     Searches the goals table for the given arguments.
     Returns a list of tuples that contain the arguments.
@@ -126,9 +157,11 @@ def search_goal_list(*args):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {GOALS}")
     query_list = CURSOR.fetchall()
+    if ret_all:
+        return [ x for x in query_list ]
     return [ x for x in query_list for a in args if a in x ]
 
-def search_image_list(*args):
+def search_image_list(*args, ret_all=False):
     """
     Searches the images table for the given arguments.
     Returns a list of tuples that contain the arguments.
@@ -137,9 +170,11 @@ def search_image_list(*args):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {IMAGES}")
     query_list = CURSOR.fetchall()
+    if ret_all:
+        return [ x for x in query_list ]
     return [ x for x in query_list for a in args if a in x ]
 
-def search_time_list(*args):
+def search_time_list(*args, ret_all=False):
     """
     Searches the timestamps table for the given arguments.
     Returns a list of tuples that contain the arguments.
@@ -148,8 +183,25 @@ def search_time_list(*args):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {STAMPS}")
     query_list = CURSOR.fetchall()
+    if ret_all:
+        return [ x for x in query_list ]
     return [ x for x in query_list for a in args if a in x ]
 
+def reset_statistics(id_num, items:dict):
+    for b in items:
+        if items[b]:
+            CONNECT = sqlite3.connect(DIR)
+            CURSOR = CONNECT.cursor()
+            CURSOR.execute(f"DELETE FROM {b} WHERE id = \"{id_num}\"")
+            if b == FINANCE:
+                CURSOR.execute(f"DELETE FROM {EXPENSES} WHERE id = \"{id_num}\"")
+                CURSOR.execute(f"DELETE FROM {MONTHLY} WHERE id = \"{id_num}\"")
+            if b == GOALS:
+                CURSOR.execute(f"DELETE FROM {IMAGES} WHERE id = \"{id_num}\"")
+                CURSOR.execute(f"DELETE FROM {STAMPS} WHERE id = \"{id_num}\"")
+            CONNECT.commit()
+            CONNECT.close()
+    return id_num
 def add_finances(balance, cost, income, expenses, id_num):
     """
     Adds the given balance, costs, income, and expense to the database under the given ID.

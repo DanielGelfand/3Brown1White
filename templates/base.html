@@ -18,16 +18,16 @@
 
         <ul class="navbar-nav mr-auto">
           <li>
-          <a class="navbar-brand" href="/">
-              <img src="/static/bags.png" alt="logo" width="200px" height="100px">
+          <a class="navrbar-left" href="/">
+              <img src="/static/bags.png" alt="logo" width="200px" height="90px" style="margin:0 10px;">
             </a>
           </li>
           {% if session["username"] %}
           <li>
-              <a class="nav-link active" href="/finances">Finances</a>
+              <a class="nav-link active" href="/finances"> <h3 style="margin:15px">Finances</h3></a>
           </li>
           <li>
-              <a class="nav-link active" href="/goals">Goals</a>
+              <a class="nav-link active" href="/goals"><h3 style="margin:15px">Goals</h3></a>
           </li>
           {% endif %}
         </ul>
@@ -41,7 +41,7 @@
           </li>
           {% else %}
           <li>
-            <a class="nav-link" href="/" >{{session["username"]}}</a>
+            <a class="nav-link" href="/account" >{{session["username"]}}</a>
           </li>
           <li>
             <a class="nav-link" href="/logout" >Logout</a>
@@ -49,6 +49,7 @@
           {% endif %}
         </ul>
     </nav>
+    <br>
     <div id="container" class="container">
     {% block body %}
 

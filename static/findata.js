@@ -83,6 +83,7 @@ var is_daily_right = function (input_elem) {
 
 var addMonthlyExpense = function () {
     var rate = document.createElement('select')
+    rate.name = "m_importance"
     for (i = 0; i < 10; i++) {
         var child = document.createElement('option')
         child.value = i + 1
@@ -121,6 +122,7 @@ var addMonthlyExpense = function () {
 
 var addExpense = function() {
     var rate = document.createElement('select')
+    rate.name = "importance"
     for (i = 0; i < 10; i++) {
         var child = document.createElement('option')
         child.value = i + 1
@@ -347,6 +349,14 @@ var add_to_dict = function() {
         send.name = 'all-inputs'
         daily.parentElement.appendChild(send)
     }
+    var i_total = {}
+    var important = document.getElementsByName('importance')
+    var names = document.getElementsByName('expense-name')
+    for (i = 0; i < important.length; i++) {
+        // console.log(names[i].value)
+        i_total[i] = [names[i].value, important[i][important[i].selectedIndex].text]
+    }
+    console.log(i_total)
 
 
     var m_total = {}
@@ -367,6 +377,24 @@ var add_to_dict = function() {
         m_send.name = 'monthly-inputs'
         monthly.parentElement.appendChild(m_send)
     }
+    var im_total = {}
+    var m_important = document.getElementsByName('m_importance')
+    var m_names = document.getElementsByName('monthly-name')
+    for (i = 0; i < m_important.length; i++) {
+        // console.log(names[i].value)
+        im_total[m_names[i].value] = m_important[i][m_important[i].selectedIndex].text
+    }
+    console.log(im_total)
+    var d = document.createElement('input')
+    var m = document.createElement('input')
+    d.hidden = true
+    m.hidden = true
+    d.value = JSON.stringify(i_total)
+    m.value = JSON.stringify(im_total)
+    d.name = "daily-importance"
+    m.name = "monthly-importance"
+    daily.parentElement.appendChild(d)
+    monthly.parentElement.appendChild(m)
 }
 
 var m_add_all = function() {

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}
+Your Account
+{% endblock %}
+{% block head %}
+<style>
+    .collapsible {
+        background-color: #ffffff;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+    }
+
+    .hov,
+    .collapsible:hover {
+        background-color: #ccc;
+    }
+
+    .content {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+
+    .collapsible:after {
+        content: '\02795';
+        /* Unicode character for "plus" sign (+) */
+        font-size: 13px;
+        color: white;
+        float: right;
+        margin-left: 5px;
+    }
+
+    .hov:after {
+        content: "\2796";
+        /* Unicode character for "minus" sign (-) */
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<p id="usr-list" hidden>{{user_list}}</p>
+<div class="dropdown">
+    <button class="collapsible">Change Account Information</button>
+    <div class="content">
+        <br>
+        <form>
+            Username: <input id="usr" type="text" value="{{session['username']}}" style="display: inline-block">
+            <br><br>
+            Password: <input type="password" id="pwd" placeholder="Type to change" style="display: inline-block">
+            <br><br>
+        </form>
+    </div>
+    <br><br>
+    <button class="collapsible">Reset Statistics</button>
+    <div class="content">
+        <br>
+        <form>
+            <input type="checkbox" id="check1"> Finances
+            <br><br>
+            <input type="checkbox" id="check2"> Goals
+            <br><br>
+            <input type="checkbox" id="check3"> Sacrifices
+            <br><br>
+        </form>
+    </div>
+    <br><br>
+    <button class="collapsible">Advanced Options</button>
+    <div class="content">
+        <br>
+        <form accept="/">
+            <!--Should be last option-->
+            <button class="btn btn-danger btn-md btn-block" type="button" id="del">
+                Delete Account
+            </button>
+            <br><br>
+        </form>
+    </div>
+    <br><br><br><br>
+    <form action="/update" method="POST">
+    <button class="btn btn-success btn-lg btn-block" type="submit" id="sub">
+        Submit Changes
+    </button>
+    </form>
+    <button class="btn btn-secondary btn-md btn-block" type="submit" id="cancel">
+        Cancel
+    </button>
+
+    {% endblock body %}
+
+    {% block script %}
+    <script src="/static/accounts.js"></script>
+    {% endblock %}
