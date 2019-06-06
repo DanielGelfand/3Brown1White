@@ -33,7 +33,7 @@ Our project is a money manager application to get your finances on track. Use ou
 3. Create a directory named after your app and then cd into it
     * `mkdir <appname>`
     * `cd <appname>`
-4. Change the server name in the <appname>.wsgi file to the ip adress of your droplet and move it outside of the repo folder to `/var/www/<appname>/`
+4. Move <appname>.wsgi file outside of the repo folder to `/var/www/<appname>/`
 5. Clone the repo `git clone https://github.com/DanielGelfand/3Brown1White.git <appname>`
 6. Move into the project repo, rename app.py to __init__.py and install the requirement from requirements.txt
     * `cd appname`
@@ -41,9 +41,10 @@ Our project is a money manager application to get your finances on track. Use ou
     * `pip3 install -r requirements.txt`
 7. Move to sites-enabled directory with `cd ~/../../etc/apache2/sites-enabled/` 
 8. Move config file to /etc/apache2/sites-enabled/
-9. Run `a2ensite <appname>`
-10. Restart the server with `sudo service apache2 restart`
-11. Go to your droplet's ip address on your browser
+9. Change the server name in the <appname>.conf file to the ip adress of your droplet
+10. Run `a2ensite <appname>`
+11. Restart the server with `sudo service apache2 restart`
+12. Go to your droplet's ip address on your browser
 
  ## How To Procure API Keys?
 
