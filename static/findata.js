@@ -382,7 +382,7 @@ var add_to_dict = function() {
     var m_names = document.getElementsByName('monthly-name')
     for (i = 0; i < m_important.length; i++) {
         // console.log(names[i].value)
-        im_total[m_names[i].value] = m_important[i][m_important[i].selectedIndex].text
+        im_total[i] = [m_names[i].value, m_important[i][m_important[i].selectedIndex].text]
     }
     console.log(im_total)
     var d = document.createElement('input')
