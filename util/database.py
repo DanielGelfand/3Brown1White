@@ -222,7 +222,7 @@ def add_finances(balance, cost, income, expenses, id_num):
             f.close()
     except:
         with open(file, 'a') as f: # creates the file
-            f.write(f"balance,mcost,income,dexpense,id_num\n")
+            f.write(f"balance,monthly,income,daily,id\n")
             f.close()
     mcost="".join(str(cost).split(","))
     print("stuff",mcost)
