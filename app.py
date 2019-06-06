@@ -1,5 +1,4 @@
 import os, datetime
-from dateutil import relativedelta
 import urllib
 
 from flask import (Flask, flash, json, jsonify, redirect, render_template,
@@ -109,8 +108,8 @@ def calc():
     s = request.form
     d = request.form['daily-importance']
     l = request.form['monthly-importance']
-    print(t)
-    t = json.loads(t)
+    print(d)
+    t = json.loads(d)
     l = json.loads(l)
 
     mon_im = dict([x for x in t.values()]) # {expenseName: rating, expenseName2: rating, ...}
@@ -141,17 +140,34 @@ def goals():
     date_now = datetime.date.today()
     price = g
     perc = g
-    r = 0
+    delta_months = 0
     if g != []:
         g = g[0][0]
     if price != []:
         price = price[0][1]
     if perc != []:
         perc = perc[0][2]
+    ##function to get difference in months between 2 dates
+    def months_between(date1,date2):
+        if date1>date2:
+            date1,date2=date2,date1
+        m1=date1.year*12+date1.month
+        m2=date2.year*12+date2.month
+        months=m2-m1
+        if date1.day>date2.day:
+            months-=1
+        elif date1.day==date2.day:
+            seconds1=date1.hour*3600+date1.minute+date1.second
+            seconds2=date2.hour*3600+date2.minute+date2.second
+            if seconds1>seconds2:
+                months-=1
+        return months
+
     if t != []:
         t = t[0][0]
-        r = relativedelta.relativedelta(datetime.datetime.strptime(t,'%Y-%m-%d'), datetime.datetime.strptime(str(date_now),'%Y-%m-%d'))
-        r = abs(r.months)
+        delta_months = months_between(datetime.datetime.strptime(t,'%Y-%m-%d'), datetime.datetime.strptime(str(date_now),'%Y-%m-%d'))
+    print(delta_months)
+
     img = db.search_image_list(user_id)
     if img != []:
         img = img[0][0]
@@ -166,9 +182,9 @@ def goals():
     if g or price:
         if b:
             print("Used the first one")
-            perc_complete = (r * (perc / 100.0) * inc)/price
+            perc_complete = (delta_months * (perc / 100.0) * inc)/price
             print(perc_complete)
-            return render_template('goals.html', goal=g, goal_price=price,perc_inc = perc, image=img, bal=bal, income=inc, months= r)
+            return render_template('goals.html', goal=g, goal_price=price,perc_inc = perc, image=img, bal=bal, income=inc, months= delta_months, perc_comp = perc_complete * 100 )
         else:
             print("Used the second")
             return render_template('goals.html', goal=g, goal_price=price,perc_inc = perc, image=img)
