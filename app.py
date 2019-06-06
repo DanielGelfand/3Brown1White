@@ -199,6 +199,44 @@ def logout():
         session.pop('username')
     return redirect(url_for('home'))
 
+@app.route('/account')
+def account():
+    if 'username' not in session:
+        flash("You must be logged in to access this page")
+        return redirect(url_for('login'))
+    # print(db.search_user_list(session['username']))
+    user_list = json.dumps(db.search_user_list(ret_all=True))
+    print(json.dumps(db.search_user_list(ret_all=True)))
+    return render_template('accounts.html', user_list=user_list)
+
+@app.route('/update', methods=["POST"])
+def update():
+    print('this is the updates')
+    update_dict = request.form['all-options']
+    update_dict = json.loads(update_dict)
+    print(request.form)
+    user_ids = db.search_user_list(session['username'])
+    user = user_ids[0][-1]
+    print(user)
+    db.update_user_list(update_dict['username'] or user_ids[0][0], update_dict['password'] or user_ids[0][1], user)
+    db.reset_statistics(user, update_dict['reset'])
+    session.pop('username')
+    session['username'] = update_dict['username'] or user_ids[0][0] # change username in session
+    flash("Account information updated successfully")
+    return redirect(url_for('home'))
+
+@app.route('/del')
+def delete():
+    if 'username' not in session:
+        flash("Woops. You can't be here")
+        return redirect(url_for('login'))
+    user = db.search_user_list(session['username'])[0][-1]
+    print(user)
+    db.update_user_list(None, None, user, rem=True)
+    flash("User successfully removed")
+    session.pop('username')
+    return redirect(url_for('home'))
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
