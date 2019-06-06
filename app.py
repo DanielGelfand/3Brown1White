@@ -103,7 +103,17 @@ def calc():
     bal = request.form['balance'][1:]
     monthly = request.form['monthly-inputs']
     income = request.form['income'][1:]
-    print(request.form)
+    # print(request.form)
+    s = request.form
+    d = request.form['daily-importance']
+    l = request.form['monthly-importance']
+    print(t)
+    t = json.loads(t)
+    l = json.loads(l)
+
+    mon_im = dict([x for x in t.values()]) # {expenseName: rating, expenseName2: rating, ...}
+    dai_im = dict([x for x in l.values()])
+
     daily = request.form['all-inputs']
     print(f"This is daily: {monthly}")
     daily = json.loads(daily) # dictionary
