@@ -3,6 +3,11 @@ var idnum = document.getElementById("id");
 var income;
 var balance;
 var exp=0;
+function parseDate(input) {
+    var parts = input.split('-');
+    // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
+    return new Date(parts[0], parts[1]-1, parts[2]); // Note: months are 0-based
+  }
 Promise.all([d3.csv("static/goals.csv"),d3.csv("static/finance.csv")]).then(function (dat){
     for (let i = 0; i < dat[1].length; i++) {
         if (parseInt(dat[1][i]["id"]) == parseInt(idnum.innerHTML)) {
@@ -25,7 +30,7 @@ Promise.all([d3.csv("static/goals.csv"),d3.csv("static/finance.csv")]).then(func
     var data=[]
     for (let i = 0; i < dat[0].length; i++) {
         if (parseInt(dat[0][i]["id"]) == parseInt(idnum.innerHTML)) {
-            var start=new Date(dat[0][i]["date"])
+            var start=new Date(parseDate(dat[0][i]["date"]))
             var percent=(dat[0][i]["percentage"])/100
             var goal=dat[0][i]["price"]
             var count=0
@@ -37,6 +42,7 @@ Promise.all([d3.csv("static/goals.csv"),d3.csv("static/finance.csv")]).then(func
                 var change=parseFloat((income-exp))
                 console.log((balance+change))
                 balance = parseFloat(balance+change)
+                console.log(percent * balance)
                 if ((percent * balance) > goal) {
                     goal = 0
                 } else {
@@ -44,6 +50,13 @@ Promise.all([d3.csv("static/goals.csv"),d3.csv("static/finance.csv")]).then(func
                 }
                 start.setMonth(start.getMonth() + 1);
                 count+=1
+                console.log(balance)
+            }
+            if(goal==0){
+                data.push({
+                    "date": formatTime(start),
+                    "goal": goal
+                })
             }
         }
     }
