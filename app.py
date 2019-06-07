@@ -76,11 +76,15 @@ def finance():
     items = db.search_finance_list(user_id)
     daily = db.search_expense_list(user_id, is_id=True)
     monthly = db.search_monthly_list(user_id, is_id=True)
+    ratings = db.search_rating_list(user_id, is_id=True)
+    print(ratings)
     print(f"Unlike month, this is daily: {daily}\n")
     w = dict([ (x[0], x[1]) for x in daily ])
     s = dict([ (x[0], x[1]) for x in monthly ])
+    r = dict([ (x[0], x[1]) for x in ratings ])
     print(f"THIS is monthly: {monthly}")
     print(f"THIS is s: {s}")
+    print(f"These are the ratings: {r}")
     total = 0
     m_total = 0
     for x in w.values():
@@ -95,7 +99,7 @@ def finance():
                                 daily=w,
                                 months = s,
                                 total=total,
-                                mtotal = m_total,completed=True)
+                                mtotal = m_total,completed=True, ratings=ratings)
     return render_template('findata.html')
 
 @app.route('/fincalc', methods=['POST'])
@@ -106,14 +110,19 @@ def calc():
     income = request.form['income'][1:]
     # print(request.form)
     s = request.form
-    d = request.form['daily-importance']
-    l = request.form['monthly-importance']
-    print(d)
-    t = json.loads(d)
-    l = json.loads(l)
+    d_rates = request.form['daily-importance']
+    m_rates = request.form['monthly-importance']
+    print(d_rates)
+    user_id = db.search_user_list(session['username'])[0][2]
+    daily_dict = json.loads(d_rates)
+    monthly_dict = json.loads(m_rates)
 
-    mon_im = dict([x for x in t.values()]) # {expenseName: rating, expenseName2: rating, ...}
-    dai_im = dict([x for x in l.values()])
+    dai_im = dict([x for x in daily_dict.values()]) # {expenseName: rating, expenseName2: rating, ...}
+    mon_im = dict([x for x in monthly_dict.values()])
+    for item in mon_im:
+        db.add_rating(item, mon_im[item], user_id)
+    for item in dai_im:
+        db.add_rating(item, dai_im[item], user_id)
 
     daily = request.form['all-inputs']
     print(f"This is daily: {monthly}")
@@ -123,7 +132,6 @@ def calc():
     w = dict([x for x in daily.values()]) # {expense1: $$$, expense2: $$$, ...}
     m = dict([x for x in monthly.values()])
     print(f"\nThis is calculated m:{m}\n")
-    user_id = db.search_user_list(session['username'])[0][2]
     db.add_finances(bal, m, income, w, user_id)
     flash("Finances updated")
     return redirect(url_for('home'))

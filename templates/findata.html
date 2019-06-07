@@ -66,6 +66,16 @@ id="bootstrap-css">
                           <br>
                           <input name="monthly-name" class="form-control" required="true" type="text" placeholder="Rent, Bills, etc." value="{{item}}">
                           <input type="text" class="form-control" required="true" placeholder="Monthly Expenditure" value="${{'%.2f' % (months[item])}}">
+                          <p >Select Your Importance:</p>
+                          <select name="m_importance">
+                            {% for opt in range(10) %}
+                              {% if ratings[item] == opt %}
+                              <option value="{{opt + 1}}" selected>{{opt + 1}}</option>
+                              {% else %}
+                              <option value="{{opt + 1}}">{{opt + 1}}</option>
+                              {% endif %}
+                            {% endfor %}
+                          </select>
                         {% endfor %}
                       {% endif %}
                       <button class="btn btn-secondary" onclick="addMonthlyExpense()" id="month_adder" type="button">Add Monthly Expenditure</button>
