@@ -326,20 +326,38 @@ def add_goals(name, price, percent, id_num):
     CONNECT.close()
     return id_num
 
-#### DOESN'T WORK YET
 def add_rating(name, rate, id_num):
     CONNECT = sqlite3.connect(DIR)
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {RATING}")
     all_ratings = CURSOR.fetchall()
+    file=f'static/ratings.csv'
+    try:
+        with open(file) as f: # if readable, file already exists
+            print("File found, not creating...")
+            lines = f.readlines()
+            f.close()
+    except Exception as e:
+        print(e)
+        with open(file, 'a+') as f: # creates the file
+            print("File not found, creating...")
+            f.write(f"ratings,id\n")
+            f.close()
     w = [ x for x in all_ratings if id_num in x and name in x ] # returns all ratings that have the same name and id as given
+    other_val = [x for x in all_ratings if id_num in x and name not in x]
+    stringg = "{"
+    for val in other_val:
+        stringg += "'" + val[0] + "'" +  " : " +  "'" + str(val[1]) + "'" +  " "
+    stringg += "'" + name +"'" + " : " + "'" + str(rate) + "'"
+    stringg += "}," + str(id_num) + "\n"
+    with open(file, "w") as f:
+        f.write(stringg)
+        f.close()
     if w != []: # there is currently a rating for this item by the user
         # update the current rating
-        print("already had one")
         CURSOR.execute(f"UPDATE {RATING} SET rate = \"{rate}\" WHERE name = \"{name}\" AND id = \"{id_num}\"")
     else:
         # there isn't a rating, so insert it
-        print("A new Addition")
         CURSOR.execute(f"INSERT INTO {RATING} VALUES(\"{name}\", \"{rate}\", \"{id_num}\")")
     CONNECT.commit()
     CONNECT.close()
