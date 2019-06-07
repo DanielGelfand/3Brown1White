@@ -59,10 +59,10 @@ var income_check = function() {
    */
   console.log(`Curr inc`)
   console.log(curr_inc)
-  var saved_per_month = (slider.value / 100) * curr_inc.innerHTML
+  var saved_per_month = (slider.value / 100) * curr_bal.innerHTML
   saved_per_month = saved_per_month.toFixed(2)
-  var formatted_string = `You have an income of $${Number(curr_inc.innerHTML).toFixed(2)}.
-  <br><b>You have selected to save $${saved_per_month} each month</b>`
+  var formatted_string = `You have a balance of $${Number(curr_bal.innerHTML).toFixed(2)}.
+  <br><b>You have selected to save $${saved_per_month} this month</b>`
   var children = slider.parentElement.children
   for (i = 0; i < children.length; i++) {
     if (children[i].className == "slidersave") {

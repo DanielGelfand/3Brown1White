@@ -29,28 +29,30 @@ d3.csv("static/finance.csv").then(function (dat) {
     if (parseInt(dat[i]["id"]) == parseInt(idnum.innerHTML)) {
       income = dat[i]["income"]
       balance = dat[i]["balance"]
-      var dailies = dat[i]["daily"].substring(1, dat[i]["daily"].length - 1).split(" ")
+      var dailies = dat[i]["daily"].substring(1, dat[i]["daily"].length - 1).split("'")
       var dailysum = 0
-      for (let j = 0; j < dailies.length; j += 2) {
+      for (let j = 1; j < dailies.length; j += 4) {
         // I split each of the daily costs for a certain person and that splitting causes space issues so I need to take substrings to parse the data
-        var val = parseFloat(dailies[j + 1].substring(1, dailies[j + 1].length))
+        var val = parseFloat(dailies[j + 2])
         daily.push({
-          "name": dailies[j].substring(1, dailies[j].length - 2),
-          "value": val
+          "name": dailies[j],
+          "value": val * 30.0
         })
-        dailysum += val
+        dailysum += val * 30.0
       }
       daily.push({
         "name": "daily",
         "value": dailysum
       })
-      
-      var monthlies = dat[i]["monthly"].substring(1, dat[i]["monthly"].length - 1).split(" ")
-      for (let j = 0; j < monthlies.length; j += 2) {
+      var monthlysum = 0
+      var monthlies = dat[i]["monthly"].substring(1, dat[i]["monthly"].length - 1).split("'")
+      for (let j = 1; j < monthlies.length; j += 4) {
         // I split each of the daily costs for a certain person and that splitting causes space issues so I need to take substrings to parse the data
-        var val = parseFloat(monthlies[j + 1].substring(1, monthlies[j + 1].length))
+        var val = parseFloat(monthlies[j + 2])
+        console.log(val)
+        console.log()
         monthly.push({
-          "name": monthlies[j].substring(1, monthlies[j].length - 2),
+          "name": monthlies[j],
           "value": val
         })
         monthlysum += val
