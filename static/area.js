@@ -9,6 +9,7 @@ function parseDate(input) {
     return new Date(parts[0], parts[1]-1, parts[2]); // Note: months are 0-based
   }
 Promise.all([d3.csv("static/goals.csv"),d3.csv("static/finance.csv")]).then(function (dat){
+    dats=[]
     for (let i = 0; i < dat[1].length; i++) {
         if (parseInt(dat[1][i]["id"]) == parseInt(idnum.innerHTML)) {
             income=dat[1][i]["income"]
@@ -39,23 +40,33 @@ Promise.all([d3.csv("static/goals.csv"),d3.csv("static/finance.csv")]).then(func
                     "date": formatTime(start),
                     "goal": goal
                 })
+                dats.push({
+                    "date": formatTime(start),
+                    "balance": parseFloat(balance)
+                })
                 var change=parseFloat((income-exp))
                 console.log((balance+change))
                 balance = parseFloat(balance+change)
                 console.log(percent * balance)
                 if ((percent * balance) > goal) {
                     goal = 0
+                    balance-=percent * balance
                 } else {
                     goal -= percent * balance
+                    balance-=percent * balance
                 }
                 start.setMonth(start.getMonth() + 1);
                 count+=1
                 console.log(balance)
             }
-            if(goal==0){
+            if(goal==0 || balance==0){
                 data.push({
                     "date": formatTime(start),
                     "goal": goal
+                })
+                dats.push({
+                    "date": formatTime(start),
+                    "balance": parseFloat(balance)
                 })
             }
         }
@@ -161,4 +172,88 @@ svg.append("g")
     .attr("dy", "1em")
     .style("text-anchor", "middle")
     .text("Amount to Goal"); 
+
+    // define the area
+    var area = d3.area()
+        .x(function (d) {
+            return x(d.date);
+        })
+        .y0(height)
+        .y1(function (d) {
+            return y(d.balance);
+        });
+
+    // define the line
+    var valueline = d3.line()
+        .x(function (d) {
+            return x(d.date);
+        })
+        .y(function (d) {
+            return y(d.balance);
+        });
+
+    // append the svg obgect to the body of the page
+    // appends a 'group' element to 'svg'
+    // moves the 'group' element to the top left margin
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+    dats.forEach(function (d) {
+        d.date = parseTime(d.date);
+        d.close = +d.close;
+});
+
+// scale the range of the dats
+x.domain(d3.extent(dats, function (d) {
+    return d.date;
+}));
+console.log(d3.extent(dats, function (d) {
+    return d.date;
+}))
+y.domain([0, d3.max(dats, function (d) {
+    return d.balance;
+})]);
+console.log(d3.max(dats, function (d) {
+    return d.balance;
+}))
+
+// add the area
+svg.append("path")
+    .datum(dats)
+    .attr("class", "area")
+    .attr("d", area);
+
+// add the valueline path.
+svg.append("path")
+    .datum(dats)
+    .attr("class", "line")
+    .attr("d", valueline);
+
+// add the X Axis
+svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+    svg.append("text")             
+    .attr("transform",
+          "translate(" + (width/2) + " ," + 
+                         (height + margin.top + 10) + ")")
+    .style("text-anchor", "middle")
+    .text("Date");
+
+// add the Y Axis
+svg.append("g")
+    .call(d3.axisLeft(y));
+
+    svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 100 - margin.left)
+    .attr("x",0 - (height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Balance Left"); 
 });

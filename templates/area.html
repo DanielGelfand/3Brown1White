@@ -23,11 +23,13 @@ Area Chart
 {% block body %}
 <p hidden id="id">{{idnum}}</p>
 <h2>Reaching Your Goal</h2>
-<p>This chart shows you how long it will take for you to achieve a goal you've set. If the chart does not hit the X-axis,
+<p>There are two charts below. One shows you how long it will take for you to achieve a goal you've set. If the chart does not hit the X-axis,
   we recommend that you try reducing you're spending or reduce the amount per month you wish to save for you're goal. Otherwise,
-  you may wish to take out a loan.
+  you may wish to take out a loan. The other chart shows how much
 
 </p>
 <script src="https://d3js.org/d3.v5.min.js"></script>
+
 <script src={{ url_for('static', filename='area.js') }}></script>
+
 {% endblock body %}
