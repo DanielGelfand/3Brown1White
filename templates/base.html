@@ -26,6 +26,15 @@
           <li>
               <a class="nav-link active" href="/goals">Goals</a>
           </li>
+          {% if completed %}
+          <li>
+              <a class="nav-link active" href="/sankey">Sankey</a>
+          </li>
+
+          <li>
+              <a class="nav-link active" href="/pie">Pie</a>
+          </li>
+          {% endif %}
           {% endif %}
         </ul>
         <ul class="navbar-nav">
