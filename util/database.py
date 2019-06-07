@@ -9,6 +9,7 @@ IMAGES = "IMAGES"
 EXPENSES = "EXPENDITURES"
 MONTHLY = "MONTHLY"
 STAMPS = "TIMESTAMPS"
+RATING = "RATINGS"
 
 print('Database works')
 DIR=os.path.dirname(__file__)
@@ -25,6 +26,7 @@ CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {GOALS}(name TEXT, cost REAL, perc R
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {IMAGES}(goal TEXT, goal_alt TEXT, id INTEGER)") # can be expanded later on
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {MONTHLY}(monthly_expense TEXT, cost REAL, id INTEGER)")
 CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {STAMPS}(date TEXT, id INTEGER)")
+CURSOR.execute(f"CREATE TABLE IF NOT EXISTS {RATING}(name TEXT, rate INTEGER, id INTEGER)")
 CONNECT.commit()
 CONNECT.close()
 
@@ -80,6 +82,7 @@ def update_user_list(user, pwd, id_num, rem=False):
         CURSOR.execute(f"DELETE FROM {EXPENSES} WHERE id = \"{id_num}\"")
         CURSOR.execute(f"DELETE FROM {MONTHLY} WHERE id = \"{id_num}\"")
         CURSOR.execute(f"DELETE FROM {STAMPS} WHERE id = \"{id_num}\"")
+        CURSOR.execute(f"DELETE FROM {RATING} WHERE id = \"{id_num}\"")
         CONNECT.commit()
         CONNECT.close()
         return id_num
@@ -90,6 +93,18 @@ def update_user_list(user, pwd, id_num, rem=False):
         CONNECT.commit()
         CONNECT.close()
         return id_num
+
+def search_rating_list(*args, is_id=False, ret_all=False):
+    CONNECT = sqlite3.connect(DIR)
+    CURSOR = CONNECT.cursor()
+    CURSOR.execute(f"SELECT * FROM {RATING}")
+    query_list = CURSOR.fetchall()
+    if is_id:
+        return [ x for x in query_list for a in args if a in x ]
+    if ret_all:
+        return [ x for x in query_list ]
+    return [ x for x in query_list ]
+
 def search_finance_list(*args):
     """
     Searches the finances table for the given arguments.
@@ -112,10 +127,10 @@ def search_expense_list(*args, ret_all=False, is_id=False):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {EXPENSES}")
     query_list = CURSOR.fetchall()
-    if ret_all:
-        return [ x for x in query_list ]
     if is_id:
         return [ x for x in query_list for a in args if a == x[2] ] # the given input was an id
+    if ret_all:
+        return [ x for x in query_list ]
     return [ x for x in query_list for a in args if a in x ]
 
 def search_monthly_list(*args, ret_all=False, is_id=False):
@@ -129,10 +144,10 @@ def search_monthly_list(*args, ret_all=False, is_id=False):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {MONTHLY}")
     query_list = CURSOR.fetchall()
-    if ret_all:
-        return [ x for x in query_list ]
     if is_id:
         return [ x for x in query_list for a in args if a == x[2] ]
+    if ret_all:
+        return [ x for x in query_list ]
     return [ x for x in query_list for a in args if a in x ]
 
 def search_sacrifice_list(*args, ret_all=False):
@@ -160,7 +175,6 @@ def search_goal_list(*args, ret_all=False):
     if ret_all:
         return [ x for x in query_list ]
     return [ x for x in query_list for a in args if a in x ]
-    
 
 def search_image_list(*args, ret_all=False):
     """
@@ -197,6 +211,7 @@ def reset_statistics(id_num, items:dict):
             if b == FINANCE:
                 CURSOR.execute(f"DELETE FROM {EXPENSES} WHERE id = \"{id_num}\"")
                 CURSOR.execute(f"DELETE FROM {MONTHLY} WHERE id = \"{id_num}\"")
+                CURSOR.execute(f"DELETE FROM {RATING} WHERE id = \"{id_num}\"")
             if b == GOALS:
                 CURSOR.execute(f"DELETE FROM {IMAGES} WHERE id = \"{id_num}\"")
                 CURSOR.execute(f"DELETE FROM {STAMPS} WHERE id = \"{id_num}\"")
@@ -307,6 +322,23 @@ def add_goals(name, price, percent, id_num):
         with open(file, "a") as f:
             f.write(f"{id_num},{name},{price},{datetime.date.today()},{percent}\n")
             f.close()
+    CONNECT.commit()
+    CONNECT.close()
+    return id_num
+
+#### DOESN'T WORK YET
+def add_rating(name, rate, id_num):
+    CONNECT = sqlite3.connect(DIR)
+    CURSOR = CONNECT.cursor()
+    CURSOR.execute(f"SELECT * FROM {RATING}")
+    all_ratings = CURSOR.fetchall()
+    w = [ x for x in all_ratings if id_num in x and name in x ] # returns all ratings that have the same name and id as given
+    if w != []: # there is currently a rating for this item by the user
+        # update the current rating
+        CURSOR.execute(f"UPDATE {RATING} SET rate = \"{rate}\" WHERE name = \"{name}\" AND id = \"{id_num}\"")
+    else:
+        # there isn't a rating, so insert it
+        CURSOR.execute(f"INSERT INTO {RATING} VALUES(\"{name}\", \"{rate}\", \"{id_num}\")")
     CONNECT.commit()
     CONNECT.close()
     return id_num
