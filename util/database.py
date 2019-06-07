@@ -335,7 +335,6 @@ def add_rating(name, rate, id_num):
     try:
         with open(file) as f: # if readable, file already exists
             print("File found, not creating...")
-            lines = f.readlines()
             f.close()
     except Exception as e:
         print(e)
@@ -350,9 +349,15 @@ def add_rating(name, rate, id_num):
         stringg += "'" + val[0] + "'" +  " : " +  "'" + str(val[1]) + "'" +  " "
     stringg += "'" + name +"'" + " : " + "'" + str(rate) + "'"
     stringg += "}," + str(id_num) + "\n"
+    with open(file, "r") as f:
+        lines = f.readlines()
     with open(file, "w") as f:
+        for line in lines:
+            if str(id_num) != line.strip("\n").split(",")[1]:
+                f.write(line)
         f.write(stringg)
         f.close()
+
     if w != []: # there is currently a rating for this item by the user
         # update the current rating
         CURSOR.execute(f"UPDATE {RATING} SET rate = \"{rate}\" WHERE name = \"{name}\" AND id = \"{id_num}\"")
