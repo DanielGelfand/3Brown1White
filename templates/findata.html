@@ -63,19 +63,22 @@ id="bootstrap-css">
                       class="form-control" required="true" type="text" value="{% if mtotal %}${{'%.2f' % (mtotal)}}{% endif %}" placeholder="Your total monthly costs will show up here..." disabled>
                       {% if months %}
                         {% for item in months %}
-                          <br>
+                          <!-- <div class="mons"> -->
+                          <br class="starting">
                           <input name="monthly-name" class="form-control" required="true" type="text" placeholder="Rent, Bills, etc." value="{{item}}">
-                          <input type="text" class="form-control" required="true" placeholder="Monthly Expenditure" value="${{'%.2f' % (months[item])}}">
-                          <p >Select Your Importance:</p>
+                          <input name="mcost" type="text" class="form-control" required="true" placeholder="Monthly Expenditure" value="${{'%.2f' % (months[item])}}">
+                          <p class="imp_text">Select Your Importance:</p>
                           <select name="m_importance">
                             {% for opt in range(10) %}
-                              {% if ratings[item] == opt %}
+                              {% if ratings[item] == opt + 1 %}
                               <option value="{{opt + 1}}" selected>{{opt + 1}}</option>
                               {% else %}
                               <option value="{{opt + 1}}">{{opt + 1}}</option>
                               {% endif %}
                             {% endfor %}
                           </select>
+                          <br class="ending">
+                        <!-- </div> -->
                         {% endfor %}
                       {% endif %}
                       <button class="btn btn-secondary" onclick="addMonthlyExpense()" id="month_adder" type="button">Add Monthly Expenditure</button>
@@ -100,9 +103,22 @@ id="bootstrap-css">
                       class="form-control" required="true" type="text" value="{% if total %}${{'%.2f' % (total)}}{% endif %}" placeholder="Your total expenses will show up here..." disabled>
                       {% if daily %}
                         {% for item in daily %}
-                          <br />
+                        <!-- <div class="days"> -->
+                          <br class="starting"/>
                           <input name="expense-name" class="form-control" required="true" type="text" placeholder="Coffee, Bus, etc." value="{{item}}"/>
-                          <input type="text" class="form-control" required="true" placeholder="Expenditure" value="${{'%.2f' % (daily[item])}}"/>
+                          <input name="dcost" type="text" class="form-control" required="true" placeholder="Expenditure" value="${{'%.2f' % (daily[item])}}"/>
+                          <p >Select Your Importance:</p>
+                          <select name="importance">
+                            {% for opt in range(10) %}
+                              {% if ratings[item] == opt + 1 %}
+                              <option value="{{opt + 1}}" selected>{{opt + 1}}</option>
+                              {% else %}
+                              <option value="{{opt + 1}}">{{opt + 1}}</option>
+                              {% endif %}
+                            {% endfor %}
+                          </select>
+                          <br class="ending">
+                        <!-- </div> -->
                         {% endfor %}
                       {% endif %}
                     <button class="btn btn-secondary" onclick="addExpense()" id="adder" type="button">Add Expenditure</button>

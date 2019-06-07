@@ -111,12 +111,16 @@ var addMonthlyExpense = function () {
     input.value = "$"
     input.addEventListener('keyup', keep_first_char)
     input.addEventListener('keyup', m_add_all)
-    m_btn.insertAdjacentElement('beforebegin', document.createElement('br'))
+    let s = document.createElement('br')
+    s.className = "starting"
+    m_btn.insertAdjacentElement('beforebegin', s)
     m_btn.insertAdjacentElement('beforebegin', nm )
     m_btn.insertAdjacentElement('beforebegin', input )
     m_btn.insertAdjacentElement('beforebegin', rate )
     rate.insertAdjacentElement('beforebegin', description )
-    m_btn.insertAdjacentElement('beforebegin', document.createElement('br'))
+    let v = document.createElement('br')
+    v.className = "ending"
+    m_btn.insertAdjacentElement('beforebegin', v)
     input = document.getElementsByName(input.name)[0]
 }
 
@@ -149,12 +153,16 @@ var addExpense = function() {
     input.value = "$"
     input.addEventListener('keyup', keep_first_char )
     input.addEventListener('keyup', add_all )
-    btn.insertAdjacentElement('beforebegin', document.createElement('br'))
+    let s = document.createElement('br')
+    s.className = "starting"
+    btn.insertAdjacentElement("beforebegin", s)
     btn.insertAdjacentElement('beforebegin', nm)
     btn.insertAdjacentElement('beforebegin', input)
     btn.insertAdjacentElement('beforebegin', rate )
     rate.insertAdjacentElement('beforebegin', description )
-    btn.insertAdjacentElement('beforebegin', document.createElement('br'))
+    let v = document.createElement('br')
+    v.className = "ending"
+    btn.insertAdjacentElement('beforebegin', v)
     input = document.getElementsByName(input.name)[0]
     // input.oninput = is_daily_right(input)
 }
@@ -165,19 +173,23 @@ var removeMonthlyExpense = function() {
     var b = document.getElementById('mon')
     var children = b.children
     var w = children[1]
-    var br = children[1]
+    var br1 = children[1]
+    var br2 = children[1]
     var t = children[1]
     var p = children[1]
     var r = children[1]
     for (var i = 0; i < children.length; i++) {
         console.log(children[i])
         console.log(children[i].tagName)
-        if (children[i].tagName.toLowerCase() == "input" && children[i].name.startsWith('Monthly Exp')) {
+        if (children[i].tagName.toLowerCase() == "input" && children[i].name.startsWith('mcost')) {
             // console.log(children[i])
             w = children[i]
         }
-        if (children[i].tagName.toLowerCase() == "br") {
-            br = children[i]
+        if (children[i].className == "starting") {
+            br1 = children[i]
+        }
+        if (children[i].className == "ending") {
+            br2 = children[i]
         }
         if (children[i].name == 'monthly-name') {
             t = children[i]
@@ -190,7 +202,8 @@ var removeMonthlyExpense = function() {
         }
     }
     w.remove()
-    br.remove()
+    br1.remove()
+    br2.remove()
     t.remove()
     p.remove()
     r.remove()
@@ -201,21 +214,25 @@ var removeExpense = function() {
     var b = document.getElementById('exp')
     var children = b.children
     var w = children[1]
-    var br = children[1]
+    var br1 = children[1]
+    var br2 = children[1]
     var t = children[1]
     var p = children[1]
     var r = children[1]
     for (i = 0; i < children.length; i++) {
         console.log(children[i])
         console.log(children[i].tagName)
-        if (children[i].tagName.toLowerCase() == "input" && children[i].name.startsWith('Expenditure')) {
+        if (children[i].tagName.toLowerCase() == "input" && children[i].name.startsWith('dcost')) {
             // console.log(children[i])
             console.log(`This is the input:`)
             console.log(children[i])
             w = children[i]
         }
-        if (children[i].tagName.toLowerCase() == "br") {
-            br = children[i]
+        if (children[i].className == "starting") {
+            br1 = children[i]
+        }
+        if (children[i].className == "ending") {
+            br2 = children[i]
         }
         if (children[i].name == 'expense-name') {
             t = children[i]
@@ -228,7 +245,8 @@ var removeExpense = function() {
         }
     }
     w.remove()
-    br.remove()
+    br1.remove()
+    br2.remove()
     t.remove()
     p.remove()
     r.remove()

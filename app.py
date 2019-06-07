@@ -99,7 +99,7 @@ def finance():
                                 daily=w,
                                 months = s,
                                 total=total,
-                                mtotal = m_total,completed=True, ratings=ratings)
+                                mtotal = m_total,completed=True, ratings=r)
     return render_template('findata.html')
 
 @app.route('/fincalc', methods=['POST'])

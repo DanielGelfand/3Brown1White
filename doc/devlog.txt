@@ -19,9 +19,26 @@ An app to help manage your money.
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ahnafH -- 2019-06-06 23:52:17 PM
+--------------------------------------------------------------
+Added rankings to database and added support for rankings
+==============================================================
+
+jabirC -- 2019-06-06 17:36
+--------------------------------------------------------------
+Finished progress bar after incorporating time passed
+since the setting of the goal and now.
+==============================================================
+
 danielG -- 2019-06-06 22:08
 --------------------------------------------------------------
 Removed AlphaVantage API from design doc. Edited project title.
+==============================================================
+
+jabirC -- 2019-06-06 14:29
+--------------------------------------------------------------
+Incorporated percent of income spent toward goal into the database.
+Added date stamps to the csv.
 ==============================================================
 
 danielG -- 2019-06-06 14:00
@@ -36,18 +53,19 @@ the necessary defintions for account operations. Add the routes
 and code for account page, update page, and account deletion
 ==============================================================
 
-danielG -- 2019-06-06 19:20
+danielG -- 2019-06-06 09:20
 --------------------------------------------------------------
 Edited README to incorporate corrections to launch instructions
 provided by LilElmo.
 ==============================================================
+
 
 danielG -- 2019-06-05 22:28
 --------------------------------------------------------------
 LilELmo tried to deploy our app to their DO server.
 Sadly, they were not successful. They were greeted by an Internal
 Server Error when typing in their server ip into their browser.
-I believe this is due to them not adhering to the structure required by apache. 
+I believe this is due to them not adhering to the structure required by apache.
 ==============================================================
 
 
@@ -58,6 +76,12 @@ library. Add a way to work with percentage slider. Add data
 checking and slider functionality to goals page. Change some of
 the glyphs.
 ===============================================================
+
+jabirC -- 2019-06-03 00:15
+--------------------------------------------------------------
+Created goals.csv to store the goals of user by id and update
+values if the user already had pre-existing goal.
+==============================================================
 
 mohammedJ -- 2019-06-03 22:47
 --------------------------------------------------------------
@@ -92,7 +116,7 @@ Fixed regex to handle floating point numbers
 
 danielG -- 2019-05-29 19:50
 --------------------------------------------------------------
-Edited README to add launch instructions and api information 
+Edited README to add launch instructions and api information
 ==============================================================
 
 ahnafH -- 2019-05-29 19:27:09 PM
@@ -105,6 +129,12 @@ already submitted their financial data.
 mohammedJ -- 2019-05-29 02:46
 --------------------------------------------------------------
 Added pie chart based on sample data
+==============================================================
+
+jabirC -- 2019-05-29 02:29
+--------------------------------------------------------------
+Converted the dynamic expenditures table into a csv called
+finance.csv
 ==============================================================
 
 ahnafH -- 2019-05-28 11:44

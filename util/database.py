@@ -100,10 +100,10 @@ def search_rating_list(*args, is_id=False, ret_all=False):
     CURSOR.execute(f"SELECT * FROM {RATING}")
     query_list = CURSOR.fetchall()
     if is_id:
-        return [ x for x in query_list for a in args if a in x ]
+        return [ x for x in query_list for a in args if a == x[2] ]
     if ret_all:
         return [ x for x in query_list ]
-    return [ x for x in query_list ]
+    return [ x for x in query_list for a in args if a in x ]
 
 def search_finance_list(*args):
     """
@@ -335,9 +335,11 @@ def add_rating(name, rate, id_num):
     w = [ x for x in all_ratings if id_num in x and name in x ] # returns all ratings that have the same name and id as given
     if w != []: # there is currently a rating for this item by the user
         # update the current rating
+        print("already had one")
         CURSOR.execute(f"UPDATE {RATING} SET rate = \"{rate}\" WHERE name = \"{name}\" AND id = \"{id_num}\"")
     else:
         # there isn't a rating, so insert it
+        print("A new Addition")
         CURSOR.execute(f"INSERT INTO {RATING} VALUES(\"{name}\", \"{rate}\", \"{id_num}\")")
     CONNECT.commit()
     CONNECT.close()
