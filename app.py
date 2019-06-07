@@ -83,6 +83,8 @@ def home():
                     print("Used the first one")
                     perc_complete = (delta_months * (perc / 100.0) * inc)/price
                     print(perc_complete)
+                    if perc_complete > 1:
+                        perc_complete = 1
                     return render_template('home.html',fin=finavail,goal=goalavail, set_goal= set_goal, goal_name =g,  goal_price=price,perc_inc = perc, image=img, bal=bal, income=inc, months= delta_months, perc_comp = perc_complete * 100 )
             return render_template('home.html',fin=finavail,goal=goalavail)
         return render_template('home.html',fin=finavail,goal=goalavail)
@@ -314,7 +316,7 @@ def area():
     if 'username' not in session:
         flash("You must be logged in to access this page")
         return redirect(url_for('login'))
-    
+
     user_id = db.search_user_list(session['username'])[0][2]
     goal=db.search_goal_list(user_id)
     daily=db.search_expense_list(user_id)
