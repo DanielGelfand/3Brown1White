@@ -28,6 +28,17 @@ Area Chart
   you may wish to take out a loan. The other chart shows how much
 
 </p>
+<br>
+<p>
+  Here are some things we have chosen which will cause most impact to reaching you're goal without affecting you too much.
+</p>
+  {% for rating in ratings %}
+    <label class="btn btn-primary">
+      <input type="checkbox" name={{rating}} id={{rating}} >
+      {{rating}}
+    </label>
+    <br>
+  {% endfor %}
 <script src="https://d3js.org/d3.v5.min.js"></script>
 
 <script src={{ url_for('static', filename='area.js') }}></script>
