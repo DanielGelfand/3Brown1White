@@ -51,5 +51,17 @@ Our project is a money manager application to get your finances on track. Use ou
  * Pixabay - Create an AirVisual account and generate a key from your dashboard.
     * [Sign up here](https://pixabay.com/service/about/api/)
     * Copy and paste given key into the value corresponding to "Pixabay" of data/keys.json
+    
+## Required modules and plugins
+* **datetime**
+   * Allows for retrieval of current dates and times.
+   * Include `import datetime` on the top of your python file to use the datetime module
+   
+* **sankey**
+   * Allows for visualization of income flow
+   * Download [js file](https://github.com/d3/d3-sankey/releases/tag/v0.9.1)
+   * Include script tag in your html file `<script src=path/to/sankey.js></script>`
+   
+  
 
 
