@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% block head %}
 
+{% endblock head %}
 {% block title %}
 Welcome to Money Manage
 {% endblock title %}
@@ -16,8 +18,8 @@ Welcome to Money Manage
     <hr>
     <div class="row">
       <div class="col-sm-4">
-          <div class="card  ">
-              <img class="card-img-top" src="https://bitcoinist.com/wp-content/uploads/2016/04/Finance-stock-photo.jpg" alt="" syle="width:300px">
+          <div class="card bg-dark text-white ">
+              <img class="card-img-top" src="https://bitcoinist.com/wp-content/uploads/2016/04/Finance-stock-photo.jpg" alt="">
               <div class="card-body">
                 {% if not fin %}
                 <a href="/finances"><h4 class="card-title">Input Your Finances</h4></a>
@@ -33,7 +35,7 @@ Welcome to Money Manage
             </div>
       </div>
       <div class="col-sm-4">
-        <div class="card">
+        <div class="card bg-dark text-white">
             <img class="card-img-top" src="https://images.vexels.com/media/users/3/144771/raw/63f54312ee7e1f5cd8b9d6938ac984d7-piggy-bank-savings-icon.jpg" alt="">
             <div class="card-body">
                 <a href="/goals">
@@ -51,7 +53,7 @@ Welcome to Money Manage
     <hr>
     <div class="card-deck">
     {% if fin %}
-    <div class="card">
+    <div class="card ">
       <img class="card-img-top" src="http://cwr.design/img/graphIcons/img__graphIcons--sankey.jpg" alt="">
       <div class="card-body">
         
@@ -84,19 +86,6 @@ Welcome to Money Manage
     {% endif %}
   </div>
   <br>
-  <h2 class="font-weight-light">Extra</h2>
-  <hr>
-  <div class="row">
-      <div class="col-sm-4">
-    <div class="card" width="200px">
-      <img class="card-img-top" src="https://moneyandmarkets.com/wp-content/uploads/2018/10/Stock-Market-Update7.jpg" alt="">
-      <div class="card-body">
-        <h4 class="card-title">Investments(Stretch feature)</h4>
-        <p class="card-text">How are your investments looking like right now</p>
-      </div>
-    </div>
-    </div>
-  </div>
     {% else %}
     <div align="center"> <img src="/static/bags.png" class="animated infinite bounce" alt="bags"></div> <br>
     <h1 style="text-align:center"> About GreenBags </h1>

@@ -100,7 +100,11 @@ def finance():
 
 @app.route('/fincalc', methods=['POST'])
 def calc():
+    if 'username' not in session:
+        flash("You must be logged in to access this page")
+        return redirect(url_for('login'))
     print(request.form)
+    session["finances"]=session["username"]
     bal = request.form['balance'][1:]
     monthly = request.form['monthly-inputs']
     income = request.form['income'][1:]
@@ -196,6 +200,9 @@ def goals():
 
 @app.route('/gcalc', methods=['POST'])
 def gcalc():
+    if 'username' not in session:
+        flash("You must be logged in to access this page")
+        return redirect(url_for('login'))
     goal_name = request.form['goal']
     goal_price = request.form['goal_price'][1:]
     percentage = request.form['slide']
@@ -224,16 +231,25 @@ def gcalc():
 
 @app.route('/sankey')
 def sankey():
-   user_id = db.search_user_list(session['username'])[0][2]
-   return render_template('sankey.html',idnum=user_id)
+    if 'username' not in session:
+        flash("You must be logged in to access this page")
+        return redirect(url_for('login'))
+    user_id = db.search_user_list(session['username'])[0][2]
+    return render_template('sankey.html',idnum=user_id)
 @app.route('/pie')
 def pie():
-   user_id = db.search_user_list(session['username'])[0][2]
-   return render_template('pie.html',idnum=user_id)
+    if 'username' not in session:
+        flash("You must be logged in to access this page")
+        return redirect(url_for('login'))
+    user_id = db.search_user_list(session['username'])[0][2]
+    return render_template('pie.html',idnum=user_id)
 @app.route('/area')
 def area():
-   user_id = db.search_user_list(session['username'])[0][2]
-   return render_template('area.html',idnum=user_id)
+    if 'username' not in session:
+        flash("You must be logged in to access this page")
+        return redirect(url_for('login'))
+    user_id = db.search_user_list(session['username'])[0][2]
+    return render_template('area.html',idnum=user_id)
 @app.route('/logout')
 def logout():
     if 'username' in session:
