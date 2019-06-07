@@ -256,6 +256,8 @@ def goals():
             print("Used the first one")
             perc_complete = (delta_months * (perc / 100.0) * inc)/price
             print(perc_complete)
+            if perc_complete > 1:
+                perc_complete = 1
             return render_template('goals.html', goal=g, goal_price=price,perc_inc = perc, image=img, bal=bal, income=inc, months= delta_months, perc_comp = perc_complete * 100 )
         else:
             print("Used the second")
@@ -319,6 +321,8 @@ def area():
 
     user_id = db.search_user_list(session['username'])[0][2]
     goal=db.search_goal_list(user_id)
+    if goal == []:
+        return redirect(url_for('goals'))
     daily=db.search_expense_list(user_id)
     monthly=db.search_monthly_list(user_id)
     dadict={}
