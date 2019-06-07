@@ -27,6 +27,62 @@ def home():
         id_num=db.search_user_list(session["username"])[0][2]
         finavail=db.search_finance_list(id_num)
         goalavail=db.search_finance_list(id_num)
+        set_goal = db.search_goal_list(id_num)
+        print(set_goal)
+        if set_goal != []:
+            user_id = db.search_user_list(session['username'])[0][2]
+            g = db.search_goal_list(user_id)
+            b = db.search_finance_list(user_id)
+            t = db.search_time_list(user_id)
+            date_now = datetime.date.today()
+            price = g
+            perc = g
+            delta_months = 0
+            if g != []:
+                g = g[0][0]
+            if price != []:
+                price = price[0][1]
+            if perc != []:
+                perc = perc[0][2]
+            ##function to get difference in months between 2 dates
+            def months_between(date1,date2):
+                if date1>date2:
+                    date1,date2=date2,date1
+                m1=date1.year*12+date1.month
+                m2=date2.year*12+date2.month
+                months=m2-m1
+                if date1.day>date2.day:
+                    months-=1
+                elif date1.day==date2.day:
+                    seconds1=date1.hour*3600+date1.minute+date1.second
+                    seconds2=date2.hour*3600+date2.minute+date2.second
+                    if seconds1>seconds2:
+                        months-=1
+                return months
+
+            if t != []:
+                t = t[0][0]
+                delta_months = months_between(datetime.datetime.strptime(t,'%Y-%m-%d'), datetime.datetime.strptime(str(date_now),'%Y-%m-%d'))
+            print(delta_months)
+
+            img = db.search_image_list(user_id)
+            if img != []:
+                img = img[0][0]
+            if b != []:
+                bal = b[0][0]
+                inc = b[0][1]
+            print(b)
+            print(g)
+            print(price)
+            print(perc)
+            print(img)
+            if g or price:
+                if b:
+                    print("Used the first one")
+                    perc_complete = (delta_months * (perc / 100.0) * inc)/price
+                    print(perc_complete)
+                    return render_template('home.html',fin=finavail,goal=goalavail, set_goal= set_goal, goal_name =g,  goal_price=price,perc_inc = perc, image=img, bal=bal, income=inc, months= delta_months, perc_comp = perc_complete * 100 )
+            return render_template('home.html',fin=finavail,goal=goalavail)
         return render_template('home.html',fin=finavail,goal=goalavail)
     return render_template('home.html')
 
