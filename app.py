@@ -27,6 +27,8 @@ def home():
         id_num=db.search_user_list(session["username"])[0][2]
         finavail=db.search_finance_list(id_num)
         goalavail=db.search_finance_list(id_num)
+        if finavail:
+            session["finances"]=session["username"]
         return render_template('home.html',fin=finavail,goal=goalavail)
     return render_template('home.html')
 
@@ -256,8 +258,29 @@ def area():
     if 'username' not in session:
         flash("You must be logged in to access this page")
         return redirect(url_for('login'))
+    
     user_id = db.search_user_list(session['username'])[0][2]
-    return render_template('area.html',idnum=user_id)
+    goal=db.search_goal_list(user_id)
+    daily=db.search_expense_list(user_id)
+    monthly=db.search_monthly_list(user_id)
+    dadict={}
+    modict={}
+    print(goal)
+    ratings={}
+    for names in daily:
+        dadict[names[0]]=names[1]
+    for names in monthly:
+        modict[names[0]]=names[1]
+    print(dadict,modict)
+    percent=0
+    for names in db.search_rating_list(user_id):
+        if names[0] in modict:
+            percent=(modict[names[0]]*12)/goal[0][1]
+        if names[0] in dadict:
+            percent=(dadict[names[0]]*30*12)/goal[0][1]
+        if names[1]<=6 and percent >=0.05:
+            ratings[names[0]]=(names[1],percent)
+    return render_template('area.html',idnum=user_id,ratings=ratings)
 @app.route('/logout')
 def logout():
     if 'username' in session:

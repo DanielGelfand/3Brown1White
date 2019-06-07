@@ -28,8 +28,9 @@ Welcome to Money Manage
                 </p>
                 {% else %}
                 <a href="/finances"><h4 class="card-title">Update Your Finances</h4></a>
-                {% endif %}
                 <p class="card-text">You may update your finances by clicking on the link or the one on the navbar</p>
+                {% endif %}
+                
                 
               </div>
             </div>
@@ -49,10 +50,11 @@ Welcome to Money Manage
         </div>
     </div>
     <br>
+    {% if fin %}
     <h2 class="font-weight-light">Visualizations</h2>
     <hr>
     <div class="card-deck">
-    {% if fin %}
+    
     <div class="card ">
       <img class="card-img-top" src="http://cwr.design/img/graphIcons/img__graphIcons--sankey.jpg" alt="">
       <div class="card-body">
@@ -87,6 +89,10 @@ Welcome to Money Manage
   </div>
   <br>
     {% else %}
+    <br>
+    <br>
+    <br>
+    <br>
     <div align="center"> <img src="/static/bags.png" class="animated infinite bounce" alt="bags"></div> <br>
     <h1 style="text-align:center"> About GreenBags </h1>
 <p> Our mission is to get your finances on track.
