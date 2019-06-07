@@ -11,22 +11,22 @@ Sankey diagram
       fill-opacity: .9;
       shape-rendering: crispEdges;
     }
-    
+
     .node text {
       pointer-events: none;
       text-shadow: 0 1px 0 #fff;
     }
-    
+
     .link {
       fill: none;
       stroke: #000;
       stroke-opacity: .2;
     }
-    
+
     .link:hover {
       stroke-opacity: .5;
     }
-    
+
 </style>
 {% endblock head %}
 {% block body %}
@@ -34,7 +34,7 @@ Sankey diagram
 <p hidden id="id">{{idnum}}</p>
 <h1>Flow of Your Money</h1>
 <p>
-  Hover your cursor over the nodes to view the amount of money in each category 
+  Hover your cursor over the nodes to view the amount of money in each category
   and hover over the links to view the amount that flows from one node to the other.
 </p>
 <script src={{ url_for('static', filename='sankey.js') }}></script>
