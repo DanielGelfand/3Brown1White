@@ -29,25 +29,63 @@ Welcome to Money Manage
                 {% else %}
                 <a href="/finances"><h4 class="card-title">Update Your Finances</h4></a>
                 <p class="card-text">You may update your finances by clicking on the link or the one on the navbar</p>
+<<<<<<< HEAD
                 {% endif %}
                 
                 
+=======
+
+>>>>>>> 6f9639986c546c23642c16737060718ede01b0c6
               </div>
             </div>
       </div>
+      {% if set_goal %}
       <div class="col-sm-4">
         <div class="card bg-dark text-white">
-            <img class="card-img-top" src="https://images.vexels.com/media/users/3/144771/raw/63f54312ee7e1f5cd8b9d6938ac984d7-piggy-bank-savings-icon.jpg" alt="">
+          <!-- <a href="/goals">
+            <h4 class="card-title" style="text-align:center">
+                 Goal
+            </h4>
+          </a> -->
+            <img class="card-img-top" src="{{image}}" alt="" height="269">
             <div class="card-body">
                 <a href="/goals">
-                <h4 class="card-title">Add a Savings Goal</h4>
+                <h4 class="card-title" style="text-align:center"><b>{{goal_name}}</b></h4>
                 </a>
                 <p class="card-text">
-                    Add a goal you want to save towards. You can click the link above or use the button on the navbar.
+                    Amount needed: ${{"%.2f" % (goal_price)}}
                 </p>
             </div>
+            <div class="progress">
+              {% if perc_comp %}
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                 aria-valuenow="{{'%.2f' % (perc_comp)}}" aria-valuemin="0" aria-valuemax="100" style="width:{{'%.2f' % (perc_comp)}}%">
+                 {{'%.2f' % (perc_comp)}}%
+              </div>
+              {% else %}
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                 0%
+              </div>
+              {% endif %}
+            </div>
         </div>
-        </div>
+     </div>
+     {% else %}
+     <div class="col-sm-4">
+       <div class="card bg-dark text-white">
+           <img class="card-img-top" src="https://images.vexels.com/media/users/3/144771/raw/63f54312ee7e1f5cd8b9d6938ac984d7-piggy-bank-savings-icon.jpg" alt="">
+           <div class="card-body">
+               <a href="/goals">
+               <h4 class="card-title">Add a Savings Goal</h4>
+               </a>
+               <p class="card-text">
+                   Add a goal you want to save towards. You can click the link above or use the button on the navbar.
+               </p>
+           </div>
+       </div>
+    </div>
+   {% endif %}
     </div>
     <br>
     {% if fin %}
@@ -58,7 +96,7 @@ Welcome to Money Manage
     <div class="card ">
       <img class="card-img-top" src="http://cwr.design/img/graphIcons/img__graphIcons--sankey.jpg" alt="">
       <div class="card-body">
-        
+
         <h4 class="card-title"><a href="/sankey">Visualize your Finances with a Sankey Diagram</a></h4>
         <p class="card-text">
         A Sankey diagram depicts flows, where the width of each flow is based on its quantity.
