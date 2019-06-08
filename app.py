@@ -7,15 +7,17 @@ from flask import (Flask, flash, json, jsonify, redirect, render_template,
 import util.database as db
 
 template_path=os.path.dirname(__file__)+"/templates"
-
+file=""
 if template_path!="/templates":
     app = Flask("__main__",template_folder=os.path.dirname(__file__)+"/templates",static_folder=os.path.dirname(__file__)+"/static")
+    file = open(os.path.dirname(__file__)+'/data/keys.json')
 else:
     app = Flask("__main__")
+    file = open('./data/keys.json')
 
 app.secret_key = os.urandom(32)
 
-file = open('./data/keys.json')
+
 content = file.read()
 keys = json.loads(content)
 
