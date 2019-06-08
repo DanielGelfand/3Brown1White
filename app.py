@@ -9,12 +9,13 @@ import util.database as db
 template_path=os.path.dirname(__file__)+"/templates"
 
 if template_path!="/templates":
-    app = Flask("__main__",template_folder=os.path.dirname(__file__)+"/templates")
+    app = Flask("__main__",template_folder=os.path.dirname(__file__)+"/templates",static_folder=os.path.dirname(__file__)+"/static")
 else:
     app = Flask("__main__")
+
 app.secret_key = os.urandom(32)
 
-file = open('data/keys.json')
+file = open('./data/keys.json')
 content = file.read()
 keys = json.loads(content)
 

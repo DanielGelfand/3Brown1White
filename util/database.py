@@ -14,6 +14,7 @@ RATING = "RATINGS"
 print('Database works')
 DIR=os.path.dirname(__file__)
 DIR=DIR[:len(DIR)-5]
+direct=DIR
 DIR+="/data/database.db"
 print(DIR)
 CONNECT = sqlite3.connect(DIR)
@@ -230,7 +231,8 @@ def add_finances(balance, cost, income, expenses, id_num):
     finance_list = CURSOR.fetchall()
     user_ids = [ x[-1] for x in finance_list ]
     data = search_finance_list(id_num)
-    file=f'static/finance.csv'
+    pth=direct+f'/static/finance.csv'
+    file=pth
     try:
         with open(file) as f:
             lines = f.readlines()
@@ -292,7 +294,7 @@ def add_goals(name, price, percent, id_num):
     user_ids = [ x[-1] for x in goal_list ]
     print(user_ids)
     print(id_num)
-    file=f'static/goals.csv'
+    file=direct+f'/static/goals.csv'
     try:
         with open(file) as f: # if readable, file already exists
             print("File found, not creating...")
@@ -331,7 +333,7 @@ def add_rating(name, rate, id_num):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {RATING}")
     all_ratings = CURSOR.fetchall()
-    file=f'static/ratings.csv'
+    file=direct+f'/static/ratings.csv'
     try:
         with open(file) as f: # if readable, file already exists
             print("File found, not creating...")
