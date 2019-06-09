@@ -97,5 +97,5 @@ Your Account
     {% endblock body %}
 
     {% block script %}
-    <script src="/static/accounts.js"></script>
+    <script src={{ url_for('static', filename='accounts.js') }}></script>
     {% endblock %}
