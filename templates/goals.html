@@ -65,7 +65,7 @@ Add or Update a Goal
                 </div>
               </div>
         <div class="form-group">
-          <label class="col-md-4 control-label">Percentage of Income per Month</label>
+          <label class="col-md-4 control-label">Percentage of Balance per Month</label>
           <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
               <!-- <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span> -->
@@ -84,5 +84,5 @@ Add or Update a Goal
 {% endblock body %}
 
 {% block script %}
-<script src="/static/goals.js"></script>
+<script src={{ url_for('static', filename='goals.js') }}></script>
 {% endblock %}

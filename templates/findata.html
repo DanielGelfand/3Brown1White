@@ -146,5 +146,5 @@ type="button">Remove Expenditure</button></div>
 {% endblock body %}
 
 {% block script %}
-<script src="/static/findata.js"></script>
+<script src={{ url_for('static', filename='findata.js') }}></script>
 {% endblock %}
