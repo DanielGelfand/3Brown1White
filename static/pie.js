@@ -36,9 +36,9 @@ d3.csv("static/finance.csv").then(function (dat) {
         var val = parseFloat(dailies[j + 2])
         daily.push({
           "name": dailies[j],
-          "value": val * 30.0
+          "value": val
         })
-        dailysum += val * 30.0
+        dailysum += valW
       }
       daily.push({
         "name": "daily",
