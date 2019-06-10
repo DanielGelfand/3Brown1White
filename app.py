@@ -27,7 +27,7 @@ PIXABAY_STUB = "https://pixabay.com/api/?key=" + PIXABAY_KEY + "&q=" #separate w
 @app.route('/')
 def home():
     if "username" in session:
-        id_num=db.search_user_list(session["username"])[0][2]
+        id_num=db.search_user_list(session["username"], is_usrname=True)[0][2]
         finavail=db.search_finance_list(id_num)
         goalavail=db.search_goal_list(id_num)
         if finavail:
@@ -37,7 +37,7 @@ def home():
         set_goal = db.search_goal_list(id_num)
         print(set_goal)
         if set_goal != []:
-            user_id = db.search_user_list(session['username'])[0][2]
+            user_id = db.search_user_list(session['username'], is_usrname=True)[0][2]
             g = db.search_goal_list(user_id)
             b = db.search_finance_list(user_id)
             t = db.search_time_list(user_id)
@@ -120,7 +120,7 @@ def auth():
             return redirect(url_for('register'))
             print("Username has been registered previously!")
     else:
-        match=db.search_user_list(user)
+        match=db.search_user_list(user, is_usrname=True)
         if len(match)>0:
             if match[0][1]==paswrd:
                 session["username"]=request.form["user"]

@@ -57,7 +57,7 @@ def register(username, password):
     CONNECT.close()
     return True
 
-def search_user_list(*args, ret_all=False):
+def search_user_list(*args, is_usrname=False, ret_all=False):
     """
     Searches the user logins table for the given arguments.
     Returns a list of tuples that contain the arguments.
@@ -68,6 +68,8 @@ def search_user_list(*args, ret_all=False):
     query_list = CURSOR.fetchall()
     if ret_all:
         return [ x for x in query_list ]
+    if is_usrname:
+        return [ x for x in query_list for a in args if a == x[0] ]
     return [x for x in query_list for a in args if a in x]
 
 def update_user_list(user, pwd, id_num, rem=False):
