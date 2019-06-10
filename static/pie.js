@@ -38,7 +38,7 @@ d3.csv("static/finance.csv").then(function (dat) {
           "name": dailies[j],
           "value": val
         })
-        dailysum += valW
+        dailysum += val
       }
       daily.push({
         "name": "daily",
