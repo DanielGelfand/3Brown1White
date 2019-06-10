@@ -333,32 +333,8 @@ def add_rating(name, rate, id_num):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {RATING}")
     all_ratings = CURSOR.fetchall()
-    file=direct+f'/static/ratings.csv'
-    try:
-        with open(file) as f: # if readable, file already exists
-            print("File found, not creating...")
-            f.close()
-    except Exception as e:
-        print(e)
-        with open(file, 'a+') as f: # creates the file
-            print("File not found, creating...")
-            f.write(f"ratings,id\n")
-            f.close()
+
     w = [ x for x in all_ratings if id_num in x and name in x ] # returns all ratings that have the same name and id as given
-    other_val = [x for x in all_ratings if id_num in x and name not in x]
-    stringg = "{"
-    for val in other_val:
-        stringg += "'" + val[0] + "'" +  " : " +  "'" + str(val[1]) + "'" +  " "
-    stringg += "'" + name +"'" + " : " + "'" + str(rate) + "'"
-    stringg += "}," + str(id_num) + "\n"
-    with open(file, "r") as f:
-        lines = f.readlines()
-    with open(file, "w") as f:
-        for line in lines:
-            if str(id_num) != line.strip("\n").split(",")[1]:
-                f.write(line)
-        f.write(stringg)
-        f.close()
 
     if w != []: # there is currently a rating for this item by the user
         # update the current rating

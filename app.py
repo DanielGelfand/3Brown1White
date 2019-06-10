@@ -188,11 +188,35 @@ def calc():
 
     dai_im = dict([x for x in daily_dict.values()]) # {expenseName: rating, expenseName2: rating, ...}
     mon_im = dict([x for x in monthly_dict.values()])
+    file=os.path.dirname(__file__)+f'/static/ratings.csv'
+    stringg = "{"
+    try:
+        with open(file) as f: # if readable, file already exists
+            print("File found, not creating...")
+            f.close()
+    except Exception as e:
+        print(e)
+        with open(file, 'a+') as f: # creates the file
+            print("File not found, creating...")
+            f.write(f"ratings,id\n")
+            f.close()
     for item in mon_im:
         db.add_rating(item, mon_im[item], user_id)
+        stringg += "'" + item + "'" +  " : " +  "'" + str(mon_im[item]) + "'" +  " "
+
     for item in dai_im:
         db.add_rating(item, dai_im[item], user_id)
+        stringg += "'" + item + "'" +  " : " +  "'" + str(dai_im[item]) + "'" +  " "
+    stringg += "}," + str(user_id) + "\n"
 
+    with open(file, "r") as f:
+        lines = f.readlines()
+    with open(file, "w") as f:
+        for line in lines:
+            if str(user_id) != line.strip("\n").split(",")[1]:
+                f.write(line)
+        f.write(stringg)
+        f.close()
     daily = request.form['all-inputs']
     print(f"This is daily: {monthly}")
     daily = json.loads(daily) # dictionary
