@@ -29,9 +29,11 @@ def home():
     if "username" in session:
         id_num=db.search_user_list(session["username"])[0][2]
         finavail=db.search_finance_list(id_num)
-        goalavail=db.search_finance_list(id_num)
+        goalavail=db.search_goal_list(id_num)
         if finavail:
             session["finances"]=session["username"]
+        if goalavail:
+            session["goals"]=session["username"]
         set_goal = db.search_goal_list(id_num)
         print(set_goal)
         if set_goal != []:
