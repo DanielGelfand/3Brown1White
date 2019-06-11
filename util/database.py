@@ -343,6 +343,8 @@ def add_rating(name, rate, id_num):
         CURSOR.execute(f"UPDATE {RATING} SET rate = \"{rate}\" WHERE name = \"{name}\" AND id = \"{id_num}\"")
     else:
         # there isn't a rating, so insert it
+        CURSOR.execute(f"DELETE FROM {RATING} WHERE id = \"{id_num}\"") # resets all the data collected on user
+                                                                        # to avoid keeping old ratings
         CURSOR.execute(f"INSERT INTO {RATING} VALUES(\"{name}\", \"{rate}\", \"{id_num}\")")
     CONNECT.commit()
     CONNECT.close()

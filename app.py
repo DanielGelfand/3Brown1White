@@ -172,7 +172,7 @@ def calc():
     if 'username' not in session:
         flash("You must be logged in to access this page")
         return redirect(url_for('login'))
-    print(request.form)
+    # print(request.form)
     session["finances"]=session["username"]
     bal = request.form['balance'][1:]
     monthly = request.form['monthly-inputs']
@@ -185,6 +185,8 @@ def calc():
     user_id = db.search_user_list(session['username'])[0][2]
     daily_dict = json.loads(d_rates)
     monthly_dict = json.loads(m_rates)
+    print(daily_dict)
+    print(monthly_dict)
 
     dai_im = dict([x for x in daily_dict.values()]) # {expenseName: rating, expenseName2: rating, ...}
     mon_im = dict([x for x in monthly_dict.values()])
