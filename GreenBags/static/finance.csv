@@ -1,0 +1,11 @@
+balance,monthly,income,daily,id
+200000,{'Rent': '1000' 'Bills': '100'},2000,{'Coffee': '10' 'Bus': '20'},6480
+20000.00,{'Rent': '1000.00'},2000.00,{'MTA': '10.00' 'Coffee': '20.00'},5936
+30000,{'Rent': '2000' 'Bills': '500'},131313,{'Coffee': '120' 'Bus': '30'},4477
+20000,{'Rent': '1000' 'Utility': '300' 'Internet': '90'},8000,{'Coffee': '10' 'Bus': '20' 'Food': '50'},6745
+20000,{'Rent': '1000' 'Utility': '300' 'Internet': '90'},5000,{'Coffee': '10' 'Bus': '10' 'Food': '40'},3609
+20000,{'Rent': '1000' 'Utility': '300' 'Subscriptions': '150'},5000,{'Coffee': '10' 'Bus': '15' 'Food': '50'},4142
+12340,{'Rent': '1000' 'Utility': '300' 'Subscriptions': '150'},5000,{'Coffee': '10' 'Bus': '20' 'Food': '40'},2294
+20000.00,{'Rent': '1000.00' 'Utility': '300.00' 'Subscriptions': '150.00'},5000.00,{'Coffee': '10.00' 'Bus': '10.00'},9483
+6100.00,{'Rent': '1000.00' 'Utility': '300.00' 'Subscriptions': '150.00'},5000.00,{'Coffee': '10.00' 'Bus': '20.00'},2114
+12300.00,{'Rent': '1200.00' 'Utilities': '300.00' 'Subscriptions': '150.00'},5000.00,{'Coffee': '10.00' 'Bus': '10.00'},1971

@@ -3,6 +3,10 @@ var idnum = document.getElementById("id");
 var sacrifices = document.getElementsByTagName("input")
 var isChecked = function () {
     var checked = []
+    for (let index = 0; index < sacrifices.length; index++) {
+        console.log(sacrifices[index])
+        
+    }
     for (const item of sacrifices) {
         if (item.checked) {
             checked.push(item.id)
@@ -10,6 +14,7 @@ var isChecked = function () {
     }
     return checked
 }
+isChecked()
 var arrayin = function (arr, el) {
     var result = false
     arr.forEach(elem => {

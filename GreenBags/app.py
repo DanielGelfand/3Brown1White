@@ -341,12 +341,14 @@ def area():
     print(dadict,modict)
     percent=0
     for names in db.search_rating_list(user_id):
+        print(names)
         if names[0] in modict:
             percent=(modict[names[0]]*12)/goal[0][1]
         if names[0] in dadict:
             percent=(dadict[names[0]]*30*12)/goal[0][1]
         if names[1]<=6 and percent >=0.05:
             ratings[names[0]]=(names[1],percent)
+    print(ratings)
     return render_template('area.html',idnum=user_id,ratings=ratings)
 @app.route('/logout')
 def logout():

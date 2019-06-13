@@ -32,13 +32,18 @@
           <li>
               <a class="nav-link active" href="/goals">Goals</a>
           </li>
-          {% if session["finances"] and session["finances"] == session["username"] %}
+          {% if session["finances"]%}
           <li>
               <a class="nav-link active" href="/sankey">Sankey</a>
           </li>
 
           <li>
               <a class="nav-link active" href="/pie">Pie</a>
+          </li>
+          {% endif %}
+          {% if session["goals"]%}
+          <li>
+            <a class="nav-link active" href="/area">Area Chart</a>
           </li>
           {% endif %}
           {% endif %}

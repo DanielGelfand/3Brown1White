@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Loans
+{% endblock title %}
+{% block head %}
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.area {
+  fill: lightsteelblue;
+}
+
+</style>
+{% endblock head %}
+<!-- Load d3.js -->
+{% block body %}
+<p hidden id="id">{{idnum}}</p>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src={{ url_for('static', filename='future.js') }}></script>
+{% endblock body %}

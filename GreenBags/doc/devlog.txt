@@ -1,0 +1,310 @@
+3Brown1White
+
+Daniel Gelfand
+Ahnaf Hasan
+Mohammed Jamil
+Jabir Chowdhury
+pd 06
+-----------------------
+Money Manager App
+An app to help manage your money.
+
+ ______   ______   __   __   __       ______   _______
+/_____/\ /_____/\ /_/\ /_/\ /_/\     /_____/\ /______/\
+\:::_ \ \\::::_\/_\:\ \\ \ \\:\ \    \:::_ \ \\::::__\/__
+ \:\ \ \ \\:\/___/\\:\ \\ \ \\:\ \    \:\ \ \ \\:\ /____/\
+  \:\ \ \ \\::___\/_\:\_/.:\ \\:\ \____\:\ \ \ \\:\\_  _\/
+   \:\/.:| |\:\____/\\ ..::/ / \:\/___/\\:\_\ \ \\:\_\ \ \
+    \____/_/ \_____\/ \___/_(   \_____\/ \_____\/ \_____\/
+==============================================================
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+mohammedJ -- 2019-06-07 05:42
+--------------------------------------------------------------
+Area chart working with input
+Navbar fixed for all pages
+Homepage changed to look better
+==============================================================
+
+jabirC -- 2019-06-07 01:48
+--------------------------------------------------------------
+Placed goal image and progress bar on the home page
+==============================================================
+
+ahnafH -- 2019-06-06 23:52:17 PM
+--------------------------------------------------------------
+Added rankings to database and added support for rankings
+==============================================================
+
+jabirC -- 2019-06-06 17:36
+--------------------------------------------------------------
+Finished progress bar after incorporating time passed
+since the setting of the goal and now.
+==============================================================
+
+danielG -- 2019-06-06 22:08
+--------------------------------------------------------------
+Removed AlphaVantage API from design doc. Edited project title.
+==============================================================
+
+jabirC -- 2019-06-06 14:29
+--------------------------------------------------------------
+Incorporated percent of income spent toward goal into the database.
+Added date stamps to the csv.
+==============================================================
+
+danielG -- 2019-06-06 14:00
+--------------------------------------------------------------
+Fixed nav bar to align logo and links
+==============================================================
+
+ahnafH -- 2019-06-06 11:59:15 AM
+--------------------------------------------------------------
+Add an accounts page. Add JS file for said accounts page. Add
+the necessary defintions for account operations. Add the routes
+and code for account page, update page, and account deletion
+==============================================================
+
+danielG -- 2019-06-06 09:20
+--------------------------------------------------------------
+Edited README to incorporate corrections to launch instructions
+provided by LilElmo.
+==============================================================
+
+
+danielG -- 2019-06-05 22:28
+--------------------------------------------------------------
+LilELmo tried to deploy our app to their DO server.
+Sadly, they were not successful. They were greeted by an Internal
+Server Error when typing in their server ip into their browser.
+I believe this is due to them not adhering to the structure required by apache.
+==============================================================
+
+
+ahnafH -- 2019-06-04 02:20:13 AM
+--------------------------------------------------------------
+Add documentation to the database file. Add functioning datetime
+library. Add a way to work with percentage slider. Add data
+checking and slider functionality to goals page. Change some of
+the glyphs.
+===============================================================
+
+jabirC -- 2019-06-03 00:15
+--------------------------------------------------------------
+Created goals.csv to store the goals of user by id and update
+values if the user already had pre-existing goal.
+==============================================================
+
+mohammedJ -- 2019-06-03 22:47
+--------------------------------------------------------------
+Area chart working with sample data
+==============================================================
+
+mohammedJ -- 2019-06-03 17:27
+--------------------------------------------------------------
+Pie chart working with labels
+==============================================================
+
+mohammedJ -- 2019-06-03 14:17
+--------------------------------------------------------------
+Pie chart working, but missing labels
+==============================================================
+
+mohammedJ -- 2019-06-01 21:00
+--------------------------------------------------------------
+Created functional sankey diagram
+==============================================================
+
+ahnafH -- 2019-05-30 20:04:16 PM
+--------------------------------------------------------------
+Add padding to numbers relating to money. Add success flashes
+to home screen. Add titles to finances and goals pages.
+==============================================================
+
+ahnafH -- 2019-05-29 22:25:15 PM
+--------------------------------------------------------------
+Fixed regex to handle floating point numbers
+==============================================================
+
+danielG -- 2019-05-29 19:50
+--------------------------------------------------------------
+Edited README to add launch instructions and api information
+==============================================================
+
+ahnafH -- 2019-05-29 19:27:09 PM
+--------------------------------------------------------------
+Got monthly expenses to work correctly. Merge conflict resolved.
+Need to work on keeping the first character after someone has
+already submitted their financial data.
+==============================================================
+
+mohammedJ -- 2019-05-29 02:46
+--------------------------------------------------------------
+Added pie chart based on sample data
+==============================================================
+
+jabirC -- 2019-05-29 02:29
+--------------------------------------------------------------
+Converted the dynamic expenditures table into a csv called
+finance.csv
+==============================================================
+
+ahnafH -- 2019-05-28 11:44
+--------------------------------------------------------------
+Add a way for users to choose the number of daily expenditures.
+Fix Error 400: KeyError that showed up because of the previous
+change. Fix database keeping old values. Have each expenditures
+show up on load. Robustify the counting of expenses.
+==============================================================
+
+mohammedJ -- 2019-05-21 01:14
+--------------------------------------------------------------
+Sankey diagram allocation adjusts according to balance and income
+==============================================================
+
+jabirC -- 2019-05-21 00:29
+--------------------------------------------------------------
+Saved working version in V0.25 and added dummy progress bar
+to goals.html. Still need a way to tell how much money the user
+has saved towards the goal.
+==============================================================
+
+mohammedJ -- 2019-05-21 00:19
+--------------------------------------------------------------
+Sample d3 sankey with financial data working
+==============================================================
+
+mohammedJ -- 2019-05-20 12:31
+--------------------------------------------------------------
+Added d3.sankey plugin
+==============================================================
+
+danielG -- 2019-05-20 12:20
+--------------------------------------------------------------
+Added "About Us" section to home page if user not logged in
+==============================================================
+
+jabirC-- 2019-05-19 17:02:15 PM
+--------------------------------------------------------------
+Added a csv file functionality to add_finances in the database.py
+in util. The function appends the data into finances.csv if it is
+a new user. If its is an old user, the function updates the previous data.
+==============================================================
+
+hasanAh -- 2019-05-19 15:28:05 PM
+--------------------------------------------------------------
+Add Pixabay API. Key is stored in main Python file, will be moved
+soon. Add Bootstrap cards to finances and goals page. Change
+add_finances(float, float, float, int) to
+add_finances(float, float, float, float, int). Add
+search_image_list(string, string, int) definition and
+add_images(string, string, int) definition. Fix financial data
+script. Fix some of the database commands.
+==============================================================
+
+mohammedJ -- 2019-05-19 12:26:56 PM
+--------------------------------------------------------------
+Fixed finance adding
+Added Dashboard layout
+==============================================================
+
+ahnafH -- 2019-05-18 13:27:56 PM
+--------------------------------------------------------------
+Update formatting for database.py and fix
+add_finances(float, float, float, int) definition. Add
+add_goals(string, float, int) definition. Add working routes for
+goals, finances & goals calculations. Fix input fields to keep the
+first character($). Add action and specify method in HTML files.
+Remove extra script tag. Add goals script.
+==============================================================
+
+jabirC-- 2019-05-17 12:10:15 PM
+--------------------------------------------------------------
+Added function to add finances to the sql database
+==============================================================
+
+ahnafH-- 2019-05-16 22:25:10 PM
+--------------------------------------------------------------
+Update makefile to have better handling of Python 2 and below.
+Update formatting of various files to be more uniform. Remove
+extra usercheck.js file in static folder. Robustify inputs to
+work with regex handling the non-digit characters.
+==============================================================
+
+danielG -- 2019-05-16 14:25
+--------------------------------------------------------------
+Made data form look better with bootstrap
+==============================================================
+ahnafH -- 2019-05-15 12:36:44 PM
+--------------------------------------------------------------
+Add automatic log in for registered users. Add a makefile. Fix
+submit button not being disabled when bad characters are put in.
+Add functionality for daily expenditures.
+==============================================================
+
+ahnafH -- 2019-05-15 21:45:39 PM
+--------------------------------------------------------------
+Add functionality for monthly costs and income. Submit button
+is disabled on any errors.
+==============================================================
+
+jabirC -- 2019-05-14 11:30 PM
+--------------------------------------------------------------
+Added logout feature
+==============================================================
+
+ahnafH -- 2019-05-14 11:25 AM
+--------------------------------------------------------------
+Add other tables(finances, sacrifices, goals). Add search functions
+for the tables.
+==============================================================
+
+mohammedJ -- 2019-05-13 22:21 PM
+--------------------------------------------------------------
+-fixed navbar
+-added login route with working authentication
+==============================================================
+
+ahnafH -- 2019-05-13 16:00:35 PM
+--------------------------------------------------------------
+Add register page skeleton. Add authorization route.
+==============================================================
+
+
+danielG -- 2019-05-13 12:25
+--------------------------------------------------------------
+Changed "between" to "across" in design doc
+==============================================================
+
+danielG -- 2019-05-12 16:50
+--------------------------------------------------------------
+Edited the design doc reflecting comments from two other teams.
+Purpose of "Alpha Vantage API" was put in and the usage of D3 was clarified.
+Sentence in "Idea Summary" was also corrected.
+==============================================================
+
+ahnafH -- 2019-05-12 16:17:19 PM
+--------------------------------------------------------------
+Add basic template with forms. Add basic database utility file.
+Work on application.
+==============================================================
+
+danielG -- 2019-05-10 12:27
+--------------------------------------------------------------
+Added requirements.txt
+==============================================================
+
+ahnafH -- 2019-05-10 7:24
+--------------------------------------------------------------
+Add design doc.
+==============================================================
+
+ahnafH -- 2019-05-08 12:25
+--------------------------------------------------------------
+Changed topic.
+==============================================================
+
+ahnafH -- 2019-05-06 12:17
+--------------------------------------------------------------
+Created devlog.txt file.
+==============================================================

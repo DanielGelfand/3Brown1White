@@ -1,0 +1,17 @@
+ratings,id
+{'Rent' : '10' 'Cable and Internet' : '6' 'Netflix, Hulu, Amazon Prime' : '7' 'MTA' : '9' 'Food' : '8' 'Cable' : '6' 'Coffee' : '4'},5936
+{'Cable and Internet' : '6' 'Netflix, Hulu, Amazon Prime' : '7' 'MTA' : '9' 'Coffee' : '4' 'Food' : '6' 'Cable' : '6' 'Rent' : '10'},5936
+{'Rent' : '10' 'Cable and Internet' : '6' 'Netflix, Hulu, Amazon Prime' : '7' 'MTA' : '9' 'Coffee' : '4' 'Food' : '6' 'Cable' : '6'},5936
+{'Rent' : '10' 'Cable and Internet' : '6' 'Netflix, Hulu, Amazon Prime' : '7' 'Coffee' : '4' 'Food' : '6' 'Cable' : '6' 'MTA' : '9'},5936
+{'Rent' : '10' 'Cable and Internet' : '6' 'Netflix, Hulu, Amazon Prime' : '7' 'MTA' : '9' 'Food' : '6' 'Cable' : '6' 'Coffee' : '4'},5936
+{'Cable and Internet' : '6' 'Netflix, Hulu, Amazon Prime' : '7' 'MTA' : '9' 'Coffee' : '4' 'Food' : '6' 'Cable' : '6' 'Rent' : '10'},5936
+{'Rent' : '10' 'Cable and Internet' : '6' 'Netflix, Hulu, Amazon Prime' : '7' 'Coffee' : '4' 'Food' : '6' 'Cable' : '6' 'MTA' : '9'},5936
+{'Rent' : '10' 'Cable and Internet' : '6' 'Netflix, Hulu, Amazon Prime' : '7' 'MTA' : '9' 'Food' : '6' 'Cable' : '6' 'Coffee' : '4'},5936
+{'Rent' : '10' 'Bills' : '9' 'Coffee' : '5' 'Bus' : '5'},4477
+{'Rent' : '10' 'Utility' : '9' 'Internet' : '1' 'Coffee' : '6' 'Bus' : '6' 'Food' : '8'},6745
+{'Rent' : '10' 'Utility' : '9' 'Internet' : '8' 'Coffee' : '6' 'Bus' : '6' 'Food' : '8'},3609
+{'Rent' : '10' 'Utility' : '9' 'Subscriptions' : '7' 'Coffee' : '6' 'Bus' : '6' 'Food' : '8'},4142
+{'Rent' : '10' 'Utility' : '9' 'Subscriptions' : '7' 'Coffee' : '6' 'Bus' : '6' 'Food' : '8'},2294
+{'Rent' : '10' 'Utility' : '8' 'Subscriptions' : '7' 'Coffee' : '6' 'Food' : '8' 'Bus' : '6'},9483
+{'Rent' : '10' 'Utility' : '9' 'Subscriptions' : '8' 'Coffee' : '6' 'Food' : '8' 'Bus' : '6'},2114
+{'Rent' : '10' 'Utilities' : '9' 'Subscriptions' : '8' 'Coffee' : '6' 'Food' : '8' 'Bus' : '6'},1971
