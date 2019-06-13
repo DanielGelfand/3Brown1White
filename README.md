@@ -43,7 +43,7 @@ chmod -R g+w ./
 5. Clone the repo `git clone https://github.com/DanielGelfand/3Brown1White.git GreenBags`
 6. Move <appname>.wsgi file outside of the repo folder to `/var/www/GreenBags/`
 7. Move into the project repo, rename app.py to __init__.py and install the requirement from requirements.txt
-    * `cd appname`
+    * `cd GreenBags`
     * `mv app.py __init__.py`
     * `pip3 install -r requirements.txt`
 8. Move to sites-available directory with `cd ~/../../etc/apache2/sites-available/` 
