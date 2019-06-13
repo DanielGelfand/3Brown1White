@@ -6,7 +6,7 @@
 
 Our project is a money manager application to get your finances on track. Use our tools to input your goals such as a dream car or vacation. Using your financial information such as income, balance, and daily expenditures, we suggest what can be cut out to get you to your goal faster than ever!
 
-## Watch Our Video Demo Here
+## [Watch Our Video Demo Here](https://youtu.be/OF1cJb6Q8jk)
 
 ## Launch Instructions
 
@@ -31,25 +31,25 @@ Our project is a money manager application to get your finances on track. Use ou
 1. SSH into your droplet with `ssh <user>@<ip address>`
 2. Move to the www directory: `cd /var/www`
 3. Create a directory named after your app and then cd into it
-    * `mkdir <appname>`
-    * `cd <appname>`
+    * `mkdir GreenBags`
+    * `cd GreenBags`
 4. Add write permissions. This is to ensure that nothing goes wrong.
 ```
 
-chgrp -R www-data <appname>
-chmod -R g+w <appname>
+chgrp -R www-data ./
+chmod -R g+w ./
 
 ```
-5. Move <appname>.wsgi file outside of the repo folder to `/var/www/<appname>/`
-6. Clone the repo `git clone https://github.com/DanielGelfand/3Brown1White.git <appname>`
+5. Clone the repo `git clone https://github.com/DanielGelfand/3Brown1White.git GreenBags`
+6. Move <appname>.wsgi file outside of the repo folder to `/var/www/GreenBags/`
 7. Move into the project repo, rename app.py to __init__.py and install the requirement from requirements.txt
-    * `cd appname`
+    * `cd GreenBags`
     * `mv app.py __init__.py`
     * `pip3 install -r requirements.txt`
 8. Move to sites-available directory with `cd ~/../../etc/apache2/sites-available/` 
 9. Move config file to /etc/apache2/sites-available/
-10. Change the server name in the <appname>.conf file to the ip adress of your droplet
-11. Run `a2ensite <appname>`
+10. Change the server name in the GreenBags.conf file to the ip adress of your droplet
+11. Run `a2ensite GreenBags`
 12. Restart the server with `sudo service apache2 restart`
 13. Go to your droplet's ip address on your browser
 

@@ -57,7 +57,7 @@ def register(username, password):
     CONNECT.close()
     return True
 
-def search_user_list(*args, ret_all=False):
+def search_user_list(*args, is_usrname=False, ret_all=False):
     """
     Searches the user logins table for the given arguments.
     Returns a list of tuples that contain the arguments.
@@ -68,6 +68,8 @@ def search_user_list(*args, ret_all=False):
     query_list = CURSOR.fetchall()
     if ret_all:
         return [ x for x in query_list ]
+    if is_usrname:
+        return [ x for x in query_list for a in args if a == x[0] ]
     return [x for x in query_list for a in args if a in x]
 
 def update_user_list(user, pwd, id_num, rem=False):
@@ -333,38 +335,16 @@ def add_rating(name, rate, id_num):
     CURSOR = CONNECT.cursor()
     CURSOR.execute(f"SELECT * FROM {RATING}")
     all_ratings = CURSOR.fetchall()
-    file=direct+f'/static/ratings.csv'
-    try:
-        with open(file) as f: # if readable, file already exists
-            print("File found, not creating...")
-            f.close()
-    except Exception as e:
-        print(e)
-        with open(file, 'a+') as f: # creates the file
-            print("File not found, creating...")
-            f.write(f"ratings,id\n")
-            f.close()
+
     w = [ x for x in all_ratings if id_num in x and name in x ] # returns all ratings that have the same name and id as given
-    other_val = [x for x in all_ratings if id_num in x and name not in x]
-    stringg = "{"
-    for val in other_val:
-        stringg += "'" + val[0] + "'" +  " : " +  "'" + str(val[1]) + "'" +  " "
-    stringg += "'" + name +"'" + " : " + "'" + str(rate) + "'"
-    stringg += "}," + str(id_num) + "\n"
-    with open(file, "r") as f:
-        lines = f.readlines()
-    with open(file, "w") as f:
-        for line in lines:
-            if str(id_num) != line.strip("\n").split(",")[1]:
-                f.write(line)
-        f.write(stringg)
-        f.close()
 
     if w != []: # there is currently a rating for this item by the user
         # update the current rating
         CURSOR.execute(f"UPDATE {RATING} SET rate = \"{rate}\" WHERE name = \"{name}\" AND id = \"{id_num}\"")
     else:
         # there isn't a rating, so insert it
+        CURSOR.execute(f"DELETE FROM {RATING} WHERE id = \"{id_num}\"") # resets all the data collected on user
+                                                                        # to avoid keeping old ratings
         CURSOR.execute(f"INSERT INTO {RATING} VALUES(\"{name}\", \"{rate}\", \"{id_num}\")")
     CONNECT.commit()
     CONNECT.close()

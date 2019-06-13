@@ -27,7 +27,7 @@ PIXABAY_STUB = "https://pixabay.com/api/?key=" + PIXABAY_KEY + "&q=" #separate w
 @app.route('/')
 def home():
     if "username" in session:
-        id_num=db.search_user_list(session["username"])[0][2]
+        id_num=db.search_user_list(session["username"], is_usrname=True)[0][2]
         finavail=db.search_finance_list(id_num)
         goalavail=db.search_goal_list(id_num)
         if finavail:
@@ -37,7 +37,7 @@ def home():
         set_goal = db.search_goal_list(id_num)
         print(set_goal)
         if set_goal != []:
-            user_id = db.search_user_list(session['username'])[0][2]
+            user_id = db.search_user_list(session['username'], is_usrname=True)[0][2]
             g = db.search_goal_list(user_id)
             b = db.search_finance_list(user_id)
             t = db.search_time_list(user_id)
@@ -120,7 +120,7 @@ def auth():
             return redirect(url_for('register'))
             print("Username has been registered previously!")
     else:
-        match=db.search_user_list(user)
+        match=db.search_user_list(user, is_usrname=True)
         if len(match)>0:
             if match[0][1]==paswrd:
                 session["username"]=request.form["user"]
@@ -172,7 +172,7 @@ def calc():
     if 'username' not in session:
         flash("You must be logged in to access this page")
         return redirect(url_for('login'))
-    print(request.form)
+    # print(request.form)
     session["finances"]=session["username"]
     bal = request.form['balance'][1:]
     monthly = request.form['monthly-inputs']
@@ -185,14 +185,40 @@ def calc():
     user_id = db.search_user_list(session['username'])[0][2]
     daily_dict = json.loads(d_rates)
     monthly_dict = json.loads(m_rates)
+    print(daily_dict)
+    print(monthly_dict)
 
     dai_im = dict([x for x in daily_dict.values()]) # {expenseName: rating, expenseName2: rating, ...}
     mon_im = dict([x for x in monthly_dict.values()])
+    file=os.path.dirname(__file__)+f'/static/ratings.csv'
+    stringg = "{"
+    try:
+        with open(file) as f: # if readable, file already exists
+            print("File found, not creating...")
+            f.close()
+    except Exception as e:
+        print(e)
+        with open(file, 'a+') as f: # creates the file
+            print("File not found, creating...")
+            f.write(f"ratings,id\n")
+            f.close()
     for item in mon_im:
         db.add_rating(item, mon_im[item], user_id)
+        stringg += "'" + item + "'" +  " : " +  "'" + str(mon_im[item]) + "'" +  " "
+
     for item in dai_im:
         db.add_rating(item, dai_im[item], user_id)
+        stringg += "'" + item + "'" +  " : " +  "'" + str(dai_im[item]) + "'" +  " "
+    stringg += "}," + str(user_id) + "\n"
 
+    with open(file, "r") as f:
+        lines = f.readlines()
+    with open(file, "w") as f:
+        for line in lines:
+            if str(user_id) != line.strip("\n").split(",")[1]:
+                f.write(line)
+        f.write(stringg)
+        f.close()
     daily = request.form['all-inputs']
     print(f"This is daily: {monthly}")
     daily = json.loads(daily) # dictionary
