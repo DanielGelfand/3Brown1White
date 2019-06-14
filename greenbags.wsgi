@@ -3,4 +3,4 @@ import sys
 sys.path.insert(0,"/var/www/greenbags/")
 sys.path.insert(0,"/var/www/greenbags/greenbags/")
 
-from GreenBags.app import app as application
+from greenbags.app import app as application
